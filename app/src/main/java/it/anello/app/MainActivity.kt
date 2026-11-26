@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         blePermsState = hasBlePermissions()
+        it.anello.app.ble.RingSyncWorker.schedule(this, ringVm.state.value.autoSync)
         setContent {
             AnelloApp(
                 vm = vm,
@@ -86,5 +87,6 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         blePermsState = hasBlePermissions()
         vm.refreshStatus(syncIfReady = true)
+        if (blePermsState) ringVm.syncOnOpen()
     }
 }

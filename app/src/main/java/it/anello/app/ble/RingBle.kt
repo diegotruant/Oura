@@ -10,6 +10,8 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Orchestrazione di alto livello verso l'anello: scansione, lettura info,
@@ -125,7 +127,9 @@ class RingBle(private val context: Context, private val store: RingStore) {
         val error: String? = null,
     )
 
-    suspend fun readInfo(address: String, log: (String) -> Unit): RingInfo {
+    suspend fun readInfo(address: String, log: (String) -> Unit): RingInfo = bleLock.withLock { readInfoLocked(address, log) }
+
+    private suspend fun readInfoLocked(address: String, log: (String) -> Unit): RingInfo {
         val dev = device(address) ?: return RingInfo(false, error = "indirizzo non valido")
         val ble = OuraBle(context, log)
         try {
@@ -169,7 +173,9 @@ class RingBle(private val context: Context, private val store: RingStore) {
 
     // --- Associazione (installa una chiave; richiede anello RESETTATO) --------
 
-    suspend fun pair(address: String, log: (String) -> Unit): String? {
+    suspend fun pair(address: String, log: (String) -> Unit): String? = bleLock.withLock { pairLocked(address, log) }
+
+    private suspend fun pairLocked(address: String, log: (String) -> Unit): String? {
         val dev = device(address) ?: return null
         val ble = OuraBle(context, log)
         try {
@@ -217,7 +223,25 @@ class RingBle(private val context: Context, private val store: RingStore) {
 
     data class SyncResult(val newEvents: Int, val aggregate: RingAggregate?, val error: String? = null)
 
-    suspend fun sync(address: String, log: (String) -> Unit): SyncResult {
+    /**
+     * Sincronizza. Un solo collegamento all'anello per volta in tutta l'app:
+     * con [skipIfBusy] (sync automatica) rinuncia se un'altra operazione è in corso.
+     */
+    suspend fun sync(address: String, log: (String) -> Unit, skipIfBusy: Boolean = false): SyncResult {
+        if (skipIfBusy) {
+            if (!bleLock.tryLock()) return SyncResult(0, null, "occupato")
+        } else bleLock.lock()
+        try {
+            val r = syncLocked(address, log)
+            store.saveLastSync(
+                r.error?.let { "errore: $it" } ?: "${r.newEvents} nuovi eventi",
+                r.error == null,
+            )
+            return r
+        } finally { bleLock.unlock() }
+    }
+
+    private suspend fun syncLocked(address: String, log: (String) -> Unit): SyncResult {
         val dev = device(address) ?: return SyncResult(0, null, "indirizzo non valido")
         val ble = OuraBle(context, log)
         try {
@@ -283,5 +307,10 @@ class RingBle(private val context: Context, private val store: RingStore) {
         } finally {
             ble.close()
         }
+    }
+
+    companion object {
+        /** Un solo collegamento all'anello alla volta, per tutto il processo. */
+        val bleLock = Mutex()
     }
 }

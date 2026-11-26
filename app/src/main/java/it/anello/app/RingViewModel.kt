@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import it.anello.app.ble.RingAggregate
 import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingStore
+import it.anello.app.ble.RingSyncWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,8 @@ data class RingUiState(
     val selected: String? = null,
     val selectedKeyHex: String? = null,
     val battery: Pair<Int, Long>? = null,
+    val autoSync: Boolean = true,
+    val lastSync: RingStore.LastSync? = null,
 )
 
 class RingViewModel(app: Application) : AndroidViewModel(app) {
@@ -35,6 +38,8 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
             battery = store.lastBattery(),
             selected = store.lastAddress,
             selectedKeyHex = store.lastAddress?.let { store.keyHex(it) },
+            autoSync = store.autoSync,
+            lastSync = store.lastSync(),
         ))
     val state: StateFlow<RingUiState> = _state
 
@@ -42,7 +47,33 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
         it.copy(log = (it.log + line).takeLast(200), battery = store.lastBattery())
     }
 
+    init {
+        // Mostra subito i dati già salvati, senza aspettare una sincronizzazione.
+        viewModelScope.launch {
+            val agg = withContext(Dispatchers.IO) {
+                store.loadRaw().takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
+            }
+            _state.update { it.copy(aggregate = agg) }
+        }
+    }
+
     fun bluetoothOn() = ble.isBluetoothOn()
+
+    fun setAutoSync(enabled: Boolean) {
+        store.autoSync = enabled
+        RingSyncWorker.schedule(getApplication(), enabled)
+        _state.update { it.copy(autoSync = enabled) }
+    }
+
+    /** Sincronizza all'apertura dell'app se è passato un po' dall'ultima volta. */
+    fun syncOnOpen() {
+        val s = _state.value
+        if (!s.autoSync || s.busy || s.selected == null || s.selectedKeyHex == null) return
+        if (!RingSyncWorker.canUseBluetooth(getApplication())) return
+        val last = store.lastSync()?.time ?: 0L
+        if (System.currentTimeMillis() - last < 10 * 60_000) return
+        sync()
+    }
 
     fun startScan() {
         if (_state.value.scanning) return
@@ -76,7 +107,9 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
     fun sync() = run("Sincronizzazione") { addr ->
         val res = ble.sync(addr, ::log)
         if (res.error != null) log("Errore: ${res.error}")
-        _state.update { it.copy(aggregate = res.aggregate, rawCount = store.rawCount()) }
+        _state.update {
+            it.copy(aggregate = res.aggregate ?: it.aggregate, rawCount = store.rawCount(), lastSync = store.lastSync())
+        }
     }
 
     /** Importa manualmente una chiave di 16 byte (32 caratteri esadecimali). */

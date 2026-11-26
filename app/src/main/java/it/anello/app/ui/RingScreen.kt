@@ -20,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -165,6 +166,26 @@ fun RingScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 OutlinedButton(onClick = { vm.importKey(keyInput); keyInput = "" }, enabled = keyInput.isNotBlank()) { Text("Salva chiave") }
+            }
+        }
+
+        if (s.selectedKeyHex != null) {
+            SectionCard("Sincronizzazione automatica") {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Sincronizza da sola", color = TextMain)
+                        Text("All'apertura dell'app e circa ogni ora in background", color = TextDim, fontSize = 12.sp)
+                    }
+                    Switch(checked = s.autoSync, onCheckedChange = vm::setAutoSync)
+                }
+                s.lastSync?.let { ls ->
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        "Ultima: " + java.text.SimpleDateFormat("HH:mm, d MMM", java.util.Locale.ITALIAN)
+                            .format(java.util.Date(ls.time)) + " · " + ls.message,
+                        color = if (ls.ok) TextDim else AwakeColor, fontSize = 12.sp,
+                    )
+                }
             }
         }
 

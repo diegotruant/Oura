@@ -39,6 +39,20 @@ class RingStore(context: Context) {
         get() = prefs.getString("last_addr", null)
         set(v) { prefs.edit().putString("last_addr", v).apply() }
 
+    // --- sincronizzazione automatica ----------------------------------------
+
+    var autoSync: Boolean
+        get() = prefs.getBoolean("auto_sync", true)
+        set(v) { prefs.edit().putBoolean("auto_sync", v).apply() }
+
+    fun saveLastSync(message: String, ok: Boolean) {
+        prefs.edit().putLong("sync_time", System.currentTimeMillis())
+            .putString("sync_msg", message).putBoolean("sync_ok", ok).apply()
+    }
+    data class LastSync(val time: Long, val message: String, val ok: Boolean)
+    fun lastSync(): LastSync? = if (!prefs.contains("sync_time")) null else
+        LastSync(prefs.getLong("sync_time", 0), prefs.getString("sync_msg", "") ?: "", prefs.getBoolean("sync_ok", false))
+
     // --- ultima batteria letta ---------------------------------------------
 
     fun saveBattery(percent: Int) {
