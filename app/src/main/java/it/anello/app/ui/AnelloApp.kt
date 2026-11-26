@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -64,12 +65,17 @@ private enum class Tab(val label: String, val icon: ImageVector) {
     TODAY("Oggi", Icons.Filled.Home),
     SLEEP("Sonno", Icons.Filled.Favorite),
     TRENDS("Andamento", Icons.Filled.DateRange),
+    RING("Anello", Icons.Filled.Share),
     SETTINGS("Impostazioni", Icons.Filled.Settings),
 }
 
 @Composable
 fun AnelloApp(
     vm: AppViewModel,
+    ringVm: it.anello.app.RingViewModel,
+    hasBlePermissions: Boolean,
+    onRequestBlePermissions: () -> Unit,
+    onExportRaw: () -> Unit,
     onRequestPermissions: () -> Unit,
     onInstallHealthConnect: () -> Unit,
     onExportCsv: () -> Unit,
@@ -83,28 +89,30 @@ fun AnelloApp(
         Scaffold(
             containerColor = Bg,
             bottomBar = {
-                if (state.hcStatus == HcStatus.READY) {
-                    NavigationBar(containerColor = Card) {
-                        Tab.entries.forEachIndexed { i, t ->
-                            NavigationBarItem(
-                                selected = tab == i,
-                                onClick = { tab = i },
-                                icon = { Icon(t.icon, contentDescription = t.label) },
-                                label = { Text(t.label) },
-                            )
-                        }
+                NavigationBar(containerColor = Card) {
+                    Tab.entries.forEachIndexed { i, t ->
+                        NavigationBarItem(
+                            selected = tab == i,
+                            onClick = { tab = i },
+                            icon = { Icon(t.icon, contentDescription = t.label) },
+                            label = { Text(t.label) },
+                        )
                     }
                 }
             },
         ) { pad ->
             Box(Modifier.padding(pad).fillMaxSize()) {
-                when (state.hcStatus) {
+                val current = Tab.entries[tab]
+                // La scheda Anello (BLE) è indipendente da Health Connect.
+                if (current == Tab.RING) {
+                    RingScreen(ringVm, hasBlePermissions, onRequestBlePermissions, onExportRaw)
+                } else when (state.hcStatus) {
                     HcStatus.CHECKING -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
                     HcStatus.NOT_INSTALLED, HcStatus.NEEDS_UPDATE -> SetupMessage(
                         title = "Serve Health Connect",
-                        body = "L'app legge i dati dell'anello da Health Connect. Installalo o aggiornalo dal Play Store, poi nell'app Oura attiva la condivisione con Health Connect.",
+                        body = "Le schede Oggi, Sonno e Andamento leggono i dati dall'app Oura tramite Health Connect. Installalo o aggiornalo dal Play Store, poi nell'app Oura attiva la condivisione.\n\nIn alternativa usa la scheda Anello per collegarti direttamente via Bluetooth.",
                         button = "Apri Play Store",
                         onClick = onInstallHealthConnect,
                     )
@@ -114,11 +122,12 @@ fun AnelloApp(
                         button = "Concedi accesso",
                         onClick = onRequestPermissions,
                     )
-                    HcStatus.READY -> when (Tab.entries[tab]) {
+                    HcStatus.READY -> when (current) {
                         Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync)
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
                         Tab.TRENDS -> TrendsScreen(state)
                         Tab.SETTINGS -> SettingsScreen(state, vm, onExportCsv)
+                        Tab.RING -> {}
                     }
                 }
             }
