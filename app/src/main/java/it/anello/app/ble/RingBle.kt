@@ -72,8 +72,14 @@ class RingBle(private val context: Context, private val store: RingStore) {
      * a un'altra installazione. null se non arriva risposta.
      */
     private suspend fun authState(ble: OuraBle, key: ByteArray): Int? {
-        val nonce = ble.transact(OuraProtocol.getAuthNonce()) { isNonce(it) }
-            .lastOrNull { isNonce(it) }?.let { OuraProtocol.parseNonce(it) } ?: return null
+        // Alcuni anelli ogni tanto non rispondono al primo 2f012b: riproviamo.
+        var nonce: ByteArray? = null
+        for (attempt in 1..3) {
+            nonce = ble.transact(OuraProtocol.getAuthNonce(), quietMs = 3_500) { isNonce(it) }
+                .lastOrNull { isNonce(it) }?.let { OuraProtocol.parseNonce(it) }
+            if (nonce != null || !ble.isConnected) break
+        }
+        if (nonce == null) return null
         val enc = OuraProtocol.encryptNonce(key, nonce)
         val resp = ble.transact(OuraProtocol.authenticate(enc)) { isAuthResp(it) }
             .lastOrNull { isAuthResp(it) } ?: return null
