@@ -237,8 +237,9 @@ class RingBle(private val context: Context, private val store: RingStore) {
             val collected = ArrayList<OuraEvents.Event>()
             var tailPasses = 0
             var guard = 0
-            while (guard++ < 200) {
-                ble.transact(OuraProtocol.dataFlush())
+            while (true) {
+                if (++guard > 300) { log("Interrotto dopo 300 lotti per sicurezza."); break }
+                ble.transact(OuraProtocol.dataFlush(), verbose = false)
                 val frames = ble.transact(
                     OuraProtocol.getEventsLegacy(cursor),
                     quietMs = 2_000,

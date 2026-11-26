@@ -142,6 +142,10 @@ object OuraEvents {
             ((body[3].toInt() and 0xff).toLong() shl 24)
     }
 
+    /** Converte un timestamp dell'anello (decisecondi) in secondi unix usando un time_sync. */
+    fun unixAt(ringDecis: Long, anchorDecis: Long, anchorUnix: Long): Long =
+        anchorUnix + Math.round((ringDecis - anchorDecis) / 10.0)
+
     fun eventName(tag: Int): String = when (tag) {
         0x41 -> "ring_start"
         0x42 -> "time_sync"
@@ -160,6 +164,8 @@ object OuraEvents {
         0x53 -> "wear_event"
         0x58 -> "sleep_summary_4"
         0x5a -> "sleep_phase_data"
+        0x5b -> "battery_info"
+        0x61 -> "debug_data"
         0x5d -> "hrv_event"
         0x60 -> "ibi_and_amplitude"
         0x69 -> "temp_period"

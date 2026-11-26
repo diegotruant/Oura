@@ -203,13 +203,14 @@ object OuraProtocol {
     data class DrainSummary(val events: Int, val bytesLeft: Long, val extended: Boolean)
 
     fun parseLegacySummary(resp: ByteArray): DrainSummary? {
-        // 11 08 <events u16 LE> <progress u8> <bytes_left u32 LE> ... (osservato 11 08 08 00 9e0e0000 0300)
+        // 11 08 <events u16 LE> <bytes_left u32 LE> <2 byte> — es. 11 08 0800 9e0e0000 0300
+        // = 8 eventi, 3742 byte ancora sull'anello (catture open_oura).
         if (resp.size < 8 || resp[0] != 0x11.toByte()) return null
         val events = (resp[2].toInt() and 0xff) or ((resp[3].toInt() and 0xff) shl 8)
-        val bytesLeft = ((resp[5].toInt() and 0xff).toLong()) or
-            ((resp[6].toInt() and 0xff).toLong() shl 8) or
-            ((resp[7].toInt() and 0xff).toLong() shl 16) or
-            (if (resp.size > 8) (resp[8].toInt() and 0xff).toLong() shl 24 else 0L)
+        val bytesLeft = (resp[4].toLong() and 0xff) or
+            ((resp[5].toLong() and 0xff) shl 8) or
+            ((resp[6].toLong() and 0xff) shl 16) or
+            ((resp[7].toLong() and 0xff) shl 24)
         return DrainSummary(events, bytesLeft, false)
     }
 
