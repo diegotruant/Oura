@@ -33,6 +33,20 @@ class RingStore(context: Context) {
         prefs.edit().putLong("cursor", value).apply()
     }
 
+    // --- ultimo anello selezionato ----------------------------------------
+
+    var lastAddress: String?
+        get() = prefs.getString("last_addr", null)
+        set(v) { prefs.edit().putString("last_addr", v).apply() }
+
+    // --- ultima batteria letta ---------------------------------------------
+
+    fun saveBattery(percent: Int) {
+        prefs.edit().putInt("bat_pct", percent).putLong("bat_time", System.currentTimeMillis()).apply()
+    }
+    fun lastBattery(): Pair<Int, Long>? =
+        if (prefs.contains("bat_pct")) prefs.getInt("bat_pct", 0) to prefs.getLong("bat_time", 0) else null
+
     // --- log grezzo degli eventi ---------------------------------------------
 
     @Synchronized

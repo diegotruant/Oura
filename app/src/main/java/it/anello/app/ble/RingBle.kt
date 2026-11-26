@@ -102,6 +102,15 @@ class RingBle(private val context: Context, private val store: RingStore) {
         return st == 0x00
     }
 
+    /** Legge la batteria (richiede autenticazione) e la salva. */
+    private suspend fun readBattery(ble: OuraBle, log: (String) -> Unit): Int? {
+        val bat = ble.transact(OuraProtocol.battery()) { it.isNotEmpty() && it[0] == 0x0d.toByte() }
+            .lastOrNull { it.isNotEmpty() && it[0] == 0x0d.toByte() }
+        val pct = bat?.let { OuraProtocol.parseBattery(it)?.percent }?.takeIf { it in 0..100 }
+        if (pct != null) { store.saveBattery(pct); log("Batteria $pct%") }
+        return pct
+    }
+
     // --- Lettura informazioni + diagnosi (non modifica niente) ---------------
 
     data class RingInfo(
@@ -149,12 +158,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
                 pairable = st == 0x02
             }
             log("Diagnosi: $diagnosis.")
-            if (authed) {
-                val bat = ble.transact(OuraProtocol.battery()) { it.isNotEmpty() && it[0] == 0x0d.toByte() }
-                    .lastOrNull { it.isNotEmpty() && it[0] == 0x0d.toByte() }
-                battery = bat?.let { OuraProtocol.parseBattery(it)?.percent }
-                battery?.let { log("Batteria $it%") }
-            }
+            if (authed) battery = readBattery(ble, log)
             return RingInfo(true, info?.firmware, info?.mac, battery, savedKey != null, authed, diagnosis, pairable)
         } catch (e: Exception) {
             return RingInfo(false, error = e.message)
@@ -220,6 +224,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
             log("Connessione…")
             if (!ble.connect(dev)) return SyncResult(0, null, ble.lastError ?: "connessione fallita")
             if (!authenticate(ble, address, log)) return SyncResult(0, null, "autenticazione fallita")
+            readBattery(ble, log)
 
             // Handshake stile app (letture e registrazioni non distruttive).
             log("Registrazione stream e parametri…")

@@ -23,17 +23,23 @@ data class RingUiState(
     val rawCount: Int = 0,
     val selected: String? = null,
     val selectedKeyHex: String? = null,
+    val battery: Pair<Int, Long>? = null,
 )
 
 class RingViewModel(app: Application) : AndroidViewModel(app) {
     private val store = RingStore(app)
     private val ble = RingBle(app, store)
 
-    private val _state = MutableStateFlow(RingUiState(rawCount = store.rawCount()))
+    private val _state = MutableStateFlow(RingUiState(
+            rawCount = store.rawCount(),
+            battery = store.lastBattery(),
+            selected = store.lastAddress,
+            selectedKeyHex = store.lastAddress?.let { store.keyHex(it) },
+        ))
     val state: StateFlow<RingUiState> = _state
 
     private fun log(line: String) = _state.update {
-        it.copy(log = (it.log + line).takeLast(200))
+        it.copy(log = (it.log + line).takeLast(200), battery = store.lastBattery())
     }
 
     fun bluetoothOn() = ble.isBluetoothOn()
@@ -56,6 +62,7 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun select(address: String) {
+        store.lastAddress = address
         _state.update { it.copy(selected = address, selectedKeyHex = store.keyHex(address), info = null) }
     }
 

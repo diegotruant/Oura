@@ -64,6 +64,24 @@ fun RingScreen(
             color = TextDim, fontSize = 13.sp,
         )
 
+        s.battery?.let { (pct, time) ->
+            SectionCard {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Batteria anello", color = TextDim, modifier = Modifier.weight(1f))
+                    Text("$pct%", color = when {
+                        pct >= 50 -> ReadyColor
+                        pct >= 20 -> ActivityColor
+                        else -> AwakeColor
+                    }, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+                }
+                Text(
+                    "letta alle " + java.text.SimpleDateFormat("HH:mm, d MMM", java.util.Locale.ITALIAN)
+                        .format(java.util.Date(time)) + " · si aggiorna con Leggi info o Sincronizza",
+                    color = TextDim, fontSize = 11.sp,
+                )
+            }
+        }
+
         if (!hasPermissions) {
             SectionCard {
                 Text("Servono i permessi Bluetooth.", color = TextMain)
