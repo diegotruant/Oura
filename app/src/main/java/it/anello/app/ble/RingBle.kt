@@ -10,7 +10,6 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
-import kotlinx.coroutines.delay
 
 /**
  * Orchestrazione di alto livello verso l'anello: scansione, lettura info,
@@ -64,21 +63,40 @@ class RingBle(private val context: Context, private val store: RingStore) {
 
     // --- Autenticazione comune ----------------------------------------------
 
-    private suspend fun authenticate(ble: OuraBle, address: String, log: (String) -> Unit): Boolean {
-        val key = store.keyFor(address) ?: run { log("Nessuna chiave salvata per questo anello."); return false }
-        val nonceResp = ble.transact(OuraProtocol.getAuthNonce()) { it.size >= 18 && it[0] == 0x2f.toByte() }
-            .lastOrNull()
-        val nonce = nonceResp?.let { OuraProtocol.parseNonce(it) }
-        if (nonce == null) { log("Nonce non ricevuto."); return false }
+    private fun isNonce(f: ByteArray) = f.size >= 18 && f[0] == 0x2f.toByte() && f[2] == 0x2c.toByte()
+    private fun isAuthResp(f: ByteArray) = f.size >= 4 && f[0] == 0x2f.toByte() && f[2] == 0x2e.toByte()
+
+    /**
+     * Esegue nonce → AES → Authenticate con [key] e restituisce lo stato dell'anello:
+     * 0x00 ok, 0x01 chiave errata, 0x02 anello resettato (nessuna chiave), 0x03 associato
+     * a un'altra installazione. null se non arriva risposta.
+     */
+    private suspend fun authState(ble: OuraBle, key: ByteArray): Int? {
+        val nonce = ble.transact(OuraProtocol.getAuthNonce()) { isNonce(it) }
+            .lastOrNull { isNonce(it) }?.let { OuraProtocol.parseNonce(it) } ?: return null
         val enc = OuraProtocol.encryptNonce(key, nonce)
-        val authResp = ble.transact(OuraProtocol.authenticate(enc)) { it.size >= 4 && it[0] == 0x2f.toByte() }
-            .lastOrNull()
-        val ok = authResp != null && OuraProtocol.authOk(authResp)
-        log(if (ok) "Autenticazione riuscita." else "Autenticazione fallita (chiave errata?).")
-        return ok
+        val resp = ble.transact(OuraProtocol.authenticate(enc)) { isAuthResp(it) }
+            .lastOrNull { isAuthResp(it) } ?: return null
+        return resp[3].toInt() and 0xff
     }
 
-    // --- Lettura informazioni (sicura, non modifica niente) ------------------
+    private fun describeAuth(state: Int?): String = when (state) {
+        0x00 -> "chiave corretta"
+        0x01 -> "l'anello ha una chiave diversa (associato a Oura o a un altro telefono)"
+        0x02 -> "anello resettato di fabbrica, pronto per l'associazione"
+        0x03 -> "anello associato a un'altra installazione"
+        null -> "nessuna risposta"
+        else -> "stato sconosciuto 0x%02x".format(state)
+    }
+
+    private suspend fun authenticate(ble: OuraBle, address: String, log: (String) -> Unit): Boolean {
+        val key = store.keyFor(address) ?: run { log("Nessuna chiave salvata per questo anello."); return false }
+        val st = authState(ble, key)
+        log("Autenticazione: ${describeAuth(st)}.")
+        return st == 0x00
+    }
+
+    // --- Lettura informazioni + diagnosi (non modifica niente) ---------------
 
     data class RingInfo(
         val connected: Boolean,
@@ -87,30 +105,51 @@ class RingBle(private val context: Context, private val store: RingStore) {
         val battery: Int? = null,
         val hasKey: Boolean = false,
         val authed: Boolean = false,
+        val diagnosis: String? = null,
+        val pairable: Boolean = false,
         val error: String? = null,
     )
 
     suspend fun readInfo(address: String, log: (String) -> Unit): RingInfo {
         val dev = device(address) ?: return RingInfo(false, error = "indirizzo non valido")
-        val ble = OuraBle(context)
+        val ble = OuraBle(context, log)
         try {
-            log("Connessione a $address…")
-            if (!ble.connect(dev)) return RingInfo(false, error = ble.lastError ?: "connessione fallita")
-            log("Connesso. Lettura firmware…")
-            val fwResp = ble.transact(OuraProtocol.firmware()) { it.isNotEmpty() && it[0] == 0x09.toByte() }.lastOrNull()
+            log("Connessione a $address (accoppiato: ${dev.bondState == BluetoothDevice.BOND_BONDED})…")
+            if (!ble.connect(dev)) {
+                val hint = "Connessione rifiutata. Se l'anello è ancora associato all'app Oura " +
+                    "chiude il collegamento con telefoni sconosciuti: serve il reset di fabbrica."
+                log(hint)
+                return RingInfo(false, error = ble.lastError, diagnosis = hint)
+            }
+            val fwResp = ble.transact(OuraProtocol.firmware()) { it.isNotEmpty() && it[0] == 0x09.toByte() }
+                .lastOrNull { it.isNotEmpty() && it[0] == 0x09.toByte() }
             val info = fwResp?.let { OuraProtocol.parseFirmware(it) }
-            info?.let { log("Firmware ${it.firmware}, MAC ${it.mac}") }
+            info?.let { log("Firmware ${it.firmware}, API ${it.api}, MAC ${it.mac}") }
 
-            val hasKey = store.keyFor(address) != null
+            val savedKey = store.keyFor(address)
             var authed = false
             var battery: Int? = null
-            if (hasKey && authenticate(ble, address, log)) {
-                authed = true
-                val batResp = ble.transact(OuraProtocol.battery()) { it.isNotEmpty() && it[0] == 0x0d.toByte() }.lastOrNull()
-                battery = batResp?.let { OuraProtocol.parseBattery(it)?.percent }
+            val diagnosis: String
+            var pairable = false
+            if (savedKey != null) {
+                val st = authState(ble, savedKey)
+                diagnosis = describeAuth(st)
+                authed = st == 0x00
+                pairable = st == 0x02
+            } else {
+                // Prova con una chiave fittizia: la risposta dice se l'anello è resettato.
+                val st = authState(ble, ByteArray(16))
+                diagnosis = describeAuth(st)
+                pairable = st == 0x02
+            }
+            log("Diagnosi: $diagnosis.")
+            if (authed) {
+                val bat = ble.transact(OuraProtocol.battery()) { it.isNotEmpty() && it[0] == 0x0d.toByte() }
+                    .lastOrNull { it.isNotEmpty() && it[0] == 0x0d.toByte() }
+                battery = bat?.let { OuraProtocol.parseBattery(it)?.percent }
                 battery?.let { log("Batteria $it%") }
             }
-            return RingInfo(true, info?.firmware, info?.mac, battery, hasKey, authed)
+            return RingInfo(true, info?.firmware, info?.mac, battery, savedKey != null, authed, diagnosis, pairable)
         } catch (e: Exception) {
             return RingInfo(false, error = e.message)
         } finally {
@@ -122,30 +161,38 @@ class RingBle(private val context: Context, private val store: RingStore) {
 
     suspend fun pair(address: String, log: (String) -> Unit): String? {
         val dev = device(address) ?: return null
-        val ble = OuraBle(context)
+        val ble = OuraBle(context, log)
         try {
-            log("Connessione per associazione…")
-            if (!ble.connect(dev)) { log("Connessione fallita: ${ble.lastError}"); return null }
-            val key = OuraProtocol.generateAuthKey()
-            log("Invio della nuova chiave all'anello…")
-            val resp = ble.transact(OuraProtocol.setAuthKey(key)) { it.isNotEmpty() && it[0] == 0x25.toByte() }.lastOrNull()
-            if (resp == null || !OuraProtocol.setKeyOk(resp)) {
-                log("L'anello ha rifiutato la chiave. Deve essere resettato di fabbrica e non associato ad altre app.")
+            // Un anello resettato accetta l'accoppiamento di sistema: facciamolo subito.
+            if (dev.bondState != BluetoothDevice.BOND_BONDED) ble.bond(dev)
+            if (!ble.connect(dev)) {
+                log("Connessione fallita (${ble.lastError}). Se l'anello è ancora associato a Oura va resettato.")
                 return null
             }
-            log("Chiave accettata. Avvio del bonding Bluetooth…")
-            ble.ensureBond(dev)
-            delay(3_000) // lascia completare il pairing di sistema
-            store.saveKey(address, key)
-            // Riconnette per autenticarsi sul link cifrato e accendere le misure.
-            ble.close()
-            val ble2 = OuraBle(context)
-            if (ble2.connect(dev) && authenticate(ble2, address, log)) {
-                log("Accendo misure di battito e SpO2…")
-                ble2.transact(OuraProtocol.enableDaytimeHr())
-                ble2.transact(OuraProtocol.enableSpo2())
+            val st = authState(ble, ByteArray(16))
+            log("Stato anello: ${describeAuth(st)}.")
+            if (st == 0x01 || st == 0x03) {
+                log("Associazione annullata: l'anello ha già una chiave. Fai il reset di fabbrica e riprova.")
+                return null
             }
-            ble2.close()
+            // Riusa la chiave già salvata se c'è (stesso anello riassociato), altrimenti nuova.
+            val key = store.keyFor(address) ?: OuraProtocol.generateAuthKey()
+            log("Invio della chiave all'anello…")
+            val resp = ble.transact(OuraProtocol.setAuthKey(key)) { it.isNotEmpty() && it[0] == 0x25.toByte() }
+                .lastOrNull { it.isNotEmpty() && it[0] == 0x25.toByte() }
+            if (resp == null || !OuraProtocol.setKeyOk(resp)) {
+                log("Chiave rifiutata (risposta ${resp?.let { OuraBle.hex(it) } ?: "assente"}).")
+                return null
+            }
+            store.saveKey(address, key)
+            log("Chiave installata e salvata.")
+            if (authState(ble, key) == 0x00) {
+                log("Autenticazione riuscita. Accendo le misure di battito e SpO2…")
+                ble.transact(OuraProtocol.enableDaytimeHr())
+                ble.transact(OuraProtocol.enableSpo2())
+            } else {
+                log("Chiave installata ma l'autenticazione non è ancora riuscita: riprova con Leggi info.")
+            }
             log("Associazione completata.")
             return RingStore.bytesToHex(key)
         } catch (e: Exception) {
@@ -162,7 +209,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
 
     suspend fun sync(address: String, log: (String) -> Unit): SyncResult {
         val dev = device(address) ?: return SyncResult(0, null, "indirizzo non valido")
-        val ble = OuraBle(context)
+        val ble = OuraBle(context, log)
         try {
             log("Connessione…")
             if (!ble.connect(dev)) return SyncResult(0, null, ble.lastError ?: "connessione fallita")
@@ -190,9 +237,12 @@ class RingBle(private val context: Context, private val store: RingStore) {
                     OuraProtocol.getEventsLegacy(cursor),
                     quietMs = 2_000,
                     overallMs = 40_000,
+                    verbose = false,
                     terminal = { it.isNotEmpty() && it[0] == 0x11.toByte() },
                 )
                 val summary = frames.firstNotNullOfOrNull { OuraProtocol.parseLegacySummary(it) }
+                log("Lotto: ${frames.size} frame, riepilogo ${summary?.let { "eventi ${it.events}, restanti ${it.bytesLeft} B" } ?: "assente"}")
+                if (frames.isNotEmpty() && summary == null) log("Primo frame: ${OuraBle.hex(frames.first())}")
                 val fresh = frames.filter { OuraEvents.isEventFrame(it) }
                     .mapNotNull { OuraEvents.parse(it) }
                     .filter { it.ringDecis >= cursor } // scarta i replay

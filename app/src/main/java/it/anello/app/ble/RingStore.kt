@@ -14,20 +14,23 @@ class RingStore(context: Context) {
 
     // --- chiave di autenticazione (per dispositivo, in esadecimale) ----------
 
-    fun keyFor(address: String): ByteArray? =
-        prefs.getString("key_$address", null)?.let { hexToBytes(it) }
+    // L'anello usa indirizzi Bluetooth che possono cambiare (RPA): se non troviamo la
+    // chiave per l'indirizzo attuale usiamo l'ultima salvata (app per un solo anello).
+    fun keyHex(address: String): String? =
+        prefs.getString("key_$address", null) ?: prefs.getString("key_last", null)
+
+    fun keyFor(address: String): ByteArray? = keyHex(address)?.let { hexToBytes(it) }
 
     fun saveKey(address: String, key: ByteArray) {
-        prefs.edit().putString("key_$address", bytesToHex(key)).apply()
+        val h = bytesToHex(key)
+        prefs.edit().putString("key_$address", h).putString("key_last", h).apply()
     }
 
-    fun keyHex(address: String): String? = prefs.getString("key_$address", null)
+    // --- cursore incrementale (decisecondi), unico per l'anello -------------
 
-    // --- cursore incrementale (decisecondi) ----------------------------------
-
-    fun cursor(address: String): Long = prefs.getLong("cursor_$address", 0L)
-    fun setCursor(address: String, value: Long) {
-        prefs.edit().putLong("cursor_$address", value).apply()
+    fun cursor(@Suppress("UNUSED_PARAMETER") address: String): Long = prefs.getLong("cursor", 0L)
+    fun setCursor(@Suppress("UNUSED_PARAMETER") address: String, value: Long) {
+        prefs.edit().putLong("cursor", value).apply()
     }
 
     // --- log grezzo degli eventi ---------------------------------------------

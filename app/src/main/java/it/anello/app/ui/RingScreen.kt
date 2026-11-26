@@ -31,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,6 +50,7 @@ fun RingScreen(
     val s by vm.state.collectAsStateWithLifecycle()
     var showPairDialog by remember { mutableStateOf(false) }
     var keyInput by remember { mutableStateOf("") }
+    val clipboard = LocalClipboardManager.current
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -113,7 +116,11 @@ fun RingScreen(
                     info.firmware?.let { Text("Firmware $it", color = TextMain) }
                     info.mac?.let { Text("MAC $it", color = TextDim, fontSize = 12.sp) }
                     info.battery?.let { Text("Batteria $it%", color = TextMain) }
-                    info.error?.let { Text("Errore: $it", color = AwakeColor) }
+                    info.diagnosis?.let {
+                        Spacer(Modifier.height(4.dp))
+                        Text("Diagnosi: $it", color = if (info.authed || info.pairable) ReadyColor else AwakeColor, fontSize = 13.sp)
+                    }
+                    info.error?.let { Text("Errore: $it", color = AwakeColor, fontSize = 12.sp) }
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -174,6 +181,10 @@ fun RingScreen(
         // Log
         if (s.log.isNotEmpty()) {
             SectionCard("Log") {
+                OutlinedButton(onClick = { clipboard.setText(AnnotatedString(s.log.joinToString("\n"))) }) {
+                    Text("Copia log")
+                }
+                Spacer(Modifier.height(8.dp))
                 if (s.busy) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         CircularProgressIndicator(Modifier.height(16.dp), strokeWidth = 2.dp)
@@ -181,7 +192,7 @@ fun RingScreen(
                     }
                 }
                 Column(Modifier.heightIn(max = 240.dp).verticalScroll(rememberScrollState())) {
-                    s.log.takeLast(60).forEach {
+                    s.log.takeLast(120).forEach {
                         Text(it, color = TextDim, fontFamily = FontFamily.Monospace, fontSize = 11.sp)
                     }
                 }
