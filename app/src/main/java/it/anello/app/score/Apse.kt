@@ -59,11 +59,16 @@ object Apse {
         val episodeDays: Int,
         /** Durante un episodio: notti consecutive di fila nella norma (ne servono RELEASE_DAYS). */
         val releaseProgress: Int = 0,
+        /**
+         * Margine del Recupero dovuto all'incertezza della norma (errore standard della norma,
+         * propagato nel punteggio). Non comprende l'errore di misura del dispositivo.
+         */
+        val recoveryMargin: Double? = null,
     )
 
     private class Hist(val o: Long, val v: Double, val excluded: Boolean)
 
-    private class Ref(val value: Double, val swc: Double, val onset: Double, val n: Int, val kind: String)
+    private class Ref(val value: Double, val swc: Double, val onset: Double, val n: Int, val kind: String, val se: Double)
 
     private class St {
         var hist = ArrayList<Hist>()
@@ -112,7 +117,8 @@ object Apse {
         val ref = median(values)
         val v = if (values.size >= 3) variance(values) else DEFAULT_VAR
         val sd = sqrt(v)
-        return Ref(ref, max(SWC_FLOOR, SWC_FACTOR * sd), max(SWC_FLOOR, ONSET_FACTOR * sd), values.size, kind)
+        return Ref(ref, max(SWC_FLOOR, SWC_FACTOR * sd), max(SWC_FLOOR, ONSET_FACTOR * sd), values.size, kind,
+            sqrt(v / values.size))
     }
 
     /**
@@ -206,17 +212,22 @@ object Apse {
             var auton: Double? = null
             var sScore: Double? = null
             var dScore: Double? = null
+            var margin: Double? = null
             if (ref != null && ref.n >= MIN_RECOVERY_N && v != null && sValue != null && debtValue != null) {
                 val delta = min(v, st.acute!!) - ref.value
                 auton = 100 * exp(min(0.0, delta) / RESPONSE_SCALE)
                 sScore = 100 * (1 - sValue)
                 dScore = 100 * exp(-debtValue / DEBT_SCALE_H)
                 recovery = (auton + (sScore + dScore) / 2) / 2
+                val x = min(v, st.acute!!)
+                fun autonAt(r: Double) = 100 * exp(min(0.0, x - r) / RESPONSE_SCALE)
+                margin = kotlin.math.abs(autonAt(ref.value - ref.se) - autonAt(ref.value + ref.se)) / 4
             }
             out[d.date] = Day(
                 d.date, recovery, auton, sScore, dScore, debtValue,
                 ref?.let { exp(it.value) }, ref?.kind == "provisional", ref?.n ?: 0, status, st.episode,
                 if (st.alert) st.good else 0,
+                margin,
             )
         }
         return out

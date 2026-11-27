@@ -55,13 +55,13 @@ class DailyStore(context: Context, private val fileName: String = "days.json") {
 
     /** Esporta tutto lo storico in CSV. */
     fun toCsv(): String = buildString {
-        appendLine("data,inizio_sonno,fine_sonno,a_letto_min,sonno_min,profondo_min,rem_min,leggero_min,sveglio_min,fc_min,fc_media_sonno,hrv,fc_riposo,spo2,respiro,passi,kcal_attive")
+        appendLine("data,inizio_sonno,fine_sonno,a_letto_min,sonno_min,profondo_min,rem_min,leggero_min,sveglio_min,fc_min,fc_media_sonno,hrv,fc_riposo,spo2,respiro,passi,kcal_attive,temp_pelle")
         load().values.sortedBy { it.date }.forEach { d ->
             appendLine(listOf(
                 d.date, d.sleepStartMs ?: "", d.sleepEndMs ?: "", d.inBedMin, d.asleepMin,
                 d.deepMin, d.remMin, d.lightMin, d.awakeMin, d.lowestHr ?: "", d.avgSleepHr ?: "",
                 d.avgHrv ?: "", d.restingHr ?: "", d.spo2 ?: "", d.respiratoryRate ?: "",
-                d.steps ?: "", d.activeKcal ?: "",
+                d.steps ?: "", d.activeKcal ?: "", d.skinTemp ?: "",
             ).joinToString(","))
         }
     }

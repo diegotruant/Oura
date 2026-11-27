@@ -42,6 +42,23 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+    private val pickFit =
+        registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris: List<Uri> ->
+            if (uris.isEmpty()) return@registerForActivityResult
+            Thread {
+                // Legge i file fuori dal thread principale; limite 50 MB per file.
+                val files = uris.take(50).mapNotNull { uri ->
+                    runCatching {
+                        contentResolver.openInputStream(uri)?.use { input ->
+                            val bytes = input.readBytes()
+                            if (bytes.size <= 50_000_000) bytes else null
+                        }
+                    }.getOrNull()
+                }
+                runOnUiThread { vm.importFit(files) }
+            }.start()
+        }
+
     private fun blePermissions(): Array<String> =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             arrayOf(android.Manifest.permission.BLUETOOTH_SCAN, android.Manifest.permission.BLUETOOTH_CONNECT)
@@ -79,6 +96,7 @@ class MainActivity : ComponentActivity() {
                     )
                 },
                 onExportCsv = { saveCsv.launch("anello-dati.csv") },
+                onImportFit = { pickFit.launch(arrayOf("*/*")) },
             )
         }
     }

@@ -65,9 +65,9 @@ private val colors = darkColorScheme(
 private enum class Tab(val label: String, val icon: ImageVector) {
     TODAY("Oggi", Icons.Filled.Home),
     SLEEP("Sonno", Icons.Filled.Favorite),
-    TRENDS("Andamento", Icons.Filled.DateRange),
+    TRENDS("Trend", Icons.Filled.DateRange),
     RING("Anello", Icons.Filled.Share),
-    SETTINGS("Impostazioni", Icons.Filled.Settings),
+    SETTINGS("Opzioni", Icons.Filled.Settings),
 }
 
 @Composable
@@ -80,6 +80,7 @@ fun AnelloApp(
     onRequestPermissions: () -> Unit,
     onInstallHealthConnect: () -> Unit,
     onExportCsv: () -> Unit,
+    onImportFit: () -> Unit,
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -112,9 +113,9 @@ fun AnelloApp(
                     SettingsScreen(state, vm, onExportCsv)
                 } else if (ringSource) {
                     when (current) {
-                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline)
+                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary)
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
-                        Tab.TRENDS -> TrendsScreen(state)
+                        Tab.TRENDS -> TrendsScreen(state, vm, onImportFit)
                         else -> {}
                     }
                 } else when (state.hcStatus) {
@@ -134,9 +135,9 @@ fun AnelloApp(
                         onClick = onRequestPermissions,
                     )
                     HcStatus.READY -> when (current) {
-                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline)
+                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary)
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
-                        Tab.TRENDS -> TrendsScreen(state)
+                        Tab.TRENDS -> TrendsScreen(state, vm, onImportFit)
                         Tab.SETTINGS -> SettingsScreen(state, vm, onExportCsv)
                         Tab.RING -> {}
                     }

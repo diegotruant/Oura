@@ -26,7 +26,12 @@ class RingNightsTest {
         for (k in 0 until 100) {
             events += ev(0x6a, bs + 300L * k, byteArrayOf(100, 0, 0, 0, 112, 0, 5, 1, 0, 0))
         }
-        events += ev(0x5d, bs + 1000, byteArrayOf(50, 40, 48, 30))
+        // Due campioni HRV a 5 minuti, evento emesso alla fine del blocco.
+        events += ev(0x5d, bs + 4000, byteArrayOf(50, 40, 48, 30))
+        // Temperatura della pelle: 3 eventi da 7 valori a 35,00 °C (0x0DAC = 3500).
+        for (k in 0 until 3) {
+            events += ev(0x75, bs + 2100L * (k + 1), ByteArray(14) { if (it % 2 == 0) 0xAC.toByte() else 0x0D })
+        }
 
         val nights = RingNights.build(events, ZoneOffset.UTC)
         assertEquals(1, nights.size)
@@ -44,5 +49,11 @@ class RingNightsTest {
         assertEquals((unix + (be - 1_000) / 10) * 1000, n.sleepEndMs)
         assertEquals(LocalDate.of(2026, 11, 26), n.date)
         assertEquals(3, n.hypnogram.size) // profondo, REM, leggero
+        assertEquals(35.0, n.skinTemp!!, 0.001)
+        assertEquals(2, n.hrvSeries.size)
+        assertEquals(40.0, n.hrvSeries[0].v, 0.001)
+        // primo campione HRV: 5 minuti prima dell'evento
+        assertEquals((unix + (bs + 1000 - 1_000) / 10) * 1000, n.hrvSeries[0].tMs)
+        assertEquals(50.0, n.hrSeries.first().v, 0.001)
     }
 }

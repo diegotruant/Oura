@@ -74,9 +74,11 @@ fun TodayScreen(
     onDate: (LocalDate) -> Unit,
     onSync: () -> Unit,
     onRebaseline: (LocalDate) -> Unit = {},
+    onDiary: (LocalDate, Set<String>?) -> Unit = { _, _ -> },
 ) {
     val day = state.days[date]
     val scores = scoresFor(state, date)
+    val history = remember(state.days) { state.days.values.sortedBy { it.date } }
     var detail by rememberSaveable { mutableIntStateOf(1) } // 0 sonno, 1 recupero, 2 attività
 
     ScreenColumn {
@@ -96,6 +98,8 @@ fun TodayScreen(
             ScoreRing("Attività", scores?.activity?.value, ActivityColor)
         }
 
+        if (day != null) IllnessCard(history, day)
+
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("Recupero", "Sonno", "Attività").forEachIndexed { i, l ->
                 val idx = listOf(1, 0, 2)[i]
@@ -112,6 +116,13 @@ fun TodayScreen(
             if (score == null) Text("Nessun dato per questo giorno.", color = TextDim)
             else {
                 if (score.contributors.isNotEmpty()) ContributorRows(score.contributors, color)
+                score.margin?.takeIf { it >= 0.5 }?.let {
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        "Margine: ±${it.roundToInt().coerceAtLeast(1)} punti, per l'incertezza della tua norma. Si restringe con più notti.",
+                        color = TextDim, fontSize = 12.sp,
+                    )
+                }
                 score.note?.let {
                     if (score.contributors.isNotEmpty()) Spacer(Modifier.height(12.dp))
                     Text(it, color = if (score.noteIsWarning) AwakeColor else TextDim, fontSize = 13.sp)
@@ -140,7 +151,9 @@ fun TodayScreen(
             }
         }
 
-        if (day != null) KeyMetrics(day)
+        if (day != null) KeyMetrics(day, history)
+
+        DiaryCard(date, state.diary[date]) { onDiary(date, it) }
 
         if (day == null && !state.syncing) {
             SectionCard {
@@ -155,7 +168,7 @@ fun TodayScreen(
 }
 
 @Composable
-private fun KeyMetrics(d: DailySummary) {
+private fun KeyMetrics(d: DailySummary, history: List<DailySummary>) {
     val items = listOf(
         "FC a riposo" to (d.restingHr?.let { "${it.roundToInt()} bpm" } ?: "–"),
         "HRV media" to (d.avgHrv?.let { "${it.roundToInt()} ms" } ?: "–"),
@@ -163,11 +176,13 @@ private fun KeyMetrics(d: DailySummary) {
         "Passi" to (d.steps?.let { "%,d".format(it) } ?: "–"),
         "SpO2" to (d.spo2?.let { "${it.roundToInt()}%" } ?: "–"),
         "Respiro" to (d.respiratoryRate?.let { "%.1f /min".format(it) } ?: "–"),
+        temperatureText(history, d),
     )
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         items.chunked(2).forEach { row ->
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 row.forEach { (l, v) -> MetricTile(l, v, Modifier.weight(1f)) }
+                if (row.size == 1) Spacer(Modifier.weight(1f))
             }
         }
     }
@@ -215,7 +230,14 @@ fun SleepScreen(state: UiState, date: LocalDate, onDate: (LocalDate) -> Unit) {
                 MetricTile("HRV", d.avgHrv?.let { "${it.roundToInt()} ms" } ?: "–", Modifier.weight(1f))
                 MetricTile("SpO2", d.spo2?.let { "${it.roundToInt()}%" } ?: "–", Modifier.weight(1f))
             }
+            Spacer(Modifier.height(10.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                val (tl, tv) = temperatureText(state.days.values.sortedBy { it.date }, d)
+                MetricTile(tl, tv, Modifier.weight(1f))
+                MetricTile("Respiro", d.respiratoryRate?.let { "%.1f /min".format(it) } ?: "–", Modifier.weight(1f))
+            }
         }
+        NightCharts(d)
         score?.let { SectionCard("Dettaglio punteggio") { ContributorRows(it.contributors, SleepColor) } }
     }
 }
@@ -233,7 +255,8 @@ private fun StageRow(label: String, min: Int, total: Int, color: Color) {
 // ---------------------------------------------------------------- ANDAMENTO
 
 @Composable
-fun TrendsScreen(state: UiState) {
+fun TrendsScreen(state: UiState, vm: AppViewModel, onImportFit: () -> Unit) {
+    var section by rememberSaveable { mutableIntStateOf(0) } // 0 grafici, 1 analisi, 2 allenamento
     var range by rememberSaveable { mutableIntStateOf(14) }
     val today = LocalDate.now()
     val dates = (range - 1 downTo 0).map { today.minusDays(it.toLong()) }
@@ -247,6 +270,13 @@ fun TrendsScreen(state: UiState) {
 
     ScreenColumn {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("Grafici", "Analisi", "Allenamento").forEachIndexed { i, l ->
+                FilterChip(selected = section == i, onClick = { section = i }, label = { Text(l) })
+            }
+        }
+        if (section == 1) { AnalysisSection(state, history); return@ScreenColumn }
+        if (section == 2) { TrainingSection(state, vm, history, onImportFit); return@ScreenColumn }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(7, 14, 30, 90).forEach { r ->
                 FilterChip(selected = range == r, onClick = { range = r }, label = { Text("$r g") })
             }
@@ -257,6 +287,9 @@ fun TrendsScreen(state: UiState) {
         TrendCard("HRV notturna", days.map { it?.avgHrv?.toFloat() }, RemColor, labels) { "${it.roundToInt()} ms" }
         TrendCard("FC a riposo", days.map { it?.restingHr?.toFloat() }, AwakeColor, labels) { "${it.roundToInt()} bpm" }
         TrendCard("Passi", days.map { it?.steps?.toFloat() }, ActivityColor, labels) { "%,d".format(it.roundToInt()) }
+        TrendCard("Temperatura della pelle", days.map { it?.skinTemp?.toFloat() }, ActivityColor, labels) { "%.1f °C".format(it) }
+        TrendCard("Respiro", days.map { it?.respiratoryRate?.toFloat() }, SleepColor, labels) { "%.1f /min".format(it) }
+        TrendCard("SpO2", days.map { it?.spo2?.toFloat() }, ReadyColor, labels) { "%.1f%%".format(it) }
     }
 }
 

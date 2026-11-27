@@ -18,6 +18,8 @@ data class Score(
     val canRebaseline: Boolean = false,
     /** true se la nota è un avviso (mostrata in evidenza). */
     val noteIsWarning: Boolean = false,
+    /** Margine in punti dovuto all'incertezza della norma personale. */
+    val margin: Double? = null,
 )
 
 data class DayScores(val sleep: Score?, val readiness: Score?, val activity: Score?)
@@ -91,7 +93,8 @@ object Scores {
         )
         return Score(recovery.roundToInt().coerceIn(0, 100), c, note,
             canRebaseline = apse.status == Apse.Status.PERSISTENT_CHANGE,
-            noteIsWarning = inAlert && apse.releaseProgress == 0)
+            noteIsWarning = inAlert && apse.releaseProgress == 0,
+            margin = apse.recoveryMargin)
     }
 
     fun sleepScore(d: DailySummary, s: UserSettings): Score? {

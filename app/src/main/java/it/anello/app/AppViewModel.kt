@@ -7,6 +7,11 @@ import androidx.lifecycle.viewModelScope
 import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingDataBus
 import it.anello.app.data.DailyStore
+import it.anello.app.data.DiaryStore
+import it.anello.app.training.Activity
+import it.anello.app.training.Fit
+import it.anello.app.training.Training
+import it.anello.app.training.TrainingStore
 import it.anello.app.data.DataSource
 import it.anello.app.data.DailySummary
 import it.anello.app.data.HealthRepository
@@ -29,6 +34,11 @@ data class UiState(
     val days: Map<LocalDate, DailySummary> = emptyMap(),
     val settings: UserSettings = UserSettings(),
     val sources: Map<String, Int>? = null,
+    /** Diario: etichette per giorno (solo i giorni compilati). */
+    val diary: Map<LocalDate, Set<String>> = emptyMap(),
+    /** Allenamenti importati da file FIT. */
+    val activities: List<Activity> = emptyList(),
+    val importMessage: String? = null,
 )
 
 class AppViewModel(app: Application) : AndroidViewModel(app) {
@@ -36,6 +46,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val store = DailyStore(app)
     private val ringStore = DailyStore(app, RingBle.RING_DAYS_FILE)
     private val settingsStore = SettingsStore(app)
+    private val diaryStore = DiaryStore(app)
+    private val trainingStore = TrainingStore(app)
 
     /** Archivio della fonte scelta: Health Connect (app Oura) o anello via Bluetooth. */
     private fun activeStore() =
@@ -58,6 +70,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     val state: StateFlow<UiState> = _state
 
     init {
+        viewModelScope.launch {
+            val (diary, acts) = withContext(Dispatchers.IO) { diaryStore.load() to trainingStore.load() }
+            _state.update { it.copy(diary = diary, activities = acts) }
+        }
         reloadDays()
         // Nuove notti dall'anello (sync manuale o automatica): aggiorna le schermate.
         viewModelScope.launch {
@@ -145,6 +161,51 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             if (s.source == DataSource.RING) s.copy(rebaselineRing = s.rebaselineRing + d)
             else s.copy(rebaselineHc = s.rebaselineHc + d)
         )
+    }
+
+    /** Imposta le etichette del diario per [date]; null cancella la voce (giorno non compilato). */
+    fun setDiary(date: LocalDate, tags: Set<String>?) {
+        _state.update { st ->
+            st.copy(diary = if (tags == null) st.diary - date else st.diary + (date to tags))
+        }
+        viewModelScope.launch(Dispatchers.IO) { diaryStore.set(date, tags) }
+    }
+
+    /** Importa file FIT (contenuto in byte). Lo stesso file importato due volte non si duplica. */
+    fun importFit(files: List<ByteArray>) {
+        val s = _state.value.settings
+        if (s.cpW <= 0 || s.wPrimeJ <= 0) {
+            _state.update { it.copy(importMessage = "Imposta prima CP e W′.") }
+            return
+        }
+        viewModelScope.launch {
+            val msg = withContext(Dispatchers.IO) {
+                var added = 0; var dup = 0
+                val errors = ArrayList<String>()
+                for (bytes in files) {
+                    try {
+                        val a = Training.summarize(bytes, s.cpW.toDouble(), s.wPrimeJ.toDouble())
+                        if (trainingStore.add(a)) added++ else dup++
+                    } catch (e: Fit.FitException) {
+                        errors += e.message ?: "file non valido"
+                    } catch (e: IllegalArgumentException) {
+                        errors += e.message ?: "valori non validi"
+                    }
+                }
+                buildString {
+                    append("$added importati")
+                    if (dup > 0) append(", $dup già presenti")
+                    if (errors.isNotEmpty()) append(", ${errors.size} non letti (${errors.first()})")
+                }
+            }
+            val acts = withContext(Dispatchers.IO) { trainingStore.load() }
+            _state.update { it.copy(activities = acts, importMessage = msg) }
+        }
+    }
+
+    fun removeActivity(id: String) = viewModelScope.launch {
+        val acts = withContext(Dispatchers.IO) { trainingStore.remove(id); trainingStore.load() }
+        _state.update { it.copy(activities = acts) }
     }
 
     fun exportCsv(): String = activeStore().toCsv()

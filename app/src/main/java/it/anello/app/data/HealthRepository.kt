@@ -139,6 +139,9 @@ class HealthRepository(private val context: Context) {
                     restingHr = restingOfDay.averageOrNull() ?: lowest,
                     spo2 = spo2.filter { inWindow(it.first) }.map { it.second }.averageOrNull(),
                     respiratoryRate = resp.filter { inWindow(it.first) }.map { it.second }.averageOrNull(),
+                    hrSeries = DailySummary.bin(nightHr.map { Sample(it.first.toEpochMilli(), it.second) }),
+                    hrvSeries = hrv.filter { inWindow(it.first) }.sortedBy { it.first }
+                        .map { Sample(it.first.toEpochMilli(), it.second) },
                 )
             }
             summary

@@ -15,6 +15,9 @@ data class UserSettings(
     /** Giorni confermati come "nuovo livello normale" dell'HRV, per fonte (ISO yyyy-mm-dd). */
     val rebaselineHc: Set<String> = emptySet(),
     val rebaselineRing: Set<String> = emptySet(),
+    /** Potenza critica (W) e W′ (J) per gli allenamenti; 0 = non impostati. */
+    val cpW: Int = 0,
+    val wPrimeJ: Int = 0,
 ) {
     fun rebaselineDays(): Set<java.time.LocalDate> =
         (if (source == DataSource.RING) rebaselineRing else rebaselineHc)
@@ -32,6 +35,8 @@ class SettingsStore(context: Context) {
         stepsGoal = prefs.getInt("stepsGoal", 8000),
         rebaselineHc = prefs.getStringSet("rebaselineHc", emptySet())!!.toSet(),
         rebaselineRing = prefs.getStringSet("rebaselineRing", emptySet())!!.toSet(),
+        cpW = prefs.getInt("cpW", 0),
+        wPrimeJ = prefs.getInt("wPrimeJ", 0),
     )
 
     fun save(s: UserSettings) {
@@ -42,6 +47,8 @@ class SettingsStore(context: Context) {
             .putInt("stepsGoal", s.stepsGoal)
             .putStringSet("rebaselineHc", s.rebaselineHc)
             .putStringSet("rebaselineRing", s.rebaselineRing)
+            .putInt("cpW", s.cpW)
+            .putInt("wPrimeJ", s.wPrimeJ)
             .apply()
     }
 }

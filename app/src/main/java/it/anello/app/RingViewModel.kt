@@ -55,7 +55,7 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val agg = withContext(Dispatchers.IO) {
                 val raw = store.loadRaw()
-                val nights = RingNights.build(raw)
+                val nights = RingNights.buildRecent(raw)
                 if (nights.isNotEmpty()) DailyStore(getApplication(), RingBle.RING_DAYS_FILE).upsertNights(nights)
                 raw.takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
             }

@@ -9,6 +9,9 @@ enum class SleepStage { AWAKE, LIGHT, DEEP, REM }
 
 data class StageSpan(val startMs: Long, val endMs: Long, val stage: SleepStage)
 
+/** Un campione di una serie notturna (battito o HRV) con il suo orario. */
+data class Sample(val tMs: Long, val v: Double)
+
 /**
  * Riepilogo di una giornata. La notte viene assegnata al giorno del risveglio.
  * I campi nulli indicano che il dato non è arrivato da Health Connect.
@@ -32,6 +35,12 @@ data class DailySummary(
     val steps: Long? = null,
     val activeKcal: Double? = null,
     val hypnogram: List<StageSpan> = emptyList(),
+    /** Temperatura media della pelle durante il sonno (°C); solo dall'anello diretto. */
+    val skinTemp: Double? = null,
+    /** Battito durante la notte, medie su 5 minuti. */
+    val hrSeries: List<Sample> = emptyList(),
+    /** HRV (RMSSD) durante la notte, un valore ogni 5 minuti circa. */
+    val hrvSeries: List<Sample> = emptyList(),
 ) {
     val hasSleep: Boolean get() = sleepStartMs != null && asleepMin > 0
 
@@ -58,6 +67,13 @@ data class DailySummary(
                 put(JSONArray().put(it.startMs).put(it.endMs).put(it.stage.name))
             }
         })
+        putOpt("skinTemp", skinTemp)
+        put("hrSeries", seriesJson(hrSeries))
+        put("hrvSeries", seriesJson(hrvSeries))
+    }
+
+    private fun seriesJson(s: List<Sample>) = JSONArray().apply {
+        s.forEach { put(JSONArray().put(it.tMs).put(Math.round(it.v * 10) / 10.0)) }
     }
 
     companion object {
@@ -70,6 +86,10 @@ data class DailySummary(
                     val a = hyp.getJSONArray(i)
                     add(StageSpan(a.getLong(0), a.getLong(1), SleepStage.valueOf(a.getString(2))))
                 }
+            }
+            fun series(k: String): List<Sample> {
+                val a = o.optJSONArray(k) ?: return emptyList()
+                return (0 until a.length()).map { i -> a.getJSONArray(i).let { Sample(it.getLong(0), it.getDouble(1)) } }
             }
             return DailySummary(
                 date = LocalDate.parse(o.getString("date")),
@@ -90,7 +110,15 @@ data class DailySummary(
                 steps = l("steps"),
                 activeKcal = d("activeKcal"),
                 hypnogram = spans,
+                skinTemp = d("skinTemp"),
+                hrSeries = series("hrSeries"),
+                hrvSeries = series("hrvSeries"),
             )
         }
+
+        /** Medie su intervalli di [binMs] (default 5 minuti) di una serie con orario. */
+        fun bin(samples: List<Sample>, binMs: Long = 300_000): List<Sample> =
+            samples.groupBy { it.tMs / binMs }.toSortedMap()
+                .map { (k, v) -> Sample(k * binMs + binMs / 2, v.map { it.v }.average()) }
     }
 }

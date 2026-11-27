@@ -1,6 +1,7 @@
 package it.anello.app.ble
 
 import it.anello.app.data.DailySummary
+import it.anello.app.data.Sample
 import it.anello.app.data.SleepStage
 import it.anello.app.data.StageSpan
 import java.time.Instant
@@ -44,6 +45,16 @@ object RingNights {
             buildNight(events, bs, be, emittedAt, ::toMs, zone)
         }.groupBy { it.date }
             .map { (_, list) -> list.maxBy { it.inBedMin } } // una notte principale al giorno
+    }
+
+    /**
+     * Come [build], ma solo per le notti finite negli ultimi [days] giorni. Il log grezzo
+     * conserva 7 giorni: una notte più vecchia potrebbe avere già perso parte dei suoi eventi
+     * e, ricostruita a metà, sovrascriverebbe quella salvata correttamente.
+     */
+    fun buildRecent(events: List<OuraEvents.Event>, days: Long = 5, zone: ZoneId = ZoneId.systemDefault()): List<DailySummary> {
+        val cutoff = java.time.LocalDate.now(zone).minusDays(days)
+        return build(events, zone).filter { it.date >= cutoff }
     }
 
     private fun buildNight(
@@ -93,21 +104,39 @@ object RingNights {
         val awake = if (hyp.isEmpty()) 0 else (inBed - asleep).coerceAtLeast(0)
 
         // --- Battito e respiro (0x6a), con riserva dagli eventi HRV
-        val periods = events.filter { it.tag == 0x6a && inWindow(it) }
-            .sortedBy { it.ringDecis }
-            .mapNotNull { OuraEvents.decodeSleepPeriodInfo(it.body) }
+        val periodEvents = events.filter { it.tag == 0x6a && inWindow(it) }.sortedBy { it.ringDecis }
+            .mapNotNull { e -> OuraEvents.decodeSleepPeriodInfo(e.body)?.let { e.ringDecis to it } }
+        val periods = periodEvents.map { it.second }
         var hr = periods.map { it.avgHr }.filter { it in 25.0..150.0 }
         val breath = periods.map { it.breath }.filter { it in 4.0..40.0 }
+        var hrSeries = DailySummary.bin(
+            periodEvents.filter { it.second.avgHr in 25.0..150.0 }.map { Sample(toMs(it.first), it.second.avgHr) }
+        )
 
+        // HRV: ogni evento porta N coppie a 5 minuti e viene emesso alla FINE del blocco
+        // (verificato sui dati reali: 6 coppie ogni 30 minuti, l'ultimo evento subito dopo
+        // il risveglio). Il campione k ha quindi orario ts - (N-1-k)·5 min.
         val rmssd = ArrayList<Int>()
         val hrvHr = ArrayList<Double>()
-        events.filter { it.tag == 0x5d && inWindow(it) }.forEach { e ->
+        val hrvSeries = ArrayList<Sample>()
+        val hrvHrSeries = ArrayList<Sample>()
+        events.filter { it.tag == 0x5d && it.ringDecis in bs..(be + 18_000) }.sortedBy { it.ringDecis }.forEach { e ->
             OuraEvents.decodeHrv(e.body)?.let { (h, r) ->
-                r.filter { it in 5..250 }.forEach { rmssd.add(it) }
-                h.filter { it in 25..150 }.forEach { hrvHr.add(it.toDouble()) }
+                for (k in r.indices) {
+                    val t = e.ringDecis - (r.size - 1 - k) * 3_000L
+                    if (t < bs || t > be + 3_000) continue
+                    if (r[k] in 5..250) { rmssd.add(r[k]); hrvSeries.add(Sample(toMs(t), r[k].toDouble())) }
+                    if (h[k] in 25..150) { hrvHr.add(h[k].toDouble()); hrvHrSeries.add(Sample(toMs(t), h[k].toDouble())) }
+                }
             }
         }
-        if (hr.isEmpty()) hr = hrvHr
+        if (hr.isEmpty()) { hr = hrvHr; hrSeries = hrvHrSeries }
+
+        // Temperatura della pelle nel sonno (0x75): un valore ogni 30 s circa.
+        val temps = ArrayList<Double>()
+        events.filter { it.tag == 0x75 && inWindow(it) }.forEach { e ->
+            OuraEvents.decodeTemps(e.body)?.forEach { if (it in 25.0..42.0) temps.add(it) }
+        }
 
         // FC più bassa: minimo della media mobile su ~5 minuti (10 campioni da 30 s).
         val w = if (periods.isNotEmpty()) 10 else 1
@@ -138,6 +167,9 @@ object RingNights {
             steps = null,
             activeKcal = null,
             hypnogram = spans,
+            skinTemp = if (temps.size >= 20) temps.average() else null,
+            hrSeries = hrSeries,
+            hrvSeries = hrvSeries,
         )
     }
 }
