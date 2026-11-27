@@ -32,6 +32,8 @@ data class RingUiState(
     val lastSync: RingStore.LastSync? = null,
     /** Anelli associati: indirizzo e nome. */
     val paired: List<Pair<String, String>> = emptyList(),
+    /** Ultimo stato letto della registrazione dei dati sull'andatura: 0 spenta, 1 attiva. */
+    val stepDataMode: Int? = null,
 )
 
 class RingViewModel(app: Application) : AndroidViewModel(app) {
@@ -115,6 +117,12 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun readInfo() = run("Lettura info") { addr -> _state.update { it.copy(info = ble.readInfo(addr, ::log)) } }
+
+    /** Accende o spegne sull'anello la registrazione dei dati sull'andatura (per il contapassi). */
+    fun setStepData(enable: Boolean) = run(if (enable) "Attivazione dati sull'andatura" else "Disattivazione dati sull'andatura") { addr ->
+        val mode = ble.stepData(addr, enable, ::log)
+        _state.update { it.copy(stepDataMode = mode) }
+    }
 
     fun pair() = run("Associazione") { addr ->
         val key = ble.pair(addr, ::log)

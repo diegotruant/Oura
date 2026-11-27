@@ -318,6 +318,44 @@ class RingBle(private val context: Context, private val store: RingStore) {
         }
     }
 
+    // --- Dati sull'andatura registrati dall'anello durante il giorno -----------
+
+    /**
+     * Legge e, se [enable] non è null, imposta la funzione dell'anello che registra i dati
+     * sull'andatura (eventi 0x7e/0x7f nella memoria dell'anello, scaricati alla sincronizzazione).
+     * Ritorna il modo finale (0 spenta, 1 automatica) oppure null se l'anello non risponde.
+     */
+    suspend fun stepData(address: String, enable: Boolean?, log: (String) -> Unit): Int? = bleLock.withLock {
+        val dev = device(address) ?: return@withLock null
+        val ble = OuraBle(context, log)
+        try {
+            if (!ble.connect(dev)) { log("Connessione fallita: ${ble.lastError}"); return@withLock null }
+            if (!authenticate(ble, address, log)) return@withLock null
+            val f = OuraProtocol.FEATURE_REAL_STEPS
+            fun isStatus(r: ByteArray) = r.size >= 5 && r[0] == 0x2f.toByte() && r[2] == 0x21.toByte()
+            suspend fun mode(): Int? = ble.transact(OuraProtocol.featureStatus(f)) { isStatus(it) }
+                .lastOrNull { isStatus(it) }?.let { OuraProtocol.parseFeatureMode(it, f) }
+            val before = mode()
+            log("Dati sull'andatura: ${describeMode(before)}")
+            if (enable == null) return@withLock before
+            ble.transact(OuraProtocol.setFeatureMode(f, if (enable) 1 else 0)) { it.size >= 4 && it[0] == 0x2f.toByte() && it[2] == 0x23.toByte() }
+            val after = mode()
+            log("Dati sull'andatura dopo il comando: ${describeMode(after)}")
+            after
+        } catch (e: Exception) {
+            log("Errore: ${e.message}"); null
+        } finally {
+            ble.close()
+        }
+    }
+
+    private fun describeMode(m: Int?) = when (m) {
+        null -> "l'anello non ha risposto (funzione forse non disponibile su questo modello)"
+        0 -> "spenti"
+        1 -> "attivi"
+        else -> "modo $m"
+    }
+
     // --- Registrazione dell'accelerometro (sessioni di ricerca sui passi) ------
 
     class MotionCapture(val hz: Int, val samples: List<IntArray>, val lostFrames: Int, val error: String?)

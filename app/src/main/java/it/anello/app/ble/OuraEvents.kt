@@ -161,6 +161,20 @@ object OuraEvents {
             ((body[3].toInt() and 0xff).toLong() shl 24)
     }
 
+    /**
+     * real_steps_features (0x7e/0x7f): 14 byte con 14 campi quantizzati sull'andatura (layout
+     * da open_oura; il significato dei singoli campi non è noto). Non contengono un numero di
+     * passi: servono come ingresso a un modello, che va costruito e verificato sui nostri dati.
+     */
+    fun decodeStepFeatures(body: ByteArray): IntArray? {
+        if (body.size != 14) return null
+        val p = IntArray(14) { body[it].toInt() and 0xff }
+        return intArrayOf(
+            (p[3] shr 7) or (p[0] shl 1), p[1] shl 1, p[2] shl 1, p[3] and 0x7f, p[4], p[5], p[6], p[7],
+            (p[11] shr 7) or (p[8] shl 1), p[9] shl 1, p[10] shl 1, p[11] and 0x7f, p[12], p[13],
+        )
+    }
+
     /** Converte un timestamp dell'anello (decisecondi) in secondi unix usando un time_sync. */
     fun unixAt(ringDecis: Long, anchorDecis: Long, anchorUnix: Long): Long =
         anchorUnix + Math.round((ringDecis - anchorDecis) / 10.0)
@@ -193,6 +207,8 @@ object OuraEvents {
         0x72 -> "sleep_acm_period"
         0x75 -> "sleep_temp_event"
         0x76 -> "bedtime_period"
+        0x7e -> "real_steps_features_1"
+        0x7f -> "real_steps_features_2"
         0x80 -> "green_ibi_quality"
         0x8b -> "spo2_r_pi"
         else -> "evento_0x%02x".format(tag)

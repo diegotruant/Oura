@@ -80,4 +80,24 @@ class OuraProtocolTest {
         val p = OuraEvents.decodeSleepPhases(byteArrayOf(0x01, 0x1b))!!
         assertArrayEquals(intArrayOf(0, 1, 2, 3), p)
     }
+
+    @Test fun featureCommands() {
+        // valori dalle catture di open_oura: stato 2f02200b, risposta 2f06210b00000000
+        assertArrayEquals(h("2f02200b"), OuraProtocol.featureStatus(OuraProtocol.FEATURE_REAL_STEPS))
+        assertArrayEquals(h("2f03220b01"), OuraProtocol.setFeatureMode(OuraProtocol.FEATURE_REAL_STEPS, 1))
+        assertEquals(0, OuraProtocol.parseFeatureMode(h("2f06210b00000000"), 0x0b))
+        assertEquals(1, OuraProtocol.parseFeatureMode(h("2f06210201000000"), 0x02))
+        assertEquals(null, OuraProtocol.parseFeatureMode(h("2f06210201000000"), 0x0b))
+        assertEquals(null, OuraProtocol.parseFeatureMode(h("2f022f01"), 0x0b))
+    }
+
+    @Test fun stepFeaturesUnpack() {
+        val f = OuraEvents.decodeStepFeatures(ByteArray(14) { (it + 1).toByte() }.also { it[3] = 0x84.toByte(); it[11] = 0x8C.toByte() })!!
+        assertEquals(14, f.size)
+        assertEquals((1 shl 1) or 1, f[0])   // bit alto del byte 3 + byte 0
+        assertEquals(4, f[3])                // 7 bit bassi del byte 3
+        assertEquals((9 shl 1) or 1, f[8])
+        assertEquals(12, f[11])
+        assertEquals(null, OuraEvents.decodeStepFeatures(ByteArray(10)))
+    }
 }

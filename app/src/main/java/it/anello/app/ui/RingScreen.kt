@@ -184,6 +184,20 @@ fun RingScreen(
                 }
                 Spacer(Modifier.height(8.dp))
                 OutlinedButton(onClick = { showPairDialog = true }, enabled = !s.busy) { Text("Associa (reset richiesto)") }
+                if (s.selectedKeyHex != null) {
+                    Spacer(Modifier.height(10.dp))
+                    Text("Dati sull'andatura (per il contapassi)", color = TextMain)
+                    Text(
+                        "L'anello può registrare tutto il giorno dei dati sul modo di camminare, che Anello scarica alla " +
+                            "sincronizzazione. Sono spenti di fabbrica. Non sono ancora passi: servono a costruire il nostro contapassi." +
+                            (s.stepDataMode?.let { if (it == 1) " Stato: attivi." else " Stato: spenti." } ?: ""),
+                        color = TextDim, fontSize = 12.sp,
+                    )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedButton(onClick = { vm.setStepData(true) }, enabled = !s.busy) { Text("Attiva") }
+                        OutlinedButton(onClick = { vm.setStepData(false) }, enabled = !s.busy) { Text("Disattiva") }
+                    }
+                }
             }
 
             SectionCard("Importa chiave (se catturata)") {

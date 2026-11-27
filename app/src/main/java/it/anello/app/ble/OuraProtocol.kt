@@ -133,6 +133,22 @@ object OuraProtocol {
     fun enableDaytimeHr() = byteArrayOf(0x2f, 0x03, 0x22, 0x02, 0x01)
     fun enableSpo2() = byteArrayOf(0x2f, 0x03, 0x22, 0x04, 0x01)
 
+    // --- Funzioni dell'anello (documentate da open_oura) -------------------------
+
+    /** Dati sull'andatura per il conteggio dei passi: spenti di fabbrica. */
+    const val FEATURE_REAL_STEPS = 0x0b
+
+    /** Legge lo stato di una funzione: 2f 02 20 <funzione> → 2f 06 21 <funzione> <modo> <stato> … */
+    fun featureStatus(feature: Int) = byteArrayOf(0x2f, 0x02, 0x20, feature.toByte())
+
+    /** Imposta il modo di una funzione (0 = spenta, 1 = automatica): 2f 03 22 <funzione> <modo>. */
+    fun setFeatureMode(feature: Int, mode: Int) = byteArrayOf(0x2f, 0x03, 0x22, feature.toByte(), mode.toByte())
+
+    /** Modo riportato da una risposta di stato (2f 06 21 …), oppure null. */
+    fun parseFeatureMode(resp: ByteArray, feature: Int): Int? =
+        if (resp.size >= 5 && resp[0] == 0x2f.toByte() && resp[2] == 0x21.toByte() && (resp[3].toInt() and 0xff) == feature)
+            resp[4].toInt() and 0xff else null
+
     // --- Accelerometro in tempo reale (documentato da open_oura) ----------------
 
     /**
