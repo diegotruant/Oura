@@ -114,7 +114,7 @@ fun TodayScreen(
                 if (score.contributors.isNotEmpty()) ContributorRows(score.contributors, color)
                 score.note?.let {
                     if (score.contributors.isNotEmpty()) Spacer(Modifier.height(12.dp))
-                    Text(it, color = if (score.canRebaseline || score.value == null) TextDim else AwakeColor, fontSize = 13.sp)
+                    Text(it, color = if (score.noteIsWarning) AwakeColor else TextDim, fontSize = 13.sp)
                 }
                 if (score.canRebaseline) {
                     Spacer(Modifier.height(8.dp))

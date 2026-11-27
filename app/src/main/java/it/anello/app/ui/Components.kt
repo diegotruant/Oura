@@ -112,9 +112,16 @@ fun ContributorRows(items: List<Contributor>, color: Color) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         items.forEach { c ->
             Column {
-                Row(Modifier.fillMaxWidth()) {
-                    Text(c.label, color = TextMain, modifier = Modifier.weight(1f))
-                    Text(c.value, color = TextDim)
+                // Valore lungo: sotto l'etichetta, così l'etichetta non viene schiacciata.
+                if (c.value.length > 18) {
+                    Text(c.label, color = TextMain)
+                    Text(c.value, color = TextDim, fontSize = 13.sp)
+                } else {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(c.label, color = TextMain, modifier = Modifier.weight(1f))
+                        Spacer(Modifier.width(8.dp))
+                        Text(c.value, color = TextDim)
+                    }
                 }
                 Spacer(Modifier.height(4.dp))
                 LinearProgressIndicator(

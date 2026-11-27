@@ -16,6 +16,8 @@ data class Score(
     val note: String? = null,
     /** true se l'utente può confermare un nuovo livello normale dell'HRV. */
     val canRebaseline: Boolean = false,
+    /** true se la nota è un avviso (mostrata in evidenza). */
+    val noteIsWarning: Boolean = false,
 )
 
 data class DayScores(val sleep: Score?, val readiness: Score?, val activity: Score?)
@@ -47,11 +49,17 @@ object Scores {
             Apse.Status.ABOVE -> "sopra la norma"
             Apse.Status.NORMAL -> "nella norma"
             Apse.Status.LOW -> "sotto la norma"
-            Apse.Status.ALERT -> "calo in corso"
-            Apse.Status.PERSISTENT_CHANGE -> "calo persistente"
+            Apse.Status.ALERT, Apse.Status.PERSISTENT_CHANGE ->
+                if (apse.releaseProgress > 0) "in ripresa (${apse.releaseProgress}/${Apse.RELEASE_DAYS})"
+                else if (apse.status == Apse.Status.ALERT) "calo in corso" else "calo persistente"
             else -> ""
         }
+        val inAlert = apse.status == Apse.Status.ALERT || apse.status == Apse.Status.PERSISTENT_CHANGE
         val note = when {
+            inAlert && apse.releaseProgress > 0 ->
+                "La tua HRV è tornata nella norma: l'episodio di calo si chiude dopo ${Apse.RELEASE_DAYS} notti " +
+                    "di fila nella norma (finora ${apse.releaseProgress}). Fino ad allora la norma resta quella " +
+                    "di prima del calo."
             apse.status == Apse.Status.PERSISTENT_CHANGE ->
                 "La tua HRV è sotto la norma da ${apse.episodeDays} giorni. Se c'è un motivo benigno " +
                     "(nuovo farmaco, cambio di stagione, anello diverso) puoi confermarlo come nuovo livello normale."
@@ -82,7 +90,8 @@ object Scores {
             ),
         )
         return Score(recovery.roundToInt().coerceIn(0, 100), c, note,
-            canRebaseline = apse.status == Apse.Status.PERSISTENT_CHANGE)
+            canRebaseline = apse.status == Apse.Status.PERSISTENT_CHANGE,
+            noteIsWarning = inAlert && apse.releaseProgress == 0)
     }
 
     fun sleepScore(d: DailySummary, s: UserSettings): Score? {

@@ -57,6 +57,8 @@ object Apse {
         val referenceN: Int,
         val status: Status,
         val episodeDays: Int,
+        /** Durante un episodio: notti consecutive di fila nella norma (ne servono RELEASE_DAYS). */
+        val releaseProgress: Int = 0,
     )
 
     private class Hist(val o: Long, val v: Double, val excluded: Boolean)
@@ -214,6 +216,7 @@ object Apse {
             out[d.date] = Day(
                 d.date, recovery, auton, sScore, dScore, debtValue,
                 ref?.let { exp(it.value) }, ref?.kind == "provisional", ref?.n ?: 0, status, st.episode,
+                if (st.alert) st.good else 0,
             )
         }
         return out
