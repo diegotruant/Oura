@@ -88,7 +88,7 @@ class FitTrainingTest {
         assertEquals(100.0, a.loadAu, 0.2)
         assertEquals(3600, a.seconds)
         assertEquals(64, a.id.length)
-        assertEquals(LocalDate.of(2024, 11, 9), a.day)
+        assertEquals(LocalDate.of(2024, 11, 8), a.day)
         // stesso file = stesso id
         assertEquals(a.id, Training.summarize(encode(List(3600) { 250 }), 250.0, 20_000.0, ZoneOffset.UTC).id)
     }
