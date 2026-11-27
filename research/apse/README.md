@@ -1,4 +1,4 @@
-# APSE 1.2.0 — research prototype
+# APSE 1.3.0 — research prototype
 
 Framework sperimentale indipendente, Python 3.10+. Nessuna dipendenza esterna. Non validato per uso clinico o decisioni di allenamento. Versione 1.0 del prototipo, non accettazione scientifica finale.
 
@@ -29,3 +29,13 @@ APSE_TOKEN=... python -m apse.api
 
 Nuovi campi di Observation: device, rmssd_ms, ibi_segments, sleep_need_hours,
 rebaseline, normalized_power_w, load_au. Esperimenti aggiunti: fatmax_curve, wbal.
+
+## Release 1.3
+Parti riprese da APSE Ring Lab 2.6, che non viene più sviluppato a parte (l'app unica è Anello):
+- `apse/motion.py`: motore dei passi da accelerometro (filtro continuo, nessuna perdita ai confini
+  delle finestre, coda ereditata), caratteristiche per finestra, classificatore a centroidi con
+  rifiuto e confronto con la scelta banale. Stessa logica dell'app, con test di parità.
+- `research.DynamicFilter`: filtro esplorativo a tre stati (recupero, battito, temperatura).
+- `research.fitness_fatigue_calibrate`: costanti di tempo del modello fitness-fatigue da carico e
+  prestazione (esperimento `fitness_fatigue_calibrate`).
+Tutto sperimentale: nessuna validazione su dati reali.

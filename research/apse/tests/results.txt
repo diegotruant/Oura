@@ -80,6 +80,20 @@ test_missing_latch (test_dual.DualTests.test_missing_latch) ... ok
 test_no_false_rebound (test_dual.DualTests.test_no_false_rebound) ... ok
 test_positive_adaptation (test_dual.DualTests.test_positive_adaptation) ... ok
 test_recovery_release (test_dual.DualTests.test_recovery_release) ... ok
+test_fit_predict_reject (test_motion.Classifier.test_fit_predict_reject) ... ok
+test_requires_all_classes (test_motion.Classifier.test_requires_all_classes) ... ok
+test_trained_model_in_count (test_motion.Classifier.test_trained_model_in_count) ... ok
+test_dynamic_filter_missing_component (test_motion.ResearchPorts.test_dynamic_filter_missing_component) ... ok
+test_dynamic_filter_moves_toward_observations (test_motion.ResearchPorts.test_dynamic_filter_moves_toward_observations) ... ok
+test_fitness_fatigue_recovers_time_constants (test_motion.ResearchPorts.test_fitness_fatigue_recovers_time_constants) ... ok
+test_fitness_fatigue_validation (test_motion.ResearchPorts.test_fitness_fatigue_validation) ... ok
+test_irregular_motion_rejected_by_rule (test_motion.Steps.test_irregular_motion_rejected_by_rule) ... ok
+test_mixed_and_tail (test_motion.Steps.test_mixed_and_tail) ... ok
+test_no_loss_at_window_boundaries (test_motion.Steps.test_no_loss_at_window_boundaries) ... ok
+test_run (test_motion.Steps.test_run) ... ok
+test_small_hand_motion_gives_no_steps (test_motion.Steps.test_small_hand_motion_gives_no_steps) ... ok
+test_validation (test_motion.Steps.test_validation) ... ok
+test_walk (test_motion.Steps.test_walk) ... ok
 test_device_reported_rmssd (test_reference_model.ReferenceModel.test_device_reported_rmssd) ... ok
 test_device_switch_is_not_a_drop (test_reference_model.ReferenceModel.test_device_switch_is_not_a_drop) ... ok
 test_explicit_rebaseline (test_reference_model.ReferenceModel.test_explicit_rebaseline) ... ok
@@ -111,6 +125,6 @@ test_sleep_split (test_research.Research.test_sleep_split) ... ok
 test_substrate (test_research.Research.test_substrate) ... ok
 
 ----------------------------------------------------------------------
-Ran 111 tests in 2.906s
+Ran 125 tests in 3.893s
 
 OK

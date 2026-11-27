@@ -318,6 +318,42 @@ class RingBle(private val context: Context, private val store: RingStore) {
         }
     }
 
+    // --- Registrazione dell'accelerometro (sessioni di ricerca sui passi) ------
+
+    class MotionCapture(val hz: Int, val samples: List<IntArray>, val lostFrames: Int, val error: String?)
+
+    /**
+     * Registra l'accelerometro dell'anello per [seconds] secondi (circa 50 Hz). Consuma batteria:
+     * è pensato per sessioni brevi, non per il conteggio continuo.
+     */
+    suspend fun recordMotion(address: String, seconds: Int, log: (String) -> Unit, onProgress: (Int) -> Unit): MotionCapture =
+        bleLock.withLock {
+            val dev = device(address) ?: return@withLock MotionCapture(0, emptyList(), 0, "indirizzo non valido")
+            val ble = OuraBle(context, log)
+            try {
+                log("Connessione…")
+                if (!ble.connect(dev)) return@withLock MotionCapture(0, emptyList(), 0, ble.lastError ?: "connessione fallita")
+                if (!authenticate(ble, address, log)) return@withLock MotionCapture(0, emptyList(), 0, "autenticazione fallita")
+                val samples = ArrayList<IntArray>()
+                var hz = 0
+                var lastSeq = -1
+                var lost = 0
+                val ok = ble.stream(OuraProtocol.realtimeAcm((seconds + 59) / 60), OuraProtocol.realtimeOff(), seconds * 1000L) { f ->
+                    val a = OuraProtocol.parseAcm(f) ?: return@stream
+                    if (a.hz > 0) hz = a.hz
+                    if (lastSeq >= 0) lost += ((a.seq - lastSeq - 1) and 0xff)
+                    lastSeq = a.seq
+                    samples.addAll(a.samples)
+                    if (samples.size % 50 < a.samples.size) onProgress(samples.size)
+                }
+                MotionCapture(hz, samples, lost, if (ok) null else (ble.lastError ?: "flusso non avviato"))
+            } catch (e: Exception) {
+                MotionCapture(0, emptyList(), 0, e.message)
+            } finally {
+                ble.close()
+            }
+        }
+
     companion object {
         /** Un solo collegamento all'anello alla volta, per tutto il processo. */
         val bleLock = Mutex()

@@ -133,6 +133,34 @@ object OuraProtocol {
     fun enableDaytimeHr() = byteArrayOf(0x2f, 0x03, 0x22, 0x02, 0x01)
     fun enableSpo2() = byteArrayOf(0x2f, 0x03, 0x22, 0x04, 0x01)
 
+    // --- Accelerometro in tempo reale (documentato da open_oura) ----------------
+
+    /**
+     * Avvia il flusso dell'accelerometro: 06 07 <maschera u32 LE = 0x20> <minuti u16 LE> <ritardo>.
+     * L'anello si ferma da solo allo scadere dei minuti; va comunque spento con [realtimeOff].
+     */
+    fun realtimeAcm(minutes: Int): ByteArray {
+        val m = minutes.coerceIn(1, 60)
+        return byteArrayOf(0x06, 0x07, 0x20, 0x00, 0x00, 0x00, (m and 0xff).toByte(), ((m shr 8) and 0xff).toByte(), 0x00)
+    }
+
+    fun realtimeOff() = byteArrayOf(0x06, 0x04, 0x00, 0x00, 0x00, 0x00)
+
+    class AcmFrame(val hz: Int, val seq: Int, val samples: List<IntArray>)
+
+    /**
+     * Frame dell'accelerometro: 33 <len> <frequenza Hz> <sequenza> poi 1 o 2 campioni x,y,z,
+     * ciascun asse i16 little-endian in conteggi grezzi (scala non documentata).
+     */
+    fun parseAcm(frame: ByteArray): AcmFrame? {
+        if (frame.size < 10 || frame[0] != 0x33.toByte()) return null
+        fun s16(o: Int) = ((frame[o].toInt() and 0xff) or (frame[o + 1].toInt() shl 8)).toShort().toInt()
+        val samples = ArrayList<IntArray>(2)
+        samples += intArrayOf(s16(4), s16(6), s16(8))
+        if (frame.size >= 16) samples += intArrayOf(s16(10), s16(12), s16(14))
+        return AcmFrame(frame[2].toInt() and 0xff, frame[3].toInt() and 0xff, samples)
+    }
+
     // --- Autenticazione AES --------------------------------------------------
 
     /** Cifra il nonce di 15 byte con AES/ECB/PKCS5Padding → 16 byte. */

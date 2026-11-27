@@ -109,3 +109,67 @@ def wbal(power, cp_w, wprime_j):
     """W′bal e riepilogo di una serie di potenza a 1 Hz (vedi apse/wbal.py)."""
     from .wbal import summary
     return summary(power, cp_w, wprime_j)
+
+class DynamicFilter:
+    """Filtro esplorativo a tre stati (da APSE Ring Lab 2.6, DynamicFusion).
+
+    Stato: scostamenti standardizzati di recupero, battito e temperatura (proxy senza unità).
+    x <- A x, P <- A P A' + Q con A = 0,85 I, Q diagonale 0,25 e fuori diagonale 0,05; R = I;
+    P iniziale 4 I. Aggiornamenti scalari in sequenza solo sulle componenti osservate.
+    Coefficienti ipotetici, non stimati: non è un modello fisiologico validato.
+    """
+    A = .85
+
+    def __init__(self):
+        self.x = [0., 0., 0.]
+        self.p = [[4. if i == j else 0. for j in range(3)] for i in range(3)]
+        self.observed = 0
+
+    def update(self, autonomic=None, cardiovascular=None, thermal=None):
+        z = [autonomic, cardiovascular, thermal]
+        if any(v is not None and (not finite(v) or abs(v) > 1000) for v in z): raise ValueError('observation')
+        q = [[.25 if i == j else .05 for j in range(3)] for i in range(3)]
+        self.x = [self.A * v for v in self.x]
+        self.p = [[self.A * self.A * self.p[i][j] + q[i][j] for j in range(3)] for i in range(3)]
+        self.observed = 0
+        for k in range(3):
+            if z[k] is None: continue
+            self.observed += 1
+            s_ = self.p[k][k] + 1.
+            gain = [self.p[i][k] / s_ for i in range(3)]
+            row = list(self.p[k])
+            innovation = z[k] - self.x[k]
+            self.x = [self.x[i] + gain[i] * innovation for i in range(3)]
+            self.p = [[self.p[i][j] - gain[i] * row[j] for j in range(3)] for i in range(3)]
+        for i in range(3):
+            for j in range(i):
+                self.p[i][j] = self.p[j][i] = (self.p[i][j] + self.p[j][i]) / 2
+        return {'means': list(self.x), 'observed': self.observed,
+                'composite': sum(self.x) / 3 if self.observed == 3 else None,
+                'composite_variance': sum(sum(r) for r in self.p) / 9,
+                'status': 'exploratory_filter_hypothetical_coefficients'}
+
+def fitness_fatigue_calibrate(load, performance, fitness=0., fatigue=0.):
+    """Stima le due costanti di tempo del modello fitness-fatigue (da Ring Lab, CalibratedEngine).
+
+    load: carico giornaliero (>= 0), giorni consecutivi; performance: prestazione osservata nella
+    stessa scala arbitraria oppure None nei giorni senza misura. Ricerca a griglia: fitness
+    20–70 giorni (passo 5), fatica 3–15 giorni; minimizza l'errore quadratico di (F − D).
+    Servono almeno 28 giorni e 10 misure. La scala della prestazione deve essere già coerente
+    con il carico: non viene stimato alcun guadagno. Nessuna validazione su dati esclusi.
+    """
+    if len(load) != len(performance) or len(load) < 28: raise ValueError('calibration history')
+    if any(not finite(l) or l < 0 for l in load) or any(p is not None and not finite(p) for p in performance): raise ValueError('history')
+    n = sum(p is not None for p in performance)
+    if n < 10: raise ValueError('insufficient observations')
+    best = None
+    for tf in range(20, 71, 5):
+        for td in range(3, 16):
+            a, b = math.exp(-1 / tf), math.exp(-1 / td)
+            f, d, err = fitness, fatigue, 0.
+            for l, p in zip(load, performance):
+                f = a * f + (1 - a) * l; d = b * d + (1 - b) * l
+                if p is not None: err += (f - d - p) ** 2
+            if best is None or err < best[0]: best = (err, tf, td)
+    return {'fitness_days': best[1], 'fatigue_days': best[2], 'rmse': math.sqrt(best[0] / n), 'n': n,
+            'status': 'grid_fit_no_holdout_validation'}

@@ -18,6 +18,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 
 /**
@@ -264,6 +266,30 @@ class OuraBle(private val context: Context, private val log: (String) -> Unit = 
         if (verbose && frames.isEmpty()) log("← (nessuna risposta)")
         frames
     }
+
+    /**
+     * Avvia un flusso continuo con [start], inoltra ogni frame a [onFrame] per [durationMs],
+     * poi invia [stop] (anche se l'operazione viene annullata).
+     */
+    suspend fun stream(start: ByteArray, stop: ByteArray, durationMs: Long, onFrame: (ByteArray) -> Unit): Boolean =
+        txMutex.withLock {
+            while (notifications.tryReceive().isSuccess) { /* scarta notifiche vecchie */ }
+            log("→ ${hex(start)}")
+            if (!write(start)) { log("✗ $lastError"); return@withLock false }
+            try {
+                val deadline = System.currentTimeMillis() + durationMs
+                while (isConnected) {
+                    val left = deadline - System.currentTimeMillis()
+                    if (left <= 0) break
+                    val notif = withTimeoutOrNull(minOf(left, 2_000L)) { notifications.receive() } ?: continue
+                    if (notif.isEmpty()) break
+                    for (f in splitFrames(notif)) onFrame(f)
+                }
+            } finally {
+                withContext(NonCancellable) { write(stop) }
+            }
+            true
+        }
 
     fun close() {
         isConnected = false

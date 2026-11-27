@@ -45,6 +45,8 @@ import it.anello.app.RingViewModel
 fun RingScreen(
     vm: RingViewModel,
     strapVm: it.anello.app.StrapViewModel,
+    motionVm: it.anello.app.MotionViewModel,
+    onExportMotion: () -> Unit,
     hasPermissions: Boolean,
     onRequestPermissions: () -> Unit,
     onExport: () -> Unit,
@@ -244,6 +246,8 @@ fun RingScreen(
                 OutlinedButton(onClick = vm::clearRaw, enabled = s.rawCount > 0) { Text("Cancella") }
             }
         }
+
+        MotionCard(motionVm, onExportMotion)
 
         StrapCard(strapVm)
 

@@ -22,6 +22,15 @@ class MainActivity : ComponentActivity() {
     private val vm: AppViewModel by viewModels()
     private val ringVm: RingViewModel by viewModels()
     private val strapVm: StrapViewModel by viewModels()
+    private val motionVm: MotionViewModel by viewModels()
+
+    private val saveMotion =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri: Uri? ->
+            if (uri != null) Thread {
+                val csv = motionVm.exportCsv()
+                runCatching { contentResolver.openOutputStream(uri)?.use { it.write(csv.toByteArray()) } }
+            }.start()
+        }
 
     private val requestPermissions =
         registerForActivityResult(PermissionController.createRequestPermissionResultContract()) {
@@ -85,6 +94,8 @@ class MainActivity : ComponentActivity() {
                 vm = vm,
                 ringVm = ringVm,
                 strapVm = strapVm,
+                motionVm = motionVm,
+                onExportMotion = { saveMotion.launch("anello-movimento.csv") },
                 hasBlePermissions = blePermsState,
                 onRequestBlePermissions = { requestBle.launch(blePermissions()) },
                 onExportRaw = { saveRaw.launch("anello-eventi-grezzi.jsonl") },
