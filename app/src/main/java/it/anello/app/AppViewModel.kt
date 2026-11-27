@@ -97,7 +97,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (s.source == DataSource.RING && _state.value.hcStatus == HcStatus.READY && !activityMerged) {
             activityMerged = true
             runCatching {
-                val activity = repo.fetchActivity(30)
+                val activity = repo.fetchActivity(30, s.hcPackages)
                 withContext(Dispatchers.IO) { store(s.sourceId).upsertActivity(activity) }
             }.onSuccess { reloadDays() }
         } else {

@@ -53,25 +53,43 @@ class HealthRepository(private val context: Context) {
     }
 
     /**
-     * Passi e calorie attive per giorno negli ultimi [days] giorni, da TUTTE le fonti
-     * (telefono, app di fitness, app Oura): Health Connect elimina i doppioni secondo la
-     * priorità delle app impostata dall'utente. Usato con la fonte "Anello diretto".
+     * Passi e calorie attive per giorno negli ultimi [days] giorni, da UNA sola app per giorno.
+     *
+     * Sommare tutte le app insieme gonfia il totale quando più app scrivono i passi dello stesso
+     * giorno (verificato: 7.594 contro i 4.671 e 4.679 delle due app prese da sole). Qui i passi
+     * si leggono app per app e per ogni giorno si tiene l'app con il conteggio più alto, cioè il
+     * dispositivo portato più a lungo; le calorie sono quelle della stessa app.
+     * Le app considerate sono [knownPackages] più quelle che hanno scritto passi negli ultimi 2 giorni.
      */
-    suspend fun fetchActivity(days: Int): Map<LocalDate, Pair<Long?, Double?>> {
+    suspend fun fetchActivity(days: Int, knownPackages: Set<String>): Map<LocalDate, Pair<Long?, Double?>> {
         val today = LocalDate.now(ZoneId.systemDefault())
         val firstDay = today.minusDays(days.toLong() - 1)
-        return client.aggregateGroupByPeriod(
-            AggregateGroupByPeriodRequest(
-                metrics = setOf(StepsRecord.COUNT_TOTAL, ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL),
-                timeRangeFilter = TimeRangeFilter.between(firstDay.atStartOfDay(), today.plusDays(1).atStartOfDay()),
-                timeRangeSlicer = Period.ofDays(1),
-            )
-        ).associate {
-            it.startTime.toLocalDate() to Pair(
-                it.result[StepsRecord.COUNT_TOTAL],
-                it.result[ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL]?.inKilocalories,
-            )
+        val now = Instant.now()
+        val recent = runCatching {
+            readAll(StepsRecord::class, now.minus(Duration.ofDays(2)), now, emptySet())
+                .map { it.metadata.dataOrigin.packageName }.toSet()
+        }.getOrDefault(emptySet())
+        val best = HashMap<LocalDate, Pair<Long?, Double?>>()
+        for (pkg in recent + knownPackages) {
+            val rows = runCatching {
+                client.aggregateGroupByPeriod(
+                    AggregateGroupByPeriodRequest(
+                        metrics = setOf(StepsRecord.COUNT_TOTAL, ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL),
+                        timeRangeFilter = TimeRangeFilter.between(firstDay.atStartOfDay(), today.plusDays(1).atStartOfDay()),
+                        timeRangeSlicer = Period.ofDays(1),
+                        dataOriginFilter = setOf(DataOrigin(pkg)),
+                    )
+                )
+            }.getOrDefault(emptyList())
+            for (r in rows) {
+                val date = r.startTime.toLocalDate()
+                val steps = r.result[StepsRecord.COUNT_TOTAL] ?: continue
+                val kcal = r.result[ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL]?.inKilocalories
+                val cur = best[date]
+                if (cur == null || steps > (cur.first ?: 0L)) best[date] = Pair(steps, kcal ?: cur?.second)
+            }
         }
+        return best
     }
 
     /**

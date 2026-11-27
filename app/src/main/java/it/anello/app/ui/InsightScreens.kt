@@ -431,7 +431,9 @@ fun SourcesCard(state: UiState, vm: AppViewModel) {
         }
         Spacer(Modifier.height(6.dp))
         Text(
-            "Anello diretto: associa uno o più anelli nella scheda Anello. Altri tracker (Fitbit, Garmin, Samsung…): " +
+            "Con un anello diretto i passi vengono da Health Connect: per ogni giorno si usa una sola app, quella con " +
+                "il conteggio più alto, per non contare due volte. " +
+                "Anello diretto: associa uno o più anelli nella scheda Anello. Altri tracker (Fitbit, Garmin, Samsung…): " +
                 "attiva nella loro app la condivisione con Health Connect, poi tocca \"Cerca fonti\".",
             color = TextDim, fontSize = 11.sp,
         )
