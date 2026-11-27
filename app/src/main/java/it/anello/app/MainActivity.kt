@@ -24,6 +24,14 @@ class MainActivity : ComponentActivity() {
     private val strapVm: StrapViewModel by viewModels()
     private val motionVm: MotionViewModel by viewModels()
 
+    private val saveMotionWindows =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri: Uri? ->
+            if (uri != null) Thread {
+                val csv = motionVm.exportWindowsCsv()
+                runCatching { contentResolver.openOutputStream(uri)?.use { it.write(csv.toByteArray()) } }
+            }.start()
+        }
+
     private val saveMotion =
         registerForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri: Uri? ->
             if (uri != null) Thread {
@@ -96,6 +104,7 @@ class MainActivity : ComponentActivity() {
                 strapVm = strapVm,
                 motionVm = motionVm,
                 onExportMotion = { saveMotion.launch("anello-movimento.csv") },
+                onExportMotionWindows = { saveMotionWindows.launch("anello-movimento-finestre.csv") },
                 hasBlePermissions = blePermsState,
                 onRequestBlePermissions = { requestBle.launch(blePermissions()) },
                 onExportRaw = { saveRaw.launch("anello-eventi-grezzi.jsonl") },

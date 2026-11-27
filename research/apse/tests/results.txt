@@ -87,12 +87,15 @@ test_dynamic_filter_missing_component (test_motion.ResearchPorts.test_dynamic_fi
 test_dynamic_filter_moves_toward_observations (test_motion.ResearchPorts.test_dynamic_filter_moves_toward_observations) ... ok
 test_fitness_fatigue_recovers_time_constants (test_motion.ResearchPorts.test_fitness_fatigue_recovers_time_constants) ... ok
 test_fitness_fatigue_validation (test_motion.ResearchPorts.test_fitness_fatigue_validation) ... ok
+test_irregular_hand_motion_is_rejected (test_motion.Steps.test_irregular_hand_motion_is_rejected) ... ok
 test_irregular_motion_rejected_by_rule (test_motion.Steps.test_irregular_motion_rejected_by_rule) ... ok
 test_mixed_and_tail (test_motion.Steps.test_mixed_and_tail) ... ok
 test_no_loss_at_window_boundaries (test_motion.Steps.test_no_loss_at_window_boundaries) ... ok
+test_regular_peaks_and_bout_edges (test_motion.Steps.test_regular_peaks_and_bout_edges) ... ok
 test_run (test_motion.Steps.test_run) ... ok
 test_small_hand_motion_gives_no_steps (test_motion.Steps.test_small_hand_motion_gives_no_steps) ... ok
 test_validation (test_motion.Steps.test_validation) ... ok
+test_validation_report (test_motion.Steps.test_validation_report) ... ok
 test_walk (test_motion.Steps.test_walk) ... ok
 test_device_reported_rmssd (test_reference_model.ReferenceModel.test_device_reported_rmssd) ... ok
 test_device_switch_is_not_a_drop (test_reference_model.ReferenceModel.test_device_switch_is_not_a_drop) ... ok
@@ -125,6 +128,6 @@ test_sleep_split (test_research.Research.test_sleep_split) ... ok
 test_substrate (test_research.Research.test_substrate) ... ok
 
 ----------------------------------------------------------------------
-Ran 125 tests in 3.893s
+Ran 128 tests in 3.679s
 
 OK

@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.anello.app.MotionViewModel
+import it.anello.app.motion.Motion
 import it.anello.app.motion.MotionLabels
+import it.anello.app.motion.StepValidation
 import it.anello.app.motion.MotionSession
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -41,7 +43,7 @@ private val sessionTime = SimpleDateFormat("d MMM HH:mm", Locale.ITALIAN)
 /** Registrazione dell'accelerometro dell'anello per il motore dei passi. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MotionCard(vm: MotionViewModel, onExport: () -> Unit) {
+fun MotionCard(vm: MotionViewModel, onExport: () -> Unit, onExportWindows: () -> Unit) {
     val s by vm.state.collectAsStateWithLifecycle()
     var label by rememberSaveable { mutableStateOf("walk") }
     var seconds by rememberSaveable { mutableStateOf(120) }
@@ -84,8 +86,10 @@ fun MotionCard(vm: MotionViewModel, onExport: () -> Unit) {
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { vm.train() }) { Text("Addestra classificatore") }
-                OutlinedButton(onClick = onExport) { Text("Esporta CSV") }
+                OutlinedButton(onClick = onExport) { Text("Esporta campioni") }
             }
+            OutlinedButton(onClick = onExportWindows) { Text("Esporta registro per finestra") }
+            ValidationSummary(s.sessions)
             Text(
                 if (s.hasModel) "Conteggio con il classificatore addestrato sulle tue sessioni."
                 else "Conteggio con la regola semplice (cadenza 70–210 passi/min e passi regolari).",
@@ -125,4 +129,38 @@ private fun SessionRow(m: MotionSession, vm: MotionViewModel) {
         TextButton(onClick = { vm.setTrueSteps(m.id, input.toIntOrNull()) }) { Text("Salva") }
         TextButton(onClick = { vm.delete(m.id) }) { Text("Elimina") }
     }
+}
+
+/** Le tre configurazioni a confronto sulle sessioni con il conteggio vero, come da protocollo. */
+@Composable
+private fun ValidationSummary(sessions: List<MotionSession>) {
+    // Nelle attività senza passi il conteggio vero è zero anche se non è stato inserito.
+    val usable = sessions.filter { it.trueSteps != null || MotionLabels.classOf(it.label) == Motion.NON_LOCOMOTOR }
+    if (usable.isEmpty()) return
+    fun rows(pick: (MotionSession) -> Int?) = usable.mapNotNull { s -> pick(s)?.let { StepValidation.Row(s.seconds, s.trueSteps, it) } }
+    val configs = listOf(
+        "Solo algoritmo (picchi regolari)" to rows { it.regular },
+        "Con regola semplice" to rows { it.ruleSteps },
+        "Con classificatore addestrato" to rows { it.modelSteps },
+    )
+    Spacer(Modifier.height(10.dp))
+    Text("Verifica sulle tue sessioni", color = TextMain, fontWeight = FontWeight.SemiBold)
+    configs.forEach { (name, r) ->
+        if (r.isEmpty()) return@forEach
+        val rep = StepValidation.report(r)
+        Text(name, color = TextMain, fontSize = 13.sp)
+        Text(
+            listOfNotNull(
+                rep.mape?.let { "errore medio %.1f%% su ${rep.nLocomotor} sessioni con passi".format(it) },
+                rep.bias?.let { "scarto medio %+.1f passi".format(it) },
+                rep.loaLow?.let { "95%% delle sessioni tra %+.0f e %+.0f passi".format(it, rep.loaHigh) },
+                rep.falseStepsPerMin?.let { "falsi passi %.1f al minuto su ${rep.nNonLocomotor} sessioni senza passi".format(it) },
+            ).joinToString(" · "),
+            color = TextDim, fontSize = 12.sp,
+        )
+    }
+    Text(
+        "Sessioni di una sola persona: indicano come funziona su di te, non valgono come validazione generale.",
+        color = TextDim, fontSize = 11.sp,
+    )
 }

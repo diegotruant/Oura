@@ -17,8 +17,13 @@ data class MotionSession(
     val countsPerG: Double,
     val scaleQuality: Double,
     val candidates: Int,
+    /** Conteggio usato nell'app: classificatore addestrato se presente, altrimenti regola semplice. */
     val steps: Int,
     val trained: Boolean,
+    /** Le tre configurazioni a confronto: deterministico, regola semplice, classificatore addestrato. */
+    val regular: Int = steps,
+    val ruleSteps: Int = steps,
+    val modelSteps: Int? = null,
     /** Passi contati a mano o da video, inseriti dopo la sessione. */
     val trueSteps: Int? = null,
 )
@@ -60,7 +65,10 @@ class MotionStore(context: Context) {
                 val o = a.getJSONObject(i)
                 MotionSession(o.getLong("id"), o.getString("label"), o.getInt("seconds"), o.getInt("hz"), o.getInt("samples"),
                     o.getInt("lostFrames"), o.getDouble("countsPerG"), o.getDouble("scaleQuality"), o.getInt("candidates"),
-                    o.getInt("steps"), o.optBoolean("trained"), if (o.has("trueSteps")) o.getInt("trueSteps") else null)
+                    o.getInt("steps"), o.optBoolean("trained"),
+                    o.optInt("regular", o.getInt("steps")), o.optInt("ruleSteps", o.getInt("steps")),
+                    if (o.has("modelSteps")) o.getInt("modelSteps") else null,
+                    if (o.has("trueSteps")) o.getInt("trueSteps") else null)
             }
         }.getOrDefault(emptyList())
     }
@@ -73,6 +81,8 @@ class MotionStore(context: Context) {
                 put("id", s.id); put("label", s.label); put("seconds", s.seconds); put("hz", s.hz); put("samples", s.samples)
                 put("lostFrames", s.lostFrames); put("countsPerG", s.countsPerG); put("scaleQuality", s.scaleQuality)
                 put("candidates", s.candidates); put("steps", s.steps); put("trained", s.trained)
+                put("regular", s.regular); put("ruleSteps", s.ruleSteps)
+                s.modelSteps?.let { put("modelSteps", it) }
                 s.trueSteps?.let { put("trueSteps", it) }
             })
         }
@@ -134,6 +144,27 @@ class MotionStore(context: Context) {
                     .append(s.trueSteps?.toString() ?: "").append(',').append(s.hz).append(',')
                     .append("%.3f".format(java.util.Locale.US, i.toDouble() / s.hz)).append(',')
                     .append("%.4f,%.4f,%.4f".format(java.util.Locale.US, r[0] / scale, r[1] / scale, r[2] / scale)).append('\n')
+            }
+        }
+    }
+
+    /**
+     * Registro per finestra (contratto di uscita): una riga per finestra di 10 s con candidati,
+     * regolari, classe secondo la regola e secondo il modello, e versione dell'algoritmo.
+     */
+    fun exportWindowsCsv(): String = buildString {
+        val model = loadModel()
+        appendLine("sessione,etichetta,passi_veri,inizio_s,durata_s,hz,candidati,regolari,classe_regola,classe_modello,scala_incerta,versione")
+        for (s in sessions()) {
+            val raw = loadRaw(s.id)
+            if (raw.size < 10 * s.hz || s.countsPerG <= 0) continue
+            val g = Array(raw.size) { doubleArrayOf(raw[it][0] / s.countsPerG, raw[it][1] / s.countsPerG, raw[it][2] / s.countsPerG) }
+            for (w in Motion.analyze(g, s.hz.toDouble()).windows) {
+                append(s.id).append(',').append(s.label).append(',').append(s.trueSteps?.toString() ?: "").append(',')
+                    .append(w.start / s.hz).append(',').append((w.end - w.start) / s.hz).append(',').append(s.hz).append(',')
+                    .append(w.peaks).append(',').append(w.regular).append(',').append(Motion.ruleLabel(w.features)).append(',')
+                    .append(model?.predict(w.features) ?: "").append(',').append(if (s.scaleQuality > 0.03) 1 else 0).append(',')
+                    .append(Motion.VERSION).append('\n')
             }
         }
     }

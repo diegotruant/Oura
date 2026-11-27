@@ -75,9 +75,13 @@ class MotionViewModel(app: Application) : AndroidViewModel(app) {
                 store.saveRaw(id, cap.samples)
                 val raw = Array(cap.samples.size) { i -> DoubleArray(3) { cap.samples[i][it].toDouble() } }
                 val (g, scale, rel) = toG(raw, hz.toDouble())
-                val r = Motion.count(g, hz.toDouble(), store.loadModel())
+                val model = store.loadModel()
+                val rule = Motion.count(g, hz.toDouble())
+                val trained = model?.let { Motion.count(g, hz.toDouble(), it) }
+                val r = trained ?: rule
                 store.saveSessions(store.sessions() + MotionSession(id, label, cap.samples.size / hz, hz, cap.samples.size,
-                    cap.lostFrames, scale, rel, r.candidates, r.steps, r.trained))
+                    cap.lostFrames, scale, rel, r.candidates, r.steps, r.trained,
+                    regular = rule.regular, ruleSteps = rule.steps, modelSteps = trained?.steps))
                 "Sessione salvata: ${r.steps} passi contati (${r.candidates} picchi candidati)" +
                     if (cap.lostFrames > 0) ", ${cap.lostFrames} pacchetti persi" else ""
             }
@@ -145,8 +149,10 @@ class MotionViewModel(app: Application) : AndroidViewModel(app) {
                 val raw = store.loadRaw(s.id)
                 if (raw.size < 10 * s.hz) s else {
                     val g = Array(raw.size) { doubleArrayOf(raw[it][0] / s.countsPerG, raw[it][1] / s.countsPerG, raw[it][2] / s.countsPerG) }
+                    val rule = Motion.count(g, s.hz.toDouble())
                     val r = Motion.count(g, s.hz.toDouble(), model)
-                    s.copy(candidates = r.candidates, steps = r.steps, trained = true)
+                    s.copy(candidates = r.candidates, steps = r.steps, trained = true,
+                        regular = rule.regular, ruleSteps = rule.steps, modelSteps = r.steps)
                 }
             })
             "Modello salvato: sul test azzecca il %.0f%% di %d finestre (scelta banale %.0f%%, %d incerte). Verifica su sessioni di una sola persona: non vale per altri."
@@ -158,10 +164,15 @@ class MotionViewModel(app: Application) : AndroidViewModel(app) {
 
     fun forgetModel() = viewModelScope.launch {
         withContext(Dispatchers.IO) { store.saveModel(null) }
-        _state.update { it.copy(hasModel = false, trainMessage = "Modello eliminato: si usa la regola semplice.") }
+        val s = withContext(Dispatchers.IO) {
+            store.saveSessions(store.sessions().map { it.copy(steps = it.ruleSteps, trained = false, modelSteps = null) })
+            store.sessions()
+        }
+        _state.update { it.copy(hasModel = false, sessions = s, trainMessage = "Modello eliminato: si usa la regola semplice.") }
     }
 
     fun exportCsv(): String = store.exportCsv()
+    fun exportWindowsCsv(): String = store.exportWindowsCsv()
 
     private fun className(c: String) = when (c) {
         Motion.WALK -> "camminata"; Motion.RUN -> "corsa"; else -> "attività senza passi"

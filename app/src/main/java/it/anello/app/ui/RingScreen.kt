@@ -47,6 +47,7 @@ fun RingScreen(
     strapVm: it.anello.app.StrapViewModel,
     motionVm: it.anello.app.MotionViewModel,
     onExportMotion: () -> Unit,
+    onExportMotionWindows: () -> Unit,
     hasPermissions: Boolean,
     onRequestPermissions: () -> Unit,
     onExport: () -> Unit,
@@ -261,7 +262,7 @@ fun RingScreen(
             }
         }
 
-        MotionCard(motionVm, onExportMotion)
+        MotionCard(motionVm, onExportMotion, onExportMotionWindows)
 
         StrapCard(strapVm)
 

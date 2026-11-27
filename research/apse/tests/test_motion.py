@@ -43,6 +43,32 @@ class Steps(unittest.TestCase):
         self.assertEqual(r['unresolved_samples'], 250)
         self.assertEqual((r['candidates'], r['steps']), (115, 115))  # la coda eredita l'ultima etichetta
 
+    def test_regular_peaks_and_bout_edges(self):
+        self.assertEqual(motion.regular_peaks([0, 25, 50, 75, 400, 425, 450, 1000, 1020], 50),
+                         [0, 25, 50, 75, 400, 425, 450])
+        self.assertEqual(motion.regular_peaks([], 50), [])
+        self.assertEqual(motion.regular_peaks([10, 40], 50), [])           # una coppia isolata non basta
+
+    def test_irregular_hand_motion_is_rejected(self):
+        z = [1.0] * 3000
+        i = 60
+        for g in [0.4, 1.1, 0.3, 0.9, 1.6, 0.35, 0.8, 0.5, 1.3, 0.45] * 8:
+            i += int(g * 50)
+            if i + 10 < 3000:
+                for k in range(10): z[i + k] = 1 + 0.5 * math.sin(math.pi * k / 10)
+        r = motion.count([(0., 0., v) for v in z], 50)
+        self.assertEqual((r['candidates'], r['regular'], r['steps']), (76, 14, 0))
+
+    def test_validation_report(self):
+        r = motion.validation_report([('WALK', 60, 100, 104), ('WALK', 60, 110, 108), ('RUN', 60, 160, 165),
+                                      ('NON', 120, 0, 6), ('NON', 60, None, 0)])
+        self.assertAlmostEqual(r['mae'], 11 / 3)
+        self.assertAlmostEqual(r['bias'], 7 / 3)
+        self.assertAlmostEqual(r['false_steps_per_min'], 2.0)
+        self.assertLess(r['loa_low'], r['bias']); self.assertGreater(r['loa_high'], r['bias'])
+        empty = motion.validation_report([])
+        self.assertIsNone(empty['mae']); self.assertIsNone(empty['false_steps_per_min'])
+
     def test_irregular_motion_rejected_by_rule(self):
         self.assertEqual(motion.rule_label([1., .3, 2., 100., .6]), motion.NON_LOCOMOTOR)   # passi irregolari
         self.assertEqual(motion.rule_label([1., .3, 2., 40., .1]), motion.NON_LOCOMOTOR)    # cadenza troppo bassa

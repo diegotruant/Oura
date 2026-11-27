@@ -19,6 +19,7 @@ class MotionTest {
     @Test fun walk() {
         val r = Motion.count(sig(1.8, 0.3, 60), 50.0)
         assertEquals(106, r.candidates)
+        assertEquals(106, r.regular)
         assertEquals(106, r.steps)
         assertEquals(setOf(Motion.WALK), r.labels.toSet())
     }
@@ -50,6 +51,38 @@ class MotionTest {
         assertEquals(250, r.unresolvedSamples)
         assertEquals(115, r.candidates)
         assertEquals(115, r.steps) // la coda eredita l'ultima etichetta
+    }
+
+    @Test fun regularPeaksAndBoutEdges() {
+        // due tratti regolari (0,5 s tra i picchi) e una coppia isolata: valore atteso da Python
+        assertArrayEquals(intArrayOf(0, 25, 50, 75, 400, 425, 450),
+            Motion.regularPeaks(intArrayOf(0, 25, 50, 75, 400, 425, 450, 1000, 1020), 50.0))
+    }
+
+    @Test fun irregularHandMotionIsRejected() {
+        // colpi della mano a intervalli irregolari: 76 picchi, 14 "regolari" per caso, 0 passi (come Python)
+        val z = DoubleArray(3000) { 1.0 }
+        val gaps = doubleArrayOf(0.4, 1.1, 0.3, 0.9, 1.6, 0.35, 0.8, 0.5, 1.3, 0.45)
+        var i = 60
+        repeat(8) { for (g in gaps) { i += (g * 50).toInt(); if (i + 10 < 3000) for (k in 0 until 10) z[i + k] = 1 + 0.5 * sin(PI * k / 10) } }
+        val r = Motion.count(Array(3000) { doubleArrayOf(0.0, 0.0, z[it]) }, 50.0)
+        assertEquals(76, r.candidates)
+        assertEquals(14, r.regular)
+        assertEquals(0, r.steps)
+    }
+
+    @Test fun validationReport() {
+        val rep = StepValidation.report(listOf(
+            StepValidation.Row(60, 100, 104), StepValidation.Row(60, 110, 108), StepValidation.Row(60, 160, 165),
+            StepValidation.Row(120, 0, 6), StepValidation.Row(60, null, 0),
+        ))
+        assertEquals(3, rep.nLocomotor); assertEquals(2, rep.nNonLocomotor)
+        assertEquals(3.6666666666666665, rep.mae!!, 1e-9)
+        assertEquals(2.3333333333333335, rep.bias!!, 1e-9)
+        assertEquals(2.981060606060606, rep.mape!!, 1e-9)
+        assertEquals(-5.087106905179025, rep.loaLow!!, 1e-9)
+        assertEquals(9.753773571845691, rep.loaHigh!!, 1e-9)
+        assertEquals(2.0, rep.falseStepsPerMin!!, 1e-9)
     }
 
     @Test fun ruleRejectsIrregularSlowOrStill() {

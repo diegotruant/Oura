@@ -11,6 +11,7 @@ Soglie illustrative, non validate: servono sessioni con conteggio manuale o vide
 import math
 
 WINDOW_S = 10.0
+VERSION = 'passi-1.1'
 WALK, RUN, NON_LOCOMOTOR, UNKNOWN = 'WALK', 'RUN', 'NON_LOCOMOTOR', 'UNKNOWN'
 CLASSES = frozenset({WALK, RUN, NON_LOCOMOTOR})
 
@@ -59,6 +60,8 @@ def analyze(xyz, hz):
         if f[i] > thresholds[i // width] and f[i] > f[i - 1] and f[i] >= f[i + 1] and i - last >= min_gap:
             peaks.append(i)
             last = i
+    regular = regular_peaks(peaks, hz)
+    reg_set = set(regular)
     windows = []
     for w in range(n_win):
         a, b = w * width, w * width + width
@@ -67,15 +70,44 @@ def analyze(xyz, hz):
         sd = math.sqrt(max(0., sum(v * v for v in seg) / width - mean * mean))
         jerk = sum(abs(seg[i] - seg[i - 1]) * hz for i in range(1, width)) / (width - 1)
         in_win = [p for p in peaks if a <= p < b]
-        cadence = len(in_win) * 60. / WINDOW_S
+        n_reg = sum(1 for p in in_win if p in reg_set)
+        cadence = n_reg * 60. / WINDOW_S
         iv = [(q - p) / hz for p, q in zip(in_win, in_win[1:])]
         if len(iv) >= 2:
             m = sum(iv) / len(iv)
             cv = math.sqrt(sum((v - m) ** 2 for v in iv) / len(iv)) / m
         else:
             cv = 1.
-        windows.append({'start': a, 'end': b, 'features': [mean, sd, jerk, cadence, cv], 'peaks': len(in_win)})
-    return {'hz': hz, 'peaks': peaks, 'windows': windows, 'unresolved_samples': len(xyz) % width}
+        windows.append({'start': a, 'end': b, 'features': [mean, sd, jerk, cadence, cv], 'peaks': len(in_win), 'regular': n_reg})
+    return {'hz': hz, 'peaks': peaks, 'regular': regular, 'windows': windows, 'unresolved_samples': len(xyz) % width}
+
+
+def regular_peaks(peaks, hz):
+    """Picchi con andatura regolare (controllo di APSE Ring Lab, esteso ai bordi).
+
+    Un picco interno è regolare se i due intervalli adiacenti sono tra 0,25 e 1,25 s e
+    differiscono al massimo del 25% del maggiore. Ring Lab scartava sempre il primo e l'ultimo
+    picco; qui un picco al bordo di un tratto di cammino (un solo intervallo valido) è accettato
+    se il picco vicino, da quel lato, è regolare: così ogni tratto non perde due passi.
+    """
+    n = len(peaks)
+    iv = [(peaks[i + 1] - peaks[i]) / hz for i in range(n - 1)]
+    good = [.25 <= v <= 1.25 for v in iv]
+    interior = [False] * n
+    for i in range(1, n - 1):
+        a, b = iv[i - 1], iv[i]
+        interior[i] = good[i - 1] and good[i] and abs(a - b) <= .25 * max(a, b)
+    out = []
+    for i in range(n):
+        ok = interior[i]
+        if not ok:
+            left = i > 0 and good[i - 1] and interior[i - 1]
+            right = i < n - 1 and good[i] and interior[i + 1]
+            # bordo: valido da un lato solo, e dall'altro lato nessun intervallo valido
+            ok = (left and not (i < n - 1 and good[i])) or (right and not (i > 0 and good[i - 1]))
+        if ok:
+            out.append(peaks[i])
+    return out
 
 
 def rule_label(features):
@@ -86,16 +118,45 @@ def rule_label(features):
 
 
 def count(xyz, hz, model=None):
+    """Tre conteggi: candidati (tutti i picchi), regolari (algoritmo deterministico) e passi
+    (regolari nelle finestre classificate come cammino o corsa)."""
     a = analyze(xyz, hz)
     labels = [model.predict(w['features']) if model else rule_label(w['features']) for w in a['windows']]
-    steps = sum(w['peaks'] for w, l in zip(a['windows'], labels) if l in (WALK, RUN))
+    steps = sum(w['regular'] for w, l in zip(a['windows'], labels) if l in (WALK, RUN))
     # La coda più corta di una finestra eredita l'etichetta dell'ultima finestra completa.
     tail_start = len(a['windows']) * int(math.floor(WINDOW_S * hz + .5))
     if labels and labels[-1] in (WALK, RUN):
-        steps += sum(1 for p in a['peaks'] if p >= tail_start)
-    return {'candidates': len(a['peaks']), 'steps': steps, 'labels': labels,
+        steps += sum(1 for p in a['regular'] if p >= tail_start)
+    return {'candidates': len(a['peaks']), 'regular': len(a['regular']), 'steps': steps, 'labels': labels,
             'unknown_windows': labels.count(UNKNOWN), 'unresolved_samples': a['unresolved_samples'],
+            'version': VERSION,
             'status': 'trained_classifier_not_validated' if model else 'rule_based_not_validated'}
+
+
+def validation_report(rows):
+    """Metriche del protocollo di validazione per una configurazione.
+
+    rows: (classe, secondi, passi_veri, passi_contati). Per le sessioni con passi veri > 0:
+    errore assoluto medio, bias, MAPE e limiti di concordanza di Bland–Altman (con almeno 3
+    sessioni). Per le sessioni senza passi veri (attività non locomotorie): falsi passi al minuto.
+    """
+    loco = [(t, c) for cls, sec, t, c in rows if t and t > 0]
+    still = [(sec, c) for cls, sec, t, c in rows if not t]
+    out = {'n_locomotor': len(loco), 'n_non_locomotor': len(still),
+           'mae': None, 'bias': None, 'mape': None, 'loa_low': None, 'loa_high': None, 'false_steps_per_min': None}
+    if loco:
+        d = [c - t for t, c in loco]
+        out['mae'] = sum(abs(v) for v in d) / len(d)
+        out['bias'] = sum(d) / len(d)
+        out['mape'] = 100 * sum(abs(c - t) / t for t, c in loco) / len(loco)
+        if len(d) >= 3:
+            m = out['bias']
+            sd = math.sqrt(sum((v - m) ** 2 for v in d) / (len(d) - 1))
+            out['loa_low'], out['loa_high'] = m - 1.96 * sd, m + 1.96 * sd
+    minutes = sum(sec for sec, c in still) / 60
+    if minutes > 0:
+        out['false_steps_per_min'] = sum(c for sec, c in still) / minutes
+    return out
 
 
 class CentroidModel:
