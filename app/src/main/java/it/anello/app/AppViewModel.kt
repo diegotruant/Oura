@@ -9,6 +9,7 @@ import it.anello.app.ble.RingStore
 import it.anello.app.data.DailySummary
 import it.anello.app.data.DataSource
 import it.anello.app.data.DiaryStore
+import it.anello.app.dev.DeviceStore
 import it.anello.app.data.HealthRepository
 import it.anello.app.data.SettingsStore
 import it.anello.app.data.Sources
@@ -71,7 +72,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun availableSources(s: UserSettings): List<SourceInfo> {
         val ids = s.hcPackages.sorted().map { Sources.hc(it) } +
-            RingStore(getApplication()).pairedRings().map { Sources.ring(it) }
+            RingStore(getApplication()).pairedRings().map { Sources.ring(it) } +
+            DeviceStore(getApplication()).devices().map { Sources.device(it.address) }
         return (ids + s.sourceId).distinct().map { SourceInfo(it, Sources.label(getApplication(), it)) }
     }
 
@@ -93,8 +95,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         } else active
         _state.update { it.copy(days = days, available = available, others = others, calibrations = calibrations) }
 
-        // Con un anello diretto i passi arrivano da Health Connect (telefono, app di fitness).
-        if (s.source == DataSource.RING && _state.value.hcStatus == HcStatus.READY && !activityMerged) {
+        // Con un anello diretto i passi arrivano da Health Connect (telefono, app di fitness),
+        // tranne per i dispositivi che contano i passi da soli (Colmi).
+        val ownSteps = Sources.deviceAddress(s.sourceId)?.let { DeviceStore(getApplication()).kind(it) == DeviceStore.COLMI } == true
+        if (s.source == DataSource.RING && !ownSteps && _state.value.hcStatus == HcStatus.READY && !activityMerged) {
             activityMerged = true
             runCatching {
                 val activity = repo.fetchActivity(30, s.hcPackages)

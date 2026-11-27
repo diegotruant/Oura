@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
     private val ringVm: RingViewModel by viewModels()
     private val strapVm: StrapViewModel by viewModels()
     private val motionVm: MotionViewModel by viewModels()
+    private val devicesVm: DevicesViewModel by viewModels()
 
     private val saveMotionWindows =
         registerForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri: Uri? ->
@@ -103,6 +104,7 @@ class MainActivity : ComponentActivity() {
                 ringVm = ringVm,
                 strapVm = strapVm,
                 motionVm = motionVm,
+                devicesVm = devicesVm,
                 onExportMotion = { saveMotion.launch("anello-movimento.csv") },
                 onExportMotionWindows = { saveMotionWindows.launch("anello-movimento-finestre.csv") },
                 hasBlePermissions = blePermsState,

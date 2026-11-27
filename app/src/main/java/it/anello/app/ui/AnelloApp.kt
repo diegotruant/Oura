@@ -76,6 +76,7 @@ fun AnelloApp(
     ringVm: it.anello.app.RingViewModel,
     strapVm: it.anello.app.StrapViewModel,
     motionVm: it.anello.app.MotionViewModel,
+    devicesVm: it.anello.app.DevicesViewModel,
     onExportMotion: () -> Unit,
     onExportMotionWindows: () -> Unit,
     hasBlePermissions: Boolean,
@@ -112,7 +113,7 @@ fun AnelloApp(
                 // La scheda Anello (BLE) è indipendente da Health Connect.
                 val ringSource = state.settings.source == DataSource.RING
                 if (current == Tab.RING) {
-                    RingScreen(ringVm, strapVm, motionVm, onExportMotion, onExportMotionWindows, hasBlePermissions, onRequestBlePermissions, onExportRaw)
+                    RingScreen(ringVm, strapVm, motionVm, devicesVm, onExportMotion, onExportMotionWindows, hasBlePermissions, onRequestBlePermissions, onExportRaw)
                 } else if (current == Tab.SETTINGS) {
                     SettingsScreen(state, vm, onExportCsv)
                 } else if (ringSource) {
