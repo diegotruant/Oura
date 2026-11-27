@@ -21,7 +21,9 @@ class Advanced(unittest.TestCase):
  def test_missing_gap(self):
   r=replay([Observation('2026-01-01',training_minutes=60,mean_power_w=200,cp_w=250),Observation('2026-01-03')]); self.assertIsNone(r[-1]['metrics']['adaptation']['fitness'].value)
  def test_substrate(self): self.assertIsNone(self.row(training_minutes=0)['energy']['carbohydrate_oxidation'].value)
- def test_api(self): self.assertEqual(analyze({'observations':[{'day':'2026-01-01'}]})['version'],'1.0.0')
+ def test_api(self):
+  from apse import __version__
+  self.assertEqual(analyze({'observations':[{'day':'2026-01-01'}]})['version'],__version__)
  def test_api_bad(self):
   with self.assertRaises(ValueError): analyze({'observations':[]})
  def test_graph(self): self.assertLess(graph().order.index('load'),graph().order.index('adaptation'))

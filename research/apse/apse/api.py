@@ -3,6 +3,7 @@ import json
 from .experiments import evaluate
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from .core import Observation
+from . import __version__ as VERSION
 from .pipeline import replay,serializable,graph
 
 def analyze(payload):
@@ -10,13 +11,13 @@ def analyze(payload):
     rows=payload['observations']
     if not isinstance(rows,list) or not 1<=len(rows)<=366: raise ValueError('1–366 observations required')
     if not all(isinstance(r,dict) for r in rows): raise ValueError('invalid observation')
-    return {'version':'1.0.0','results':serializable(replay([Observation(**r) for r in rows]))}
+    return {'version':VERSION,'results':serializable(replay([Observation(**r) for r in rows]))}
 
 class Handler(BaseHTTPRequestHandler):
     def reply(self,status,payload):
         data=json.dumps(payload,allow_nan=False).encode(); self.send_response(status); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(data))); self.end_headers(); self.wfile.write(data)
     def do_GET(self):
-        if self.path=='/health': self.reply(200,{'status':'ok','version':'1.0.0'})
+        if self.path=='/health': self.reply(200,{'status':'ok','version':VERSION})
         elif self.path=='/graph': self.reply(200,{k:list(n.deps) for k,n in graph().nodes.items()})
         else: self.reply(404,{'error':'not_found'})
     def do_POST(self):

@@ -4,8 +4,16 @@ from .core import Metric
 def autonomic(obs,state,deps):
     # Illustrative bounds and relative jump filter; no bridging of rejected beats.
     def valid(x): return x is not None and math.isfinite(x) and 300<=x<=2000
-    ds=[(b-a)**2 for a,b in zip(obs.ibi_ms,obs.ibi_ms[1:]) if valid(a) and valid(b) and abs(b-a)/max(a,b)<=.20]
-    coverage=len(ds)/max(1,len(obs.ibi_ms)-1)
+    if obs.rmssd_ms is not None and not obs.ibi_ms and not obs.ibi_segments:
+        # 1.2: RMSSD notturno calcolato dal dispositivo (es. anello). Qualità non verificabile qui.
+        v=float(obs.rmssd_ms)
+        return {'rmssd':Metric(v,'ms',1.,reason='device_reported'),'lnrmssd':Metric(math.log(v),'ln(ms)',1.,reason='device_reported')}
+    # 1.2: con ibi_segments le coppie si formano solo dentro ciascun pacchetto di battiti
+    # consecutivi; l'ultimo battito di un pacchetto e il primo del successivo non sono vicini.
+    segments=obs.ibi_segments or (obs.ibi_ms,)
+    pairs=[(a,b) for seg in segments for a,b in zip(seg,seg[1:])]
+    ds=[(b-a)**2 for a,b in pairs if valid(a) and valid(b) and abs(b-a)/max(a,b)<=.20]
+    coverage=len(ds)/max(1,len(pairs))
     if len(ds)<20 or coverage<.8: return {'rmssd':Metric(None,'ms',coverage,reason='insufficient_pairs'),'lnrmssd':Metric(None,'ln(ms)',coverage,reason='insufficient_pairs')}
     rmssd=math.sqrt(sum(ds)/len(ds))
     return {'rmssd':Metric(rmssd,'ms',coverage), 'lnrmssd':Metric(math.log(rmssd) if rmssd>0 else None,'ln(ms)',coverage,reason='' if rmssd>0 else 'zero_rmssd')}
