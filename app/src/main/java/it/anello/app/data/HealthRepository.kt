@@ -77,11 +77,11 @@ class HealthRepository(private val context: Context) {
     /**
      * Legge da Health Connect gli ultimi [days] giorni e restituisce un riepilogo per giorno.
      */
-    suspend fun fetchDays(days: Int, onlyOura: Boolean): List<DailySummary> {
+    suspend fun fetchDays(days: Int, pkg: String): List<DailySummary> {
         val zone = ZoneId.systemDefault()
         val today = LocalDate.now(zone)
         val firstDay = today.minusDays(days.toLong() - 1)
-        val origins = if (onlyOura) setOf(DataOrigin(OURA_PACKAGE)) else emptySet()
+        val origins = setOf(DataOrigin(pkg))
 
         // Le notti che terminano nel primo giorno iniziano la sera prima.
         val start = firstDay.minusDays(1).atStartOfDay(zone).toInstant()

@@ -8,7 +8,7 @@ import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingStore
 import it.anello.app.ble.RingNights
 import it.anello.app.ble.RingDataBus
-import it.anello.app.data.DailyStore
+import it.anello.app.data.Sources
 import it.anello.app.ble.RingSyncWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +30,8 @@ data class RingUiState(
     val battery: Pair<Int, Long>? = null,
     val autoSync: Boolean = true,
     val lastSync: RingStore.LastSync? = null,
+    /** Anelli associati: indirizzo e nome. */
+    val paired: List<Pair<String, String>> = emptyList(),
 )
 
 class RingViewModel(app: Application) : AndroidViewModel(app) {
@@ -38,8 +40,9 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _state = MutableStateFlow(RingUiState(
             rawCount = store.rawCount(),
-            battery = store.lastBattery(),
+            battery = store.lastBattery(store.lastAddress),
             selected = store.lastAddress,
+            paired = pairedList(store),
             selectedKeyHex = store.lastAddress?.let { store.keyHex(it) },
             autoSync = store.autoSync,
             lastSync = store.lastSync(),
@@ -47,17 +50,18 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
     val state: StateFlow<RingUiState> = _state
 
     private fun log(line: String) = _state.update {
-        it.copy(log = (it.log + line).takeLast(200), battery = store.lastBattery())
+        it.copy(log = (it.log + line).takeLast(200), battery = store.lastBattery(it.selected))
     }
 
     init {
         // Mostra subito i dati già salvati ed elabora le notti presenti nel log grezzo.
         viewModelScope.launch {
             val agg = withContext(Dispatchers.IO) {
-                val raw = store.loadRaw()
-                val nights = RingNights.buildRecent(raw)
-                if (nights.isNotEmpty()) DailyStore(getApplication(), RingBle.RING_DAYS_FILE).upsertNights(nights)
-                raw.takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
+                for (addr in store.pairedRings()) {
+                    val nights = RingNights.buildRecent(store.loadRaw(addr))
+                    if (nights.isNotEmpty()) Sources.store(getApplication(), Sources.ring(addr)).upsertNights(nights)
+                }
+                store.lastAddress?.let { a -> store.loadRaw(a).takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) } }
             }
             RingDataBus.updated.value = System.currentTimeMillis()
             _state.update { it.copy(aggregate = agg) }
@@ -101,14 +105,21 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
 
     fun select(address: String) {
         store.lastAddress = address
-        _state.update { it.copy(selected = address, selectedKeyHex = store.keyHex(address), info = null) }
+        // Ricorda il nome annunciato dall'anello, per riconoscerlo tra più anelli.
+        _state.value.devices.firstOrNull { it.address == address }?.name?.takeIf { it.isNotBlank() }
+            ?.let { store.saveName(address, it) }
+        _state.update {
+            it.copy(selected = address, selectedKeyHex = store.keyHex(address), info = null,
+                battery = store.lastBattery(address), aggregate = null)
+        }
     }
 
     fun readInfo() = run("Lettura info") { addr -> _state.update { it.copy(info = ble.readInfo(addr, ::log)) } }
 
     fun pair() = run("Associazione") { addr ->
         val key = ble.pair(addr, ::log)
-        _state.update { it.copy(selectedKeyHex = key ?: it.selectedKeyHex) }
+        _state.update { it.copy(selectedKeyHex = key ?: it.selectedKeyHex, paired = pairedList(store)) }
+        RingDataBus.updated.value = System.currentTimeMillis()
     }
 
     fun sync() = run("Sincronizzazione") { addr ->
@@ -128,7 +139,7 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
             return
         }
         store.saveKey(addr, RingStore.hexToBytes(clean))
-        _state.update { it.copy(selectedKeyHex = clean) }
+        _state.update { it.copy(selectedKeyHex = clean, paired = pairedList(store)) }
         log("Chiave importata.")
     }
 
@@ -156,3 +167,6 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
 
     override fun onCleared() { ble.stopScan() }
 }
+
+private fun pairedList(store: RingStore): List<Pair<String, String>> =
+    store.pairedRings().map { it to (store.name(it)?.takeIf { n -> n.isNotBlank() } ?: "Anello") }

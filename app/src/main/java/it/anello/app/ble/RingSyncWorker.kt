@@ -24,12 +24,12 @@ class RingSyncWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(c
     override suspend fun doWork(): Result {
         val store = RingStore(applicationContext)
         if (!store.autoSync) return Result.success()
-        val address = store.lastAddress ?: return Result.success()
-        if (store.keyFor(address) == null) return Result.success()
         if (!canUseBluetooth(applicationContext)) return Result.success()
-
-        RingBle(applicationContext, store).sync(address, log = {}, skipIfBusy = true)
-        // In caso di errore non insistiamo: riproverà al prossimo giro.
+        // Tutti gli anelli associati, uno alla volta. In caso di errore riproverà al prossimo giro.
+        val ble = RingBle(applicationContext, store)
+        for (address in store.pairedRings()) {
+            ble.sync(address, log = {}, skipIfBusy = true)
+        }
         return Result.success()
     }
 

@@ -10,7 +10,7 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
-import it.anello.app.data.DailyStore
+import it.anello.app.data.Sources
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -106,11 +106,11 @@ class RingBle(private val context: Context, private val store: RingStore) {
     }
 
     /** Legge la batteria (richiede autenticazione) e la salva. */
-    private suspend fun readBattery(ble: OuraBle, log: (String) -> Unit): Int? {
+    private suspend fun readBattery(ble: OuraBle, address: String, log: (String) -> Unit): Int? {
         val bat = ble.transact(OuraProtocol.battery()) { it.isNotEmpty() && it[0] == 0x0d.toByte() }
             .lastOrNull { it.isNotEmpty() && it[0] == 0x0d.toByte() }
         val pct = bat?.let { OuraProtocol.parseBattery(it)?.percent }?.takeIf { it in 0..100 }
-        if (pct != null) { store.saveBattery(pct); log("Batteria $pct%") }
+        if (pct != null) { store.saveBattery(address, pct); log("Batteria $pct%") }
         return pct
     }
 
@@ -163,7 +163,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
                 pairable = st == 0x02
             }
             log("Diagnosi: $diagnosis.")
-            if (authed) battery = readBattery(ble, log)
+            if (authed) battery = readBattery(ble, address, log)
             return RingInfo(true, info?.firmware, info?.mac, battery, savedKey != null, authed, diagnosis, pairable)
         } catch (e: Exception) {
             return RingInfo(false, error = e.message)
@@ -249,7 +249,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
             log("Connessione…")
             if (!ble.connect(dev)) return SyncResult(0, null, ble.lastError ?: "connessione fallita")
             if (!authenticate(ble, address, log)) return SyncResult(0, null, "autenticazione fallita")
-            readBattery(ble, log)
+            readBattery(ble, address, log)
 
             // Handshake stile app (letture e registrazioni non distruttive).
             log("Registrazione stream e parametri…")
@@ -300,10 +300,10 @@ class RingBle(private val context: Context, private val store: RingStore) {
                 break
             }
 
-            val raw = store.loadRaw()
+            val raw = store.loadRaw(address)
             val nights = RingNights.buildRecent(raw)
             if (nights.isNotEmpty()) {
-                DailyStore(context, RING_DAYS_FILE).upsertNights(nights)
+                Sources.store(context, Sources.ring(address)).upsertNights(nights)
                 log("Notti elaborate: ${nights.joinToString { it.date.toString() }}")
             }
             store.pruneRaw(7)
@@ -322,7 +322,5 @@ class RingBle(private val context: Context, private val store: RingStore) {
         /** Un solo collegamento all'anello alla volta, per tutto il processo. */
         val bleLock = Mutex()
 
-        /** Archivio delle notti ricavate dall'anello via Bluetooth. */
-        const val RING_DAYS_FILE = "days_ring.json"
     }
 }

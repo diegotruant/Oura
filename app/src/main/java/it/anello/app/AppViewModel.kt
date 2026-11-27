@@ -4,19 +4,20 @@ import android.app.Application
 import androidx.health.connect.client.HealthConnectClient
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingDataBus
-import it.anello.app.data.DailyStore
+import it.anello.app.ble.RingStore
+import it.anello.app.data.DailySummary
+import it.anello.app.data.DataSource
 import it.anello.app.data.DiaryStore
+import it.anello.app.data.HealthRepository
+import it.anello.app.data.SettingsStore
+import it.anello.app.data.Sources
+import it.anello.app.data.UserSettings
+import it.anello.app.score.Calibration
 import it.anello.app.training.Activity
 import it.anello.app.training.Fit
 import it.anello.app.training.Training
 import it.anello.app.training.TrainingStore
-import it.anello.app.data.DataSource
-import it.anello.app.data.DailySummary
-import it.anello.app.data.HealthRepository
-import it.anello.app.data.SettingsStore
-import it.anello.app.data.UserSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,44 +28,79 @@ import java.time.LocalDate
 
 enum class HcStatus { CHECKING, NOT_INSTALLED, NEEDS_UPDATE, NO_PERMISSIONS, READY }
 
+/** Una fonte disponibile: identificativo (vedi Sources) e nome leggibile. */
+data class SourceInfo(val id: String, val label: String)
+
 data class UiState(
     val hcStatus: HcStatus = HcStatus.CHECKING,
     val syncing: Boolean = false,
     val lastError: String? = null,
+    /** Notti della fonte attiva, comprese quelle riempite da un'altra fonte calibrata. */
     val days: Map<LocalDate, DailySummary> = emptyMap(),
     val settings: UserSettings = UserSettings(),
+    /** App trovate in Health Connect con il numero di notti (dopo "Cerca fonti"). */
     val sources: Map<String, Int>? = null,
+    /** Tutte le fonti selezionabili. */
+    val available: List<SourceInfo> = emptyList(),
+    /** Notti delle altre fonti, per confronto e calibrazione. */
+    val others: Map<String, Map<LocalDate, DailySummary>> = emptyMap(),
+    /** Calibrazione di ogni altra fonte rispetto a quella attiva. */
+    val calibrations: Map<String, Calibration.Result> = emptyMap(),
     /** Diario: etichette per giorno (solo i giorni compilati). */
     val diary: Map<LocalDate, Set<String>> = emptyMap(),
     /** Allenamenti importati da file FIT. */
     val activities: List<Activity> = emptyList(),
     val importMessage: String? = null,
-)
+) {
+    fun label(id: String): String = available.firstOrNull { it.id == id }?.label ?: id
+}
 
 class AppViewModel(app: Application) : AndroidViewModel(app) {
     val repo = HealthRepository(app)
-    private val store = DailyStore(app)
-    private val ringStore = DailyStore(app, RingBle.RING_DAYS_FILE)
     private val settingsStore = SettingsStore(app)
     private val diaryStore = DiaryStore(app)
     private val trainingStore = TrainingStore(app)
 
-    /** Archivio della fonte scelta: Health Connect (app Oura) o anello via Bluetooth. */
-    private fun activeStore() =
-        if (_state.value.settings.source == DataSource.RING) ringStore else store
+    private fun store(id: String) = Sources.store(getApplication(), id)
 
+    private fun availableSources(s: UserSettings): List<SourceInfo> {
+        val ids = s.hcPackages.sorted().map { Sources.hc(it) } +
+            RingStore(getApplication()).pairedRings().map { Sources.ring(it) }
+        return (ids + s.sourceId).distinct().map { SourceInfo(it, Sources.label(getApplication(), it)) }
+    }
+
+    /**
+     * Carica le notti della fonte attiva e delle altre, calcola le calibrazioni e, se richiesto,
+     * riempie le notti mancanti della fonte attiva con quelle (convertite) di un'altra fonte.
+     */
     private fun reloadDays() = viewModelScope.launch {
-        val days = withContext(Dispatchers.IO) { activeStore().load() }
-        _state.update { it.copy(days = days) }
-        // Con l'anello diretto i passi arrivano da Health Connect (telefono, app di fitness).
-        if (_state.value.settings.source == DataSource.RING && _state.value.hcStatus == HcStatus.READY) {
-            val merged = runCatching {
+        val s = _state.value.settings
+        val available = availableSources(s)
+        val all = withContext(Dispatchers.IO) { available.associate { it.id to store(it.id).load() } }
+        val active = all[s.sourceId] ?: emptyMap()
+        val others = all - s.sourceId
+        val calibrations = others.mapValues { (_, days) -> Calibration.calibrate(active, days) }
+        val fill = s.fillFrom?.takeIf { it in others }
+        val days = if (fill != null) {
+            Calibration.fill(active, others.getValue(fill), calibrations.getValue(fill),
+                available.first { it.id == fill }.label)
+        } else active
+        _state.update { it.copy(days = days, available = available, others = others, calibrations = calibrations) }
+
+        // Con un anello diretto i passi arrivano da Health Connect (telefono, app di fitness).
+        if (s.source == DataSource.RING && _state.value.hcStatus == HcStatus.READY && !activityMerged) {
+            activityMerged = true
+            runCatching {
                 val activity = repo.fetchActivity(30)
-                withContext(Dispatchers.IO) { ringStore.upsertActivity(activity); ringStore.load() }
-            }.getOrNull()
-            if (merged != null && _state.value.settings.source == DataSource.RING) _state.update { it.copy(days = merged) }
+                withContext(Dispatchers.IO) { store(s.sourceId).upsertActivity(activity) }
+            }.onSuccess { reloadDays() }
+        } else {
+            activityMerged = false
         }
     }
+
+    /** Evita di rileggere l'attività in ciclo: una lettura per ogni ricarica richiesta. */
+    private var activityMerged = false
 
     private val _state = MutableStateFlow(UiState(settings = settingsStore.load()))
     val state: StateFlow<UiState> = _state
@@ -75,12 +111,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             _state.update { it.copy(diary = diary, activities = acts) }
         }
         reloadDays()
-        // Nuove notti dall'anello (sync manuale o automatica): aggiorna le schermate.
-        viewModelScope.launch {
-            RingDataBus.updated.collect {
-                if (_state.value.settings.source == DataSource.RING) reloadDays()
-            }
-        }
+        // Nuove notti da un anello (sync manuale o automatica) o nuovo anello associato.
+        viewModelScope.launch { RingDataBus.updated.collect { reloadDays() } }
     }
 
     fun refreshStatus(syncIfReady: Boolean = false) = viewModelScope.launch {
@@ -96,71 +128,60 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (status == HcStatus.READY && syncIfReady) sync()
     }
 
-    fun sync() {
-        // Con l'anello diretto i dati arrivano dalla scheda Anello / sync automatica.
-        if (_state.value.settings.source == DataSource.RING) { reloadDays(); return }
+    /** Aggiorna da Health Connect tutte le app seguite, poi ricarica. */
+    fun sync(fullDays: Boolean = false) {
+        if (_state.value.hcStatus != HcStatus.READY) { reloadDays(); return }
         if (_state.value.syncing) return
         viewModelScope.launch {
             _state.update { it.copy(syncing = true, lastError = null) }
             try {
-                // Al primo avvio scarichiamo tutto quello che Health Connect espone (30 giorni),
-                // poi solo gli ultimi giorni, che possono ancora cambiare.
-                val n = if (_state.value.days.isEmpty()) 30 else 4
-                val fresh = repo.fetchDays(n, _state.value.settings.onlyOura)
-                val all = withContext(Dispatchers.IO) {
-                    store.upsert(fresh)
-                    store.load()
+                for (pkg in _state.value.settings.hcPackages) {
+                    val st = store(Sources.hc(pkg))
+                    // Primo scarico: tutto quello che Health Connect espone (30 giorni);
+                    // poi solo gli ultimi giorni, che possono ancora cambiare.
+                    val empty = withContext(Dispatchers.IO) { st.load().isEmpty() }
+                    val fresh = repo.fetchDays(if (fullDays || empty) 30 else 4, pkg)
+                    withContext(Dispatchers.IO) { st.upsert(fresh.filter { it.hasSleep || it.steps != null || it.activeKcal != null }) }
                 }
-                _state.update { it.copy(days = all) }
             } catch (e: Exception) {
                 _state.update { it.copy(lastError = e.message ?: e.toString()) }
             } finally {
                 _state.update { it.copy(syncing = false) }
             }
+            reloadDays()
         }
     }
 
-    /** Riscarica tutti i 30 giorni disponibili (utile dopo aver cambiato le impostazioni). */
-    fun fullResync() {
-        if (_state.value.settings.source == DataSource.RING) { reloadDays(); return }
-        viewModelScope.launch {
-            _state.update { it.copy(syncing = true, lastError = null) }
-            try {
-                val fresh = repo.fetchDays(30, _state.value.settings.onlyOura)
-                val all = withContext(Dispatchers.IO) { store.upsert(fresh); store.load() }
-                _state.update { it.copy(days = all) }
-            } catch (e: Exception) {
-                _state.update { it.copy(lastError = e.message ?: e.toString()) }
-            } finally {
-                _state.update { it.copy(syncing = false) }
-            }
-        }
-    }
+    /** Riscarica tutti i 30 giorni disponibili. */
+    fun fullResync() = sync(fullDays = true)
 
+    /** Cerca in Health Connect le app che scrivono il sonno e le aggiunge alle fonti. */
     fun loadSources() = viewModelScope.launch {
         val src = runCatching { repo.sleepSources() }.getOrElse { mapOf("errore: ${it.message}" to 0) }
         _state.update { it.copy(sources = src) }
+        val found = src.filter { it.value > 0 }.keys
+        val s = _state.value.settings
+        if (!s.hcPackages.containsAll(found)) {
+            updateSettings(s.copy(hcPackages = s.hcPackages + found))
+            sync()
+        }
     }
 
     fun updateSettings(s: UserSettings) {
-        val sourceChanged = s.source != _state.value.settings.source
+        val old = _state.value.settings
         settingsStore.save(s)
         _state.update { it.copy(settings = s) }
-        if (sourceChanged) {
-            _state.update { it.copy(days = emptyMap()) }
+        if (s.sourceId != old.sourceId || s.fillFrom != old.fillFrom || s.hcPackages != old.hcPackages) {
+            if (s.sourceId != old.sourceId) _state.update { it.copy(days = emptyMap()) }
             reloadDays()
-            if (s.source == DataSource.HEALTH_CONNECT) refreshStatus(syncIfReady = true)
+            if (s.sourceId != old.sourceId && s.source == DataSource.HEALTH_CONNECT) refreshStatus(syncIfReady = true)
         }
     }
 
     /** Conferma un nuovo livello normale dell'HRV da [date] per la fonte attuale. */
     fun confirmRebaseline(date: LocalDate) {
         val s = _state.value.settings
-        val d = date.toString()
-        updateSettings(
-            if (s.source == DataSource.RING) s.copy(rebaselineRing = s.rebaselineRing + d)
-            else s.copy(rebaselineHc = s.rebaselineHc + d)
-        )
+        updateSettings(s.copy(rebaseline = s.rebaseline + "${s.sourceId}|$date"))
     }
 
     /** Imposta le etichette del diario per [date]; null cancella la voce (giorno non compilato). */
@@ -208,5 +229,5 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         _state.update { it.copy(activities = acts) }
     }
 
-    fun exportCsv(): String = activeStore().toCsv()
+    fun exportCsv(): String = store(_state.value.settings.sourceId).toCsv()
 }

@@ -99,6 +99,9 @@ fun TodayScreen(
         }
 
         if (day != null) IllnessCard(history, day)
+        day?.filledFrom?.let {
+            Text("Notte presa da $it e convertita con la calibrazione: la fonte attiva non aveva questa notte.", color = TextDim, fontSize = 12.sp)
+        }
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("Recupero", "Sonno", "Attività").forEachIndexed { i, l ->
@@ -152,6 +155,8 @@ fun TodayScreen(
         }
 
         if (day != null) KeyMetrics(day, history)
+
+        DeviceComparisonCard(state, date)
 
         DiaryCard(date, state.diary[date]) { onDiary(date, it) }
 
@@ -319,53 +324,7 @@ fun SettingsScreen(state: UiState, vm: AppViewModel, onExportCsv: () -> Unit) {
     var stepsGoal by remember(s.stepsGoal) { mutableStateOf(s.stepsGoal.toFloat()) }
 
     ScreenColumn {
-        SectionCard("Fonte dei dati") {
-            Text("Da dove prendono i dati Oggi, Sonno e Andamento", color = TextDim, fontSize = 12.sp)
-            Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = s.source == DataSource.HEALTH_CONNECT,
-                    onClick = { vm.updateSettings(s.copy(source = DataSource.HEALTH_CONNECT)) },
-                    label = { Text("App Oura") },
-                )
-                FilterChip(
-                    selected = s.source == DataSource.RING,
-                    onClick = { vm.updateSettings(s.copy(source = DataSource.RING)) },
-                    label = { Text("Anello diretto") },
-                )
-            }
-            Spacer(Modifier.height(6.dp))
-            Text(
-                if (s.source == DataSource.RING)
-                    "Sonno, HRV e Recupero dall'anello via Bluetooth. Passi e calorie attive da Health Connect " +
-                        "(telefono, app di fitness): concedi l'accesso a Health Connect se non l'hai già fatto."
-                else
-                    "Dati scritti dall'app Oura in Health Connect.",
-                color = TextDim, fontSize = 12.sp,
-            )
-        }
-
-        if (s.source == DataSource.HEALTH_CONNECT) SectionCard("Filtro Health Connect") {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    Text("Solo dati dell'anello Oura", color = TextMain)
-                    Text("Ignora telefono, smartwatch e altre app", color = TextDim)
-                }
-                Switch(checked = s.onlyOura, onCheckedChange = {
-                    vm.updateSettings(s.copy(onlyOura = it)); vm.fullResync()
-                })
-            }
-            Spacer(Modifier.height(12.dp))
-            OutlinedButton(onClick = vm::loadSources) { Text("Verifica quali app scrivono il sonno") }
-            state.sources?.let { src ->
-                Spacer(Modifier.height(8.dp))
-                if (src.isEmpty()) Text("Nessuna notte trovata negli ultimi 30 giorni.", color = AwakeColor)
-                src.forEach { (pkg, n) ->
-                    val name = if (pkg == OURA_PACKAGE) "Oura ✓" else pkg
-                    Text("$name: $n notti", color = TextDim)
-                }
-            }
-        }
+        SourcesCard(state, vm)
 
         SectionCard("Obiettivi") {
             Text("Sonno: ${"%.1f".format(sleepGoal)} ore", color = TextMain)

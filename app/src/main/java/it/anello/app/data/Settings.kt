@@ -1,52 +1,67 @@
 package it.anello.app.data
 
 import android.content.Context
+import java.time.LocalDate
 
 const val OURA_PACKAGE = "com.ouraring.oura"
 
-/** Da dove arrivano i dati delle schermate Oggi/Sonno/Andamento. */
+/** Tipo della fonte attiva. */
 enum class DataSource { HEALTH_CONNECT, RING }
 
 data class UserSettings(
-    val source: DataSource = DataSource.HEALTH_CONNECT,
-    val onlyOura: Boolean = true,
+    /** Fonte attiva per Oggi/Sonno/Trend: vedi [Sources]. */
+    val sourceId: String = Sources.DEFAULT,
+    /** App di Health Connect seguite come fonti (pacchetti). */
+    val hcPackages: Set<String> = setOf(OURA_PACKAGE),
+    /** Fonte da cui riempire, dopo la calibrazione, le notti mancanti della fonte attiva. */
+    val fillFrom: String? = null,
     val sleepGoalMin: Int = 8 * 60,
     val stepsGoal: Int = 8000,
-    /** Giorni confermati come "nuovo livello normale" dell'HRV, per fonte (ISO yyyy-mm-dd). */
-    val rebaselineHc: Set<String> = emptySet(),
-    val rebaselineRing: Set<String> = emptySet(),
+    /** Giorni confermati come "nuovo livello normale" dell'HRV: voci "fonte|yyyy-mm-dd". */
+    val rebaseline: Set<String> = emptySet(),
     /** Potenza critica (W) e W′ (J) per gli allenamenti; 0 = non impostati. */
     val cpW: Int = 0,
     val wPrimeJ: Int = 0,
 ) {
-    fun rebaselineDays(): Set<java.time.LocalDate> =
-        (if (source == DataSource.RING) rebaselineRing else rebaselineHc)
-            .mapNotNull { runCatching { java.time.LocalDate.parse(it) }.getOrNull() }.toSet()
+    val source: DataSource get() = if (Sources.isRing(sourceId)) DataSource.RING else DataSource.HEALTH_CONNECT
+
+    fun rebaselineDays(): Set<LocalDate> =
+        rebaseline.filter { it.startsWith("$sourceId|") }
+            .mapNotNull { runCatching { LocalDate.parse(it.substringAfterLast('|')) }.getOrNull() }.toSet()
 }
 
-class SettingsStore(context: Context) {
+class SettingsStore(private val context: Context) {
     private val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
-    fun load() = UserSettings(
-        source = runCatching { DataSource.valueOf(prefs.getString("source", "HEALTH_CONNECT")!!) }
-            .getOrDefault(DataSource.HEALTH_CONNECT),
-        onlyOura = prefs.getBoolean("onlyOura", true),
-        sleepGoalMin = prefs.getInt("sleepGoalMin", 8 * 60),
-        stepsGoal = prefs.getInt("stepsGoal", 8000),
-        rebaselineHc = prefs.getStringSet("rebaselineHc", emptySet())!!.toSet(),
-        rebaselineRing = prefs.getStringSet("rebaselineRing", emptySet())!!.toSet(),
-        cpW = prefs.getInt("cpW", 0),
-        wPrimeJ = prefs.getInt("wPrimeJ", 0),
-    )
+    fun load(): UserSettings {
+        // Migrazione dalle versioni con due sole fonti fisse.
+        val legacyRing = context.getSharedPreferences("ring_ble", Context.MODE_PRIVATE).getString("last_addr", null)
+        val legacyRingId = legacyRing?.let { Sources.ring(it) }
+        val sourceId = prefs.getString("sourceId", null)
+            ?: if (prefs.getString("source", "HEALTH_CONNECT") == "RING" && legacyRingId != null) legacyRingId else Sources.DEFAULT
+        val rebaseline = prefs.getStringSet("rebaseline", null)?.toSet()
+            ?: (prefs.getStringSet("rebaselineHc", emptySet())!!.map { "${Sources.DEFAULT}|$it" } +
+                (legacyRingId?.let { id -> prefs.getStringSet("rebaselineRing", emptySet())!!.map { "$id|$it" } } ?: emptyList())).toSet()
+        return UserSettings(
+            sourceId = sourceId,
+            hcPackages = prefs.getStringSet("hcPackages", setOf(OURA_PACKAGE))!!.toSet(),
+            fillFrom = prefs.getString("fillFrom", null),
+            sleepGoalMin = prefs.getInt("sleepGoalMin", 8 * 60),
+            stepsGoal = prefs.getInt("stepsGoal", 8000),
+            rebaseline = rebaseline,
+            cpW = prefs.getInt("cpW", 0),
+            wPrimeJ = prefs.getInt("wPrimeJ", 0),
+        )
+    }
 
     fun save(s: UserSettings) {
         prefs.edit()
-            .putString("source", s.source.name)
-            .putBoolean("onlyOura", s.onlyOura)
+            .putString("sourceId", s.sourceId)
+            .putStringSet("hcPackages", s.hcPackages)
+            .putString("fillFrom", s.fillFrom)
             .putInt("sleepGoalMin", s.sleepGoalMin)
             .putInt("stepsGoal", s.stepsGoal)
-            .putStringSet("rebaselineHc", s.rebaselineHc)
-            .putStringSet("rebaselineRing", s.rebaselineRing)
+            .putStringSet("rebaseline", s.rebaseline)
             .putInt("cpW", s.cpW)
             .putInt("wPrimeJ", s.wPrimeJ)
             .apply()

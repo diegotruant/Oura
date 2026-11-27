@@ -42,7 +42,10 @@ import it.anello.app.UiState
 import it.anello.app.data.DailySummary
 import it.anello.app.data.Diary
 import it.anello.app.data.Sample
+import it.anello.app.data.Sources
+import it.anello.app.score.Scores
 import it.anello.app.score.Apse
+import it.anello.app.score.Calibration
 import it.anello.app.score.Insights
 import it.anello.app.training.Training
 import java.time.Instant
@@ -367,5 +370,110 @@ private fun ForecastCard(state: UiState, history: List<DailySummary>, loads: Map
                 " Ipotesi: sonno come l'ultima notte e risposta lineare.",
             color = TextDim, fontSize = 11.sp,
         )
+    }
+}
+
+// ---------------------------------------------------------------- fonti e calibrazione
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SourcesCard(state: UiState, vm: AppViewModel) {
+    val s = state.settings
+    SectionCard("Fonte dei dati") {
+        Text("Da dove prendono i dati Oggi, Sonno e Trend. Ogni fonte ha il suo storico e la sua norma.", color = TextDim, fontSize = 12.sp)
+        Spacer(Modifier.height(6.dp))
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            state.available.forEach { src ->
+                FilterChip(
+                    selected = s.sourceId == src.id,
+                    onClick = { vm.updateSettings(s.copy(sourceId = src.id, fillFrom = s.fillFrom.takeIf { it != src.id })) },
+                    label = { Text(src.label) },
+                )
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        OutlinedButton(onClick = { vm.loadSources() }) { Text("Cerca fonti in Health Connect") }
+        state.sources?.let { found ->
+            Spacer(Modifier.height(6.dp))
+            if (found.isEmpty()) Text("Nessuna app scrive il sonno in Health Connect negli ultimi 30 giorni.", color = AwakeColor, fontSize = 13.sp)
+            found.forEach { (pkg, n) ->
+                Text("${state.label(Sources.hc(pkg))}: $n notti", color = TextDim, fontSize = 13.sp)
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        Text(
+            "Anello diretto: associa uno o più anelli nella scheda Anello. Altri tracker (Fitbit, Garmin, Samsung…): " +
+                "attiva nella loro app la condivisione con Health Connect, poi tocca \"Cerca fonti\".",
+            color = TextDim, fontSize = 11.sp,
+        )
+    }
+
+    val others = state.available.filter { it.id != s.sourceId }
+    if (others.isNotEmpty()) {
+        SectionCard("Calibrazione tra dispositivi") {
+            Text(
+                "Dalle notti in cui indossi due dispositivi insieme l'app impara quanto leggono diversamente. " +
+                    "Servono ${Calibration.MIN_OVERLAP} notti in comune.",
+                color = TextDim, fontSize = 12.sp,
+            )
+            Spacer(Modifier.height(8.dp))
+            others.forEach { o ->
+                val cal = state.calibrations[o.id]
+                Text(o.label, color = TextMain)
+                Text(
+                    when {
+                        cal == null || cal.n == 0 -> "Nessuna notte in comune con HRV."
+                        !cal.ready -> "${cal.n} notti in comune su ${Calibration.MIN_OVERLAP}: calibrazione non ancora pronta."
+                        else -> "${cal.n} notti in comune · legge l'HRV %+.0f%% rispetto a ${state.label(s.sourceId)}".format(cal.bVsAPercent) +
+                            (cal.rhrOffset?.let { " · battito a riposo %+.0f bpm".format(-it) } ?: "")
+                    },
+                    color = TextDim, fontSize = 12.sp,
+                )
+                Spacer(Modifier.height(6.dp))
+            }
+            Text("Riempi le notti mancanti da:", color = TextMain)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(selected = s.fillFrom == null, onClick = { vm.updateSettings(s.copy(fillFrom = null)) }, label = { Text("Nessuna") })
+                others.forEach { o ->
+                    val ready = state.calibrations[o.id]?.ready == true
+                    FilterChip(
+                        selected = s.fillFrom == o.id, enabled = ready,
+                        onClick = { vm.updateSettings(s.copy(fillFrom = o.id)) },
+                        label = { Text(o.label) },
+                    )
+                }
+            }
+            Text(
+                "Quando la fonte attiva non ha una notte, viene usata quella dell'altra fonte, convertita nella scala " +
+                    "della fonte attiva: così la tua norma continua anche se cambi o alterni dispositivo. " +
+                    "La temperatura non viene convertita.",
+                color = TextDim, fontSize = 11.sp,
+            )
+        }
+    }
+}
+
+/** Confronto della stessa notte tra la fonte attiva e le altre fonti. */
+@Composable
+fun DeviceComparisonCard(state: UiState, date: LocalDate) {
+    val mine = state.days[date]?.takeIf { it.hasSleep && it.filledFrom == null } ?: return
+    val rows = state.others.mapNotNull { (id, days) -> days[date]?.takeIf { it.hasSleep }?.let { id to it } }
+    if (rows.isEmpty()) return
+    SectionCard("Stessa notte, altri dispositivi") {
+        fun line(label: String, d: DailySummary) = "$label: sonno ${Scores.fmtMin(d.asleepMin)} · " +
+            "HRV ${d.avgHrv?.roundToInt() ?: "–"} ms · FC a riposo ${d.restingHr?.roundToInt() ?: "–"} bpm"
+        Text(line(state.label(state.settings.sourceId), mine), color = TextMain, fontSize = 13.sp)
+        rows.forEach { (id, d) ->
+            Text(line(state.label(id), d), color = TextDim, fontSize = 13.sp)
+            val ag = state.calibrations[id]?.let { Calibration.agreement(mine, d, it) }
+            if (ag != null) {
+                Text(
+                    if (ag.agree) "Concordano, tenuto conto della loro differenza abituale (HRV convertita: ${ag.hrvBConverted.roundToInt()} ms)."
+                    else "Stanotte NON concordano (HRV convertita: ${ag.hrvBConverted.roundToInt()} ms contro ${ag.hrvA.roundToInt()}): " +
+                        "prendi i punteggi di oggi con più cautela.",
+                    color = if (ag.agree) ReadyColor else AwakeColor, fontSize = 12.sp,
+                )
+            }
+        }
     }
 }

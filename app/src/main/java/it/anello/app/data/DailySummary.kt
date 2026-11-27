@@ -41,6 +41,8 @@ data class DailySummary(
     val hrSeries: List<Sample> = emptyList(),
     /** HRV (RMSSD) durante la notte, un valore ogni 5 minuti circa. */
     val hrvSeries: List<Sample> = emptyList(),
+    /** Se la notte viene da un'altra fonte (convertita con la calibrazione): nome della fonte. Non salvato. */
+    val filledFrom: String? = null,
 ) {
     val hasSleep: Boolean get() = sleepStartMs != null && asleepMin > 0
 

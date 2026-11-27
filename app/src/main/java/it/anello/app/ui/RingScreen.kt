@@ -95,6 +95,33 @@ fun RingScreen(
             SectionCard { Text("Attiva il Bluetooth per continuare.", color = AwakeColor) }
         }
 
+        if (s.paired.isNotEmpty()) {
+            SectionCard("Anelli associati") {
+                s.paired.forEach { (addr, name) ->
+                    val sel = addr == s.selected
+                    Row(
+                        Modifier.fillMaxWidth().padding(vertical = 3.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(if (sel) SleepColor.copy(alpha = 0.18f) else Color.Transparent)
+                            .border(1.dp, if (sel) SleepColor else Color(0xFF2A2F3A), RoundedCornerShape(10.dp))
+                            .clickable { vm.select(addr) }
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(name, color = TextMain)
+                            Text(addr, color = TextDim, fontSize = 11.sp)
+                        }
+                        if (sel) Text("selezionato", color = SleepColor, fontSize = 12.sp)
+                    }
+                }
+                Text(
+                    "Ogni anello ha la sua chiave, il suo storico e la sua norma. La sincronizzazione automatica li aggiorna tutti.",
+                    color = TextDim, fontSize = 11.sp,
+                )
+            }
+        }
+
         // Scansione
         SectionCard("Anelli vicini") {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

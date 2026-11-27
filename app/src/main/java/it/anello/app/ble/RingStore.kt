@@ -12,25 +12,40 @@ class RingStore(context: Context) {
     private val prefs = context.getSharedPreferences("ring_ble", Context.MODE_PRIVATE)
     private val rawFile = File(context.filesDir, "ring_events.jsonl")
 
-    // --- chiave di autenticazione (per dispositivo, in esadecimale) ----------
+    init {
+        // Il primo anello associato (prima del supporto a più anelli) resta legato ai file esistenti.
+        if (!prefs.contains("legacy_ring")) prefs.getString("last_addr", null)?.let {
+            prefs.edit().putString("legacy_ring", it).apply()
+        }
+    }
 
-    // L'anello usa indirizzi Bluetooth che possono cambiare (RPA): se non troviamo la
-    // chiave per l'indirizzo attuale usiamo l'ultima salvata (app per un solo anello).
-    fun keyHex(address: String): String? =
-        prefs.getString("key_$address", null) ?: prefs.getString("key_last", null)
+    private val legacyRing: String? get() = prefs.getString("legacy_ring", null)
+
+    // --- chiave di autenticazione, una per anello (esadecimale) --------------
+
+    fun keyHex(address: String): String? = prefs.getString("key_$address", null)
 
     fun keyFor(address: String): ByteArray? = keyHex(address)?.let { hexToBytes(it) }
 
     fun saveKey(address: String, key: ByteArray) {
-        val h = bytesToHex(key)
-        prefs.edit().putString("key_$address", h).putString("key_last", h).apply()
+        prefs.edit().putString("key_$address", bytesToHex(key)).apply()
+        if (legacyRing == null) prefs.edit().putString("legacy_ring", address).apply()
     }
 
-    // --- cursore incrementale (decisecondi), unico per l'anello -------------
+    /** Indirizzi degli anelli associati (quelli con una chiave salvata). */
+    fun pairedRings(): List<String> =
+        prefs.all.keys.filter { it.startsWith("key_") && it != "key_last" }.map { it.removePrefix("key_") }.sorted()
 
-    fun cursor(@Suppress("UNUSED_PARAMETER") address: String): Long = prefs.getLong("cursor", 0L)
-    fun setCursor(@Suppress("UNUSED_PARAMETER") address: String, value: Long) {
-        prefs.edit().putLong("cursor", value).apply()
+    fun name(address: String): String? = prefs.getString("name_$address", null)
+    fun saveName(address: String, name: String) { prefs.edit().putString("name_$address", name).apply() }
+
+    // --- cursore incrementale (decisecondi), uno per anello -----------------
+
+    fun cursor(address: String): Long =
+        prefs.getLong("cursor_$address", if (address == legacyRing) prefs.getLong("cursor", 0L) else 0L)
+
+    fun setCursor(address: String, value: Long) {
+        prefs.edit().putLong("cursor_$address", value).apply()
     }
 
     // --- ultimo anello selezionato ----------------------------------------
@@ -55,11 +70,15 @@ class RingStore(context: Context) {
 
     // --- ultima batteria letta ---------------------------------------------
 
-    fun saveBattery(percent: Int) {
-        prefs.edit().putInt("bat_pct", percent).putLong("bat_time", System.currentTimeMillis()).apply()
+    fun saveBattery(address: String, percent: Int) {
+        prefs.edit().putInt("bat_pct_$address", percent).putLong("bat_time_$address", System.currentTimeMillis()).apply()
     }
-    fun lastBattery(): Pair<Int, Long>? =
-        if (prefs.contains("bat_pct")) prefs.getInt("bat_pct", 0) to prefs.getLong("bat_time", 0) else null
+
+    fun lastBattery(address: String?): Pair<Int, Long>? {
+        address ?: return null
+        if (prefs.contains("bat_pct_$address")) return prefs.getInt("bat_pct_$address", 0) to prefs.getLong("bat_time_$address", 0)
+        return if (address == legacyRing && prefs.contains("bat_pct")) prefs.getInt("bat_pct", 0) to prefs.getLong("bat_time", 0) else null
+    }
 
     // --- log grezzo degli eventi ---------------------------------------------
 
@@ -83,12 +102,14 @@ class RingStore(context: Context) {
 
     fun rawCount(): Int = if (rawFile.exists()) rawFile.readLines().count { it.isNotBlank() } else 0
 
-    fun loadRaw(): List<OuraEvents.Event> {
+    /** Eventi grezzi di un anello ([address]) oppure di tutti (null). */
+    fun loadRaw(address: String? = null): List<OuraEvents.Event> {
         if (!rawFile.exists()) return emptyList()
         return rawFile.readLines().mapNotNull { line ->
             if (line.isBlank()) return@mapNotNull null
             runCatching {
                 val o = JSONObject(line)
+                if (address != null && o.optString("addr") != address) return@runCatching null
                 OuraEvents.Event(o.getInt("tag"), o.getString("name"), o.getLong("ts"), hexToBytes(o.getString("body")))
             }.getOrNull()
         }
