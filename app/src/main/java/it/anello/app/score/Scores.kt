@@ -8,7 +8,15 @@ import kotlin.math.roundToInt
 /** Un contributo al punteggio, mostrato nel dettaglio. */
 data class Contributor(val label: String, val value: String, val points: Int, val max: Int)
 
-data class Score(val value: Int, val contributors: List<Contributor>)
+data class Score(
+    /** null = non calcolabile (il motivo è in [note]). */
+    val value: Int?,
+    val contributors: List<Contributor>,
+    /** Nota da mostrare sotto i contributi (es. calo dell'HRV in corso). */
+    val note: String? = null,
+    /** true se l'utente può confermare un nuovo livello normale dell'HRV. */
+    val canRebaseline: Boolean = false,
+)
 
 data class DayScores(val sleep: Score?, val readiness: Score?, val activity: Score?)
 
@@ -19,13 +27,62 @@ data class DayScores(val sleep: Score?, val readiness: Score?, val activity: Sco
 object Scores {
 
     fun compute(day: DailySummary, history: List<DailySummary>, settings: UserSettings): DayScores {
-        val past = history.filter { it.date < day.date && it.date >= day.date.minusDays(14) }
         val sleep = sleepScore(day, settings)
         return DayScores(
             sleep = sleep,
-            readiness = readinessScore(day, past, sleep, settings),
+            readiness = recoveryScore(day, history, settings),
             activity = activityScore(day, settings),
         )
+    }
+
+    /**
+     * Recupero APSE 1.2 (vedi Apse.kt): HRV rispetto alla tua norma (metà del punteggio),
+     * pressione del sonno della notte (un quarto) e debito di sonno recente (un quarto).
+     */
+    fun recoveryScore(day: DailySummary, history: List<DailySummary>, settings: UserSettings): Score? {
+        val apse = Apse.cached(history, settings.sleepGoalMin / 60.0, settings.rebaselineDays())[day.date] ?: return null
+        val hrv = day.avgHrv
+        val ref = apse.referenceMs
+        val stateText = when (apse.status) {
+            Apse.Status.ABOVE -> "sopra la norma"
+            Apse.Status.NORMAL -> "nella norma"
+            Apse.Status.LOW -> "sotto la norma"
+            Apse.Status.ALERT -> "calo in corso"
+            Apse.Status.PERSISTENT_CHANGE -> "calo persistente"
+            else -> ""
+        }
+        val note = when {
+            apse.status == Apse.Status.PERSISTENT_CHANGE ->
+                "La tua HRV è sotto la norma da ${apse.episodeDays} giorni. Se c'è un motivo benigno " +
+                    "(nuovo farmaco, cambio di stagione, anello diverso) puoi confermarlo come nuovo livello normale."
+            apse.status == Apse.Status.ALERT ->
+                "HRV sotto la tua norma da ${apse.episodeDays} giorni: possibile affaticamento, malattia o stress. " +
+                    "La norma resta quella di prima finché il calo non rientra."
+            hrv == null -> "HRV non disponibile per questa notte: il Recupero non si può calcolare."
+            apse.referenceN < Apse.MIN_RECOVERY_N ->
+                "Servono almeno ${Apse.MIN_RECOVERY_N} notti con HRV per stabilire la tua norma (finora ${apse.referenceN})."
+            apse.referenceProvisional ->
+                "Norma provvisoria su ${apse.referenceN} notti: diventa stabile dopo ${Apse.FULL_REFERENCE_N} notti."
+            else -> null
+        }
+        val recovery = apse.recovery
+            ?: return Score(null, emptyList(), note ?: "Dati insufficienti per il Recupero.")
+        val c = listOf(
+            Contributor(
+                "HRV rispetto alla tua norma",
+                listOfNotNull(hrv?.let { "${it.roundToInt()} ms" }, ref?.let { "norma ${it.roundToInt()}" }, stateText.ifEmpty { null })
+                    .joinToString(" · "),
+                ((apse.autonomicScore ?: 0.0) / 2).roundToInt(), 50,
+            ),
+            Contributor("Sonno della notte", fmtMin(day.asleepMin), ((apse.sleepPressureScore ?: 0.0) / 4).roundToInt(), 25),
+            Contributor(
+                "Debito di sonno",
+                apse.sleepDebtHours?.let { if (it < 0.05) "nessuno" else "%.1f h/notte".format(it) } ?: "—",
+                ((apse.sleepDebtScore ?: 0.0) / 4).roundToInt(), 25,
+            ),
+        )
+        return Score(recovery.roundToInt().coerceIn(0, 100), c, note,
+            canRebaseline = apse.status == Apse.Status.PERSISTENT_CHANGE)
     }
 
     fun sleepScore(d: DailySummary, s: UserSettings): Score? {
@@ -54,42 +111,6 @@ object Scores {
 
         // Tempo sveglio a letto: <20 min ottimo, >90 min scarso.
         c += Contributor("Risvegli", fmtMin(d.awakeMin), linInv(d.awakeMin.toDouble(), 20.0, 90.0, 15), 15)
-
-        return Score(c.sumOf { it.points }.coerceIn(0, 100), c)
-    }
-
-    fun readinessScore(d: DailySummary, past: List<DailySummary>, sleep: Score?, s: UserSettings): Score? {
-        if (!d.hasSleep) return null
-        val c = mutableListOf<Contributor>()
-
-        val hrvBase = past.mapNotNull { it.avgHrv }.median()
-        if (d.avgHrv != null && hrvBase != null && past.count { it.avgHrv != null } >= 3) {
-            // HRV sopra la media = recupero migliore. -25% dalla media → 0 punti.
-            val rel = d.avgHrv / hrvBase
-            c += Contributor("HRV", "${d.avgHrv.roundToInt()} ms (media ${hrvBase.roundToInt()})", lin(rel, 0.75, 1.0, 35), 35)
-        } else {
-            c += Contributor("HRV", d.avgHrv?.let { "${it.roundToInt()} ms (servono più notti)" } ?: "non disponibile", 25, 35)
-        }
-
-        val rhrBase = past.mapNotNull { it.restingHr }.median()
-        if (d.restingHr != null && rhrBase != null && past.count { it.restingHr != null } >= 3) {
-            // FC a riposo più alta della media = stress/affaticamento. +8 bpm → 0 punti.
-            val delta = d.restingHr - rhrBase
-            c += Contributor("FC a riposo", "${d.restingHr.roundToInt()} bpm (media ${rhrBase.roundToInt()})", linInv(delta, 0.0, 8.0, 30), 30)
-        } else {
-            c += Contributor("FC a riposo", d.restingHr?.let { "${it.roundToInt()} bpm (servono più notti)" } ?: "non disponibile", 22, 30)
-        }
-
-        c += Contributor("Sonno della notte", "${sleep?.value ?: "-"}", ((sleep?.value ?: 60) * 25 / 100), 25)
-
-        // Debito di sonno: media delle ultime notti rispetto all'obiettivo.
-        val recent = past.filter { it.hasSleep }.takeLast(5).map { it.asleepMin }
-        if (recent.isNotEmpty()) {
-            val ratio = recent.average() / s.sleepGoalMin
-            c += Contributor("Equilibrio sonno", "media ${fmtMin(recent.average().roundToInt())}", lin(ratio, 0.7, 0.95, 10), 10)
-        } else {
-            c += Contributor("Equilibrio sonno", "servono più notti", 7, 10)
-        }
 
         return Score(c.sumOf { it.points }.coerceIn(0, 100), c)
     }
@@ -128,11 +149,6 @@ object Scores {
         return ((1 - abs(dist) / falloff).coerceIn(0.0, 1.0) * max).roundToInt()
     }
 
-    private fun List<Double>.median(): Double? {
-        if (isEmpty()) return null
-        val s = sorted()
-        return if (s.size % 2 == 1) s[s.size / 2] else (s[s.size / 2 - 1] + s[s.size / 2]) / 2
-    }
 
     fun fmtMin(min: Int): String = "${min / 60}h ${"%02d".format(min % 60)}m"
 }

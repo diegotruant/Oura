@@ -129,5 +129,15 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /** Conferma un nuovo livello normale dell'HRV da [date] per la fonte attuale. */
+    fun confirmRebaseline(date: LocalDate) {
+        val s = _state.value.settings
+        val d = date.toString()
+        updateSettings(
+            if (s.source == DataSource.RING) s.copy(rebaselineRing = s.rebaselineRing + d)
+            else s.copy(rebaselineHc = s.rebaselineHc + d)
+        )
+    }
+
     fun exportCsv(): String = activeStore().toCsv()
 }

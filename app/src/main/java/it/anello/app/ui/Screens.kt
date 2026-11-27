@@ -68,7 +68,13 @@ private fun ScreenColumn(content: @Composable () -> Unit) {
 // ---------------------------------------------------------------- OGGI
 
 @Composable
-fun TodayScreen(state: UiState, date: LocalDate, onDate: (LocalDate) -> Unit, onSync: () -> Unit) {
+fun TodayScreen(
+    state: UiState,
+    date: LocalDate,
+    onDate: (LocalDate) -> Unit,
+    onSync: () -> Unit,
+    onRebaseline: (LocalDate) -> Unit = {},
+) {
     val day = state.days[date]
     val scores = scoresFor(state, date)
     var detail by rememberSaveable { mutableIntStateOf(1) } // 0 sonno, 1 recupero, 2 attività
@@ -104,7 +110,34 @@ fun TodayScreen(state: UiState, date: LocalDate, onDate: (LocalDate) -> Unit, on
         }
         SectionCard("Cosa ha contribuito") {
             if (score == null) Text("Nessun dato per questo giorno.", color = TextDim)
-            else ContributorRows(score.contributors, color)
+            else {
+                if (score.contributors.isNotEmpty()) ContributorRows(score.contributors, color)
+                score.note?.let {
+                    if (score.contributors.isNotEmpty()) Spacer(Modifier.height(12.dp))
+                    Text(it, color = if (score.canRebaseline || score.value == null) TextDim else AwakeColor, fontSize = 13.sp)
+                }
+                if (score.canRebaseline) {
+                    Spacer(Modifier.height(8.dp))
+                    var confirm by remember { mutableStateOf(false) }
+                    OutlinedButton(onClick = { confirm = true }) { Text("Conferma nuovo livello normale") }
+                    if (confirm) {
+                        androidx.compose.material3.AlertDialog(
+                            onDismissRequest = { confirm = false },
+                            title = { Text("Nuovo livello normale?") },
+                            text = {
+                                Text(
+                                    "Da oggi la tua norma di HRV verrà ricalcolata da zero con i valori attuali. " +
+                                        "Fallo solo se il calo ha un motivo che conosci e che non è affaticamento " +
+                                        "o malattia. Per circa due settimane la norma sarà provvisoria.",
+                                    fontSize = 13.sp,
+                                )
+                            },
+                            confirmButton = { TextButton(onClick = { confirm = false; onRebaseline(date) }) { Text("Conferma") } },
+                            dismissButton = { TextButton(onClick = { confirm = false }) { Text("Annulla") } },
+                        )
+                    }
+                }
+            }
         }
 
         if (day != null) KeyMetrics(day)
@@ -326,11 +359,13 @@ fun SettingsScreen(state: UiState, vm: AppViewModel, onExportCsv: () -> Unit) {
             Text(
                 "Sonno: durata rispetto all'obiettivo, efficienza (tempo dormito/tempo a letto), " +
                     "percentuale di sonno profondo e REM, tempo sveglio.\n\n" +
-                    "Recupero: HRV e FC a riposo confrontate con la tua mediana degli ultimi 14 giorni, " +
-                    "qualità del sonno della notte e debito di sonno degli ultimi giorni.\n\n" +
+                    "Recupero (modello APSE 1.2): metà dal confronto della tua HRV con la tua norma " +
+                    "(mediana degli ultimi 60 giorni, esclusi gli ultimi 7), un quarto dal sonno della notte e " +
+                    "un quarto dal debito di sonno degli ultimi giorni. Un calo che dura giorni resta visibile e " +
+                    "non viene assorbito nella norma; ogni fonte ha la sua norma.\n\n" +
                     "Attività: passi e calorie attive rispetto all'obiettivo.\n\n" +
                     "Sono algoritmi di questa app, non quelli di Oura: i numeri non coincideranno, " +
-                    "ma l'andamento nel tempo è confrontabile. Servono circa 3-5 notti per la tua media personale.",
+                    "ma l'andamento nel tempo è confrontabile. Il Recupero parte dopo 4 notti con HRV; la norma diventa stabile dopo 14.",
                 color = TextDim,
             )
         }
