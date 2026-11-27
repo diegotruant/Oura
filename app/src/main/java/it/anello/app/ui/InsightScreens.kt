@@ -43,9 +43,12 @@ import it.anello.app.data.DailySummary
 import it.anello.app.data.Diary
 import it.anello.app.data.Sample
 import it.anello.app.data.Sources
+import it.anello.app.data.StrapStore
+import androidx.compose.ui.platform.LocalContext
 import it.anello.app.score.Scores
 import it.anello.app.score.Apse
 import it.anello.app.score.Calibration
+import it.anello.app.score.Experiments
 import it.anello.app.score.Insights
 import it.anello.app.training.Training
 import java.time.Instant
@@ -191,7 +194,7 @@ fun NightCharts(d: DailySummary) {
 // ---------------------------------------------------------------- analisi
 
 @Composable
-fun AnalysisSection(state: UiState, history: List<DailySummary>) {
+fun AnalysisSection(state: UiState, vm: AppViewModel, history: List<DailySummary>) {
     val effects = remember(history, state.diary) { Insights.tagEffects(history, state.diary) }
     SectionCard("Cosa cambia la tua HRV") {
         Text(
@@ -231,6 +234,12 @@ fun AnalysisSection(state: UiState, history: List<DailySummary>) {
             color = TextDim, fontSize = 11.sp,
         )
     }
+
+    ExperimentsCard(state, vm, history)
+
+    val ctx = LocalContext.current
+    val strap = remember { StrapStore(ctx).load() }
+    StrapComparisonCard(history, strap)
 
     val check = remember(history, state.diary) { Insights.illnessCheck(history, state.diary) }
     SectionCard("Avviso multi-segnale: verifica") {
@@ -362,6 +371,26 @@ private fun ForecastCard(state: UiState, history: List<DailySummary>, loads: Map
             Text("Recupero previsto: ${fc.recovery.roundToInt()}", color = TextMain, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
             Text("probabilmente tra ${fc.low.roundToInt()} e ${fc.high.roundToInt()} · HRV attesa %+.0f%% rispetto alla norma".format(fc.hrvPct), color = TextDim, fontSize = 13.sp)
         }
+        var target by rememberSaveable { mutableStateOf(70) }
+        Spacer(Modifier.height(10.dp))
+        Text("Consiglio di carico", color = TextMain, fontWeight = FontWeight.SemiBold)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("Recupero domani almeno", color = TextDim, fontSize = 13.sp)
+            listOf(60, 70, 80).forEach { t ->
+                FilterChip(selected = target == t, onClick = { target = t }, label = { Text("$t") })
+            }
+        }
+        val advice = Insights.maxLoadFor(model, target.toDouble(), sleepPart)
+        Text(
+            when {
+                advice == null -> ""
+                !advice.reachable -> "Con il sonno e l'HRV attuali $target non è raggiungibile nemmeno con un giorno di riposo."
+                advice.maxLoad == null -> "Sui tuoi dati il carico non abbassa l'HRV del giorno dopo: nessun limite da suggerire."
+                advice.maxLoad >= 399 -> "Qualsiasi carico ragionevole dovrebbe lasciarti sopra $target."
+                else -> "Oggi resta sotto ${advice.maxLoad.roundToInt()} di carico (un'ora a CP vale 100)."
+            },
+            color = TextMain, fontSize = 13.sp,
+        )
         Spacer(Modifier.height(8.dp))
         val per100 = (kotlin.math.exp(model.slope * 100) - 1) * 100
         Text(
@@ -475,5 +504,74 @@ fun DeviceComparisonCard(state: UiState, date: LocalDate) {
                 )
             }
         }
+    }
+}
+
+// ---------------------------------------------------------------- esperimenti
+
+@Composable
+fun ExperimentsCard(state: UiState, vm: AppViewModel, history: List<DailySummary>) {
+    val today = LocalDate.now()
+    var name by rememberSaveable { mutableStateOf("") }
+    var phaseDays by rememberSaveable { mutableStateOf(7) }
+    var cycles by rememberSaveable { mutableStateOf(1) }
+
+    SectionCard("Esperimenti personali") {
+        Text(
+            "Prova una modifica con metodo: una fase CON la modifica (A), poi una SENZA (B). " +
+                "Alla fine l'app confronta l'HRV delle notti delle due fasi e ti dice se la differenza è reale.",
+            color = TextDim, fontSize = 12.sp,
+        )
+        state.experiments.sortedByDescending { it.start }.forEach { e ->
+            Spacer(Modifier.height(10.dp))
+            val phase = Experiments.phase(e, today)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(e.name, color = TextMain, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                TextButton(onClick = { vm.removeExperiment(e.id) }) { Text("Elimina") }
+            }
+            Text(
+                when (phase) {
+                    Experiments.Phase.A -> "Oggi: fase A, CON la modifica (giorno ${Experiments.dayInPhase(e, today)} di ${e.phaseDays})"
+                    Experiments.Phase.B -> "Oggi: fase B, SENZA la modifica (giorno ${Experiments.dayInPhase(e, today)} di ${e.phaseDays})"
+                    Experiments.Phase.DONE -> "Concluso il ${Experiments.end(e).dayOfMonth}/${Experiments.end(e).monthValue}"
+                    Experiments.Phase.NOT_STARTED -> "Inizia il ${e.start.dayOfMonth}/${e.start.monthValue}"
+                },
+                color = if (phase == Experiments.Phase.A) ReadyColor else TextDim, fontSize = 13.sp,
+            )
+            val out = remember(e, history) { Experiments.outcome(e, history) }
+            val c = out.comparison
+            Text(
+                if (c == null) "Notti utili finora: ${out.nA} in fase A, ${out.nB} in fase B (ne servono ${Insights.MIN_GROUP} per fase)."
+                else "HRV con la modifica: %+.0f%% (tra %+.0f%% e %+.0f%%) · ${c.nA} notti A, ${c.nB} notti B · ".format(c.pct, c.pctLow, c.pctHigh) +
+                    (if (c.reliable) "differenza affidabile" else "differenza non distinguibile dal caso") +
+                    (if (phase != Experiments.Phase.DONE) " · risultato provvisorio" else ""),
+                color = if (c?.reliable == true) TextMain else TextDim, fontSize = 13.sp,
+            )
+        }
+        Spacer(Modifier.height(12.dp))
+        Text("Nuovo esperimento", color = TextMain)
+        OutlinedTextField(
+            value = name, onValueChange = { name = it.take(60) }, singleLine = true,
+            label = { Text("Cosa cambi (es. niente caffè dopo le 14)") }, modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(6.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("Fasi da", color = TextDim, fontSize = 13.sp)
+            listOf(7, 14).forEach { d -> FilterChip(selected = phaseDays == d, onClick = { phaseDays = d }, label = { Text("$d giorni") }) }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("Schema", color = TextDim, fontSize = 13.sp)
+            FilterChip(selected = cycles == 1, onClick = { cycles = 1 }, label = { Text("A-B") })
+            FilterChip(selected = cycles == 2, onClick = { cycles = 2 }, label = { Text("A-B-A-B") })
+        }
+        Spacer(Modifier.height(6.dp))
+        Button(onClick = { vm.startExperiment(name, phaseDays, cycles); name = "" }, enabled = name.isNotBlank()) {
+            Text("Inizia oggi (${2 * phaseDays * cycles} giorni)")
+        }
+        Text(
+            "Il primo giorno di ogni fase non viene contato. Lo schema A-B-A-B dura il doppio ma è più solido, " +
+                "perché ripete il confronto.",
+            color = TextDim, fontSize = 11.sp,
+        )
     }
 }

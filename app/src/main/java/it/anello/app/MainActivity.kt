@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
     private val vm: AppViewModel by viewModels()
     private val ringVm: RingViewModel by viewModels()
+    private val strapVm: StrapViewModel by viewModels()
 
     private val requestPermissions =
         registerForActivityResult(PermissionController.createRequestPermissionResultContract()) {
@@ -83,6 +84,7 @@ class MainActivity : ComponentActivity() {
             AnelloApp(
                 vm = vm,
                 ringVm = ringVm,
+                strapVm = strapVm,
                 hasBlePermissions = blePermsState,
                 onRequestBlePermissions = { requestBle.launch(blePermissions()) },
                 onExportRaw = { saveRaw.launch("anello-eventi-grezzi.jsonl") },

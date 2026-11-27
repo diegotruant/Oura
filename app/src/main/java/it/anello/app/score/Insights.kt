@@ -150,6 +150,25 @@ object Insights {
         }.sortedWith(compareByDescending<Effect> { it.reliable }.thenBy { if (it.pct.isNaN()) 0.0 else it.pct })
     }
 
+    data class Comparison(val nA: Int, val nB: Int, val pct: Double, val pctLow: Double, val pctHigh: Double, val reliable: Boolean)
+
+    /**
+     * Confronto di due gruppi di valori in logaritmo (test di Welch, intervallo al 95%):
+     * variazione percentuale di A rispetto a B. Null se un gruppo ha meno di [MIN_GROUP] valori.
+     */
+    fun compareLn(a: List<Double>, b: List<Double>): Comparison? {
+        if (a.size < MIN_GROUP || b.size < MIN_GROUP) return null
+        val va = variance(a) / a.size
+        val vb = variance(b) / b.size
+        val se = sqrt(va + vb)
+        val diff = mean(a) - mean(b)
+        if (se <= 0) return Comparison(a.size, b.size, (exp(diff) - 1) * 100, Double.NaN, Double.NaN, false)
+        val df = (va + vb) * (va + vb) / (va * va / (a.size - 1) + vb * vb / (b.size - 1))
+        val h = t975(max(3.0, df)) * se
+        return Comparison(a.size, b.size, (exp(diff) - 1) * 100, (exp(diff - h) - 1) * 100, (exp(diff + h) - 1) * 100,
+            reliable = diff - h > 0 || diff + h < 0)
+    }
+
     // ------------------------------------------------------------ risposta al carico e previsione
 
     data class LoadModel(
@@ -213,5 +232,28 @@ object Insights {
             sqrt(1 + 1.0 / model.n + (plannedLoad - model.meanLoad) * (plannedLoad - model.meanLoad) / model.sxx)
         fun rec(d: Double) = (100 * exp(min(0.0, d) / Apse.RESPONSE_SCALE) + sleepPart) / 2
         return Forecast(rec(delta), rec(delta - h), rec(delta + h), (exp(delta) - 1) * 100)
+    }
+
+    data class Advice(
+        /** Carico massimo di oggi per restare sopra l'obiettivo domani; null se il carico non conta. */
+        val maxLoad: Double?,
+        /** false se l'obiettivo non è raggiungibile nemmeno a riposo (dipende dal sonno o dall'HRV di base). */
+        val reachable: Boolean,
+    )
+
+    /**
+     * Previsione al contrario: il carico più alto con cui il Recupero previsto (stima centrale)
+     * resta almeno a [target]. Vale solo se sui tuoi dati il carico abbassa l'HRV.
+     */
+    fun maxLoadFor(model: LoadModel, target: Double, sleepPart: Double, cap: Double = 400.0): Advice? {
+        if (!model.ready) return null
+        val atRest = forecast(model, 0.0, sleepPart)!!.recovery
+        if (atRest < target) return Advice(0.0, reachable = false)
+        if (model.slope >= 0) return Advice(null, reachable = true)
+        val autonomicNeeded = 2 * target - sleepPart
+        if (autonomicNeeded <= 0) return Advice(cap, reachable = true)
+        val deltaNeeded = Apse.RESPONSE_SCALE * ln(min(100.0, autonomicNeeded) / 100)
+        val load = (deltaNeeded - model.intercept) / model.slope
+        return Advice(load.coerceIn(0.0, cap), reachable = true)
     }
 }

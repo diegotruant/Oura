@@ -279,7 +279,7 @@ fun TrendsScreen(state: UiState, vm: AppViewModel, onImportFit: () -> Unit) {
                 FilterChip(selected = section == i, onClick = { section = i }, label = { Text(l) })
             }
         }
-        if (section == 1) { AnalysisSection(state, history); return@ScreenColumn }
+        if (section == 1) { AnalysisSection(state, vm, history); return@ScreenColumn }
         if (section == 2) { TrainingSection(state, vm, history, onImportFit); return@ScreenColumn }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(7, 14, 30, 90).forEach { r ->

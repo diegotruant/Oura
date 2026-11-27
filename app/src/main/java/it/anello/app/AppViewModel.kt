@@ -14,11 +14,14 @@ import it.anello.app.data.SettingsStore
 import it.anello.app.data.Sources
 import it.anello.app.data.UserSettings
 import it.anello.app.score.Calibration
+import it.anello.app.score.Experiment
+import it.anello.app.data.ExperimentStore
 import it.anello.app.training.Activity
 import it.anello.app.training.Fit
 import it.anello.app.training.Training
 import it.anello.app.training.TrainingStore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -51,6 +54,8 @@ data class UiState(
     /** Allenamenti importati da file FIT. */
     val activities: List<Activity> = emptyList(),
     val importMessage: String? = null,
+    /** Esperimenti personali a fasi alterne. */
+    val experiments: List<Experiment> = emptyList(),
 ) {
     fun label(id: String): String = available.firstOrNull { it.id == id }?.label ?: id
 }
@@ -60,6 +65,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val settingsStore = SettingsStore(app)
     private val diaryStore = DiaryStore(app)
     private val trainingStore = TrainingStore(app)
+    private val experimentStore = ExperimentStore(app)
 
     private fun store(id: String) = Sources.store(getApplication(), id)
 
@@ -73,7 +79,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
      * Carica le notti della fonte attiva e delle altre, calcola le calibrazioni e, se richiesto,
      * riempie le notti mancanti della fonte attiva con quelle (convertite) di un'altra fonte.
      */
-    private fun reloadDays() = viewModelScope.launch {
+    private fun reloadDays(): Job = viewModelScope.launch {
         val s = _state.value.settings
         val available = availableSources(s)
         val all = withContext(Dispatchers.IO) { available.associate { it.id to store(it.id).load() } }
@@ -108,7 +114,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     init {
         viewModelScope.launch {
             val (diary, acts) = withContext(Dispatchers.IO) { diaryStore.load() to trainingStore.load() }
-            _state.update { it.copy(diary = diary, activities = acts) }
+            val exps = withContext(Dispatchers.IO) { experimentStore.load() }
+            _state.update { it.copy(diary = diary, activities = acts, experiments = exps) }
         }
         reloadDays()
         // Nuove notti da un anello (sync manuale o automatica) o nuovo anello associato.
@@ -227,6 +234,20 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun removeActivity(id: String) = viewModelScope.launch {
         val acts = withContext(Dispatchers.IO) { trainingStore.remove(id); trainingStore.load() }
         _state.update { it.copy(activities = acts) }
+    }
+
+    /** Avvia oggi un esperimento: fase A (con la modifica), poi fase B (senza), per [cycles] volte. */
+    fun startExperiment(name: String, phaseDays: Int, cycles: Int) {
+        val e = Experiment(System.currentTimeMillis().toString(), name.trim().ifEmpty { "Esperimento" }, LocalDate.now(), phaseDays, cycles)
+        val all = _state.value.experiments + e
+        _state.update { it.copy(experiments = all) }
+        viewModelScope.launch(Dispatchers.IO) { experimentStore.save(all) }
+    }
+
+    fun removeExperiment(id: String) {
+        val all = _state.value.experiments.filterNot { it.id == id }
+        _state.update { it.copy(experiments = all) }
+        viewModelScope.launch(Dispatchers.IO) { experimentStore.save(all) }
     }
 
     fun exportCsv(): String = store(_state.value.settings.sourceId).toCsv()
