@@ -296,13 +296,15 @@ object StepValidation {
         var mae: Double? = null; var bias: Double? = null; var mape: Double? = null
         var lo: Double? = null; var hi: Double? = null
         if (loco.isNotEmpty()) {
-            val d = loco.map { (it.counted - it.trueSteps!!).toDouble() }
+            val pairs = loco.map { it.trueSteps!! to it.counted }
+            val d = pairs.map { (t, c) -> (c - t).toDouble() }
+            val meanDiff = d.sum() / d.size
             mae = d.sumOf { abs(it) } / d.size
-            bias = d.sum() / d.size
-            mape = 100 * loco.sumOf { abs(it.counted - it.trueSteps!!).toDouble() / it.trueSteps } / loco.size
+            bias = meanDiff
+            mape = 100 * pairs.sumOf { (t, c) -> abs(c - t).toDouble() / t } / pairs.size
             if (d.size >= 3) {
-                val sd = sqrt(d.sumOf { (it - bias) * (it - bias) } / (d.size - 1))
-                lo = bias - 1.96 * sd; hi = bias + 1.96 * sd
+                val sd = sqrt(d.sumOf { (it - meanDiff) * (it - meanDiff) } / (d.size - 1))
+                lo = meanDiff - 1.96 * sd; hi = meanDiff + 1.96 * sd
             }
         }
         val minutes = still.sumOf { it.seconds } / 60.0
