@@ -34,6 +34,25 @@ class DailyStore(context: Context, private val fileName: String = "days.json") {
         tmp.renameTo(file)
     }
 
+    /** Salva le notti ricostruite dall'anello senza perdere passi e calorie già salvati. */
+    @Synchronized
+    fun upsertNights(nights: Collection<DailySummary>) {
+        val existing = load()
+        upsert(nights.map { n ->
+            existing[n.date]?.let { n.copy(steps = n.steps ?: it.steps, activeKcal = n.activeKcal ?: it.activeKcal) } ?: n
+        })
+    }
+
+    /** Aggiorna solo passi e calorie dei giorni indicati, creando il giorno se manca. */
+    @Synchronized
+    fun upsertActivity(activity: Map<LocalDate, Pair<Long?, Double?>>) {
+        val existing = load()
+        upsert(activity.mapNotNull { (date, a) ->
+            if (a.first == null && a.second == null) return@mapNotNull null
+            (existing[date] ?: DailySummary(date)).copy(steps = a.first, activeKcal = a.second)
+        })
+    }
+
     /** Esporta tutto lo storico in CSV. */
     fun toCsv(): String = buildString {
         appendLine("data,inizio_sonno,fine_sonno,a_letto_min,sonno_min,profondo_min,rem_min,leggero_min,sveglio_min,fc_min,fc_media_sonno,hrv,fc_riposo,spo2,respiro,passi,kcal_attive")

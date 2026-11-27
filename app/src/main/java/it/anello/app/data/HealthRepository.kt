@@ -53,6 +53,28 @@ class HealthRepository(private val context: Context) {
     }
 
     /**
+     * Passi e calorie attive per giorno negli ultimi [days] giorni, da TUTTE le fonti
+     * (telefono, app di fitness, app Oura): Health Connect elimina i doppioni secondo la
+     * priorità delle app impostata dall'utente. Usato con la fonte "Anello diretto".
+     */
+    suspend fun fetchActivity(days: Int): Map<LocalDate, Pair<Long?, Double?>> {
+        val today = LocalDate.now(ZoneId.systemDefault())
+        val firstDay = today.minusDays(days.toLong() - 1)
+        return client.aggregateGroupByPeriod(
+            AggregateGroupByPeriodRequest(
+                metrics = setOf(StepsRecord.COUNT_TOTAL, ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL),
+                timeRangeFilter = TimeRangeFilter.between(firstDay.atStartOfDay(), today.plusDays(1).atStartOfDay()),
+                timeRangeSlicer = Period.ofDays(1),
+            )
+        ).associate {
+            it.startTime.toLocalDate() to Pair(
+                it.result[StepsRecord.COUNT_TOTAL],
+                it.result[ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL]?.inKilocalories,
+            )
+        }
+    }
+
+    /**
      * Legge da Health Connect gli ultimi [days] giorni e restituisce un riepilogo per giorno.
      */
     suspend fun fetchDays(days: Int, onlyOura: Boolean): List<DailySummary> {

@@ -303,7 +303,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
             val raw = store.loadRaw()
             val nights = RingNights.build(raw)
             if (nights.isNotEmpty()) {
-                DailyStore(context, RING_DAYS_FILE).upsert(nights)
+                DailyStore(context, RING_DAYS_FILE).upsertNights(nights)
                 log("Notti elaborate: ${nights.joinToString { it.date.toString() }}")
             }
             store.pruneRaw(7)

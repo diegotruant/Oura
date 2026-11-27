@@ -44,6 +44,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private fun reloadDays() = viewModelScope.launch {
         val days = withContext(Dispatchers.IO) { activeStore().load() }
         _state.update { it.copy(days = days) }
+        // Con l'anello diretto i passi arrivano da Health Connect (telefono, app di fitness).
+        if (_state.value.settings.source == DataSource.RING && _state.value.hcStatus == HcStatus.READY) {
+            val merged = runCatching {
+                val activity = repo.fetchActivity(30)
+                withContext(Dispatchers.IO) { ringStore.upsertActivity(activity); ringStore.load() }
+            }.getOrNull()
+            if (merged != null && _state.value.settings.source == DataSource.RING) _state.update { it.copy(days = merged) }
+        }
     }
 
     private val _state = MutableStateFlow(UiState(settings = settingsStore.load()))

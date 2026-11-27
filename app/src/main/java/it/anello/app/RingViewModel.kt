@@ -56,7 +56,7 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
             val agg = withContext(Dispatchers.IO) {
                 val raw = store.loadRaw()
                 val nights = RingNights.build(raw)
-                if (nights.isNotEmpty()) DailyStore(getApplication(), RingBle.RING_DAYS_FILE).upsert(nights)
+                if (nights.isNotEmpty()) DailyStore(getApplication(), RingBle.RING_DAYS_FILE).upsertNights(nights)
                 raw.takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
             }
             RingDataBus.updated.value = System.currentTimeMillis()

@@ -304,7 +304,8 @@ fun SettingsScreen(state: UiState, vm: AppViewModel, onExportCsv: () -> Unit) {
             Spacer(Modifier.height(6.dp))
             Text(
                 if (s.source == DataSource.RING)
-                    "Notti lette via Bluetooth dall'anello associato nella scheda Anello. Passi e attività non sono ancora disponibili da questa fonte."
+                    "Sonno, HRV e Recupero dall'anello via Bluetooth. Passi e calorie attive da Health Connect " +
+                        "(telefono, app di fitness): concedi l'accesso a Health Connect se non l'hai già fatto."
                 else
                     "Dati scritti dall'app Oura in Health Connect.",
                 color = TextDim, fontSize = 12.sp,
