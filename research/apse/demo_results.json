@@ -1,0 +1,6860 @@
+[
+  {
+    "day": "2026-01-01",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 55.48453435354161,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.016104321622847,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": null,
+        "posterior": {
+          "value": 4.016104321622847,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.18569533817705186,
+          "reason": ""
+        },
+        "z": null,
+        "n": 1,
+        "acute": {
+          "value": 4.016104321622847,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.10250951157628443,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "insufficient_contributors"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "insufficient_inputs"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": null,
+            "unit": "index_0_100",
+            "coverage": 0.5,
+            "uncertainty": null,
+            "reason": "insufficient_contributors"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.0,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-02",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 58.70892181084879,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.072591705248099,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.016104321622847,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.19230901856306598,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.043241037832515,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.13862223999031617,
+          "reason": ""
+        },
+        "z": 0.20358919482387286,
+        "n": 2,
+        "acute": {
+          "value": 4.044348013435473,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09339488075890069,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "insufficient_contributors"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "insufficient_inputs"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": null,
+            "unit": "index_0_100",
+            "coverage": 0.5,
+            "uncertainty": null,
+            "reason": "insufficient_contributors"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.0,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-03",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 57.7277715394841,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.055738366898447,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.043241037832515,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.14736392170383095,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.047638487665331,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11863745995283226,
+          "reason": ""
+        },
+        "z": 0.05030577903445829,
+        "n": 3,
+        "acute": {
+          "value": 4.05004319016696,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.0928316139623427,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "insufficient_contributors"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "insufficient_inputs"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": null,
+            "unit": "index_0_100",
+            "coverage": 0.5,
+            "uncertainty": null,
+            "reason": "insufficient_contributors"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.0,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-04",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 54.400439718844055,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.9963722368962156,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.047638487665331,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.1287433373191012,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.032618910868522,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.10825377871391242,
+          "reason": ""
+        },
+        "z": -0.21553602236115083,
+        "n": 4,
+        "acute": {
+          "value": 4.023207713531588,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279680514885794,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "insufficient_contributors"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "insufficient_inputs"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": null,
+            "unit": "index_0_100",
+            "coverage": 0.5,
+            "uncertainty": null,
+            "reason": "insufficient_contributors"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.0,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-05",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 54.95348530244657,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.006487105634352,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.032618910868522,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.11924294782435027,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.030528366449788,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11086415356093955,
+          "reason": ""
+        },
+        "z": -0.11222616932280942,
+        "n": 5,
+        "acute": {
+          "value": 4.01484740958297,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279465403058926,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 92.19820421114909,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.07801795788850906,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 92.19820421114909,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.07142857142857142,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-06",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 60.02469372270507,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.094756039598757,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.030528366449788,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.12161768187555454,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.035666580301705,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11302647638984782,
+          "reason": ""
+        },
+        "z": 0.27438990406667685,
+        "n": 6,
+        "acute": {
+          "value": 4.054801724590863,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279452109558393,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.3602739452208,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.04639726054779197,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.3602739452208,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.14285714285714285,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-07",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 61.874733075180814,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.1251119069430775,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.035666580301705,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.12359200769105107,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.042822206433015,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11482485256522093,
+          "reason": ""
+        },
+        "z": 0.38044627846772194,
+        "n": 7,
+        "acute": {
+          "value": 4.08995681576697,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451288045422,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.36027435597728,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.04639725644022711,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.36027435597728,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.21428571428571427,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-08",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 56.337985158795796,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.031368999629046,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.042822206433015,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.1252387590429765,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.041905949888697,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.1163252752555143,
+          "reason": ""
+        },
+        "z": -0.048535440783062114,
+        "n": 8,
+        "acute": {
+          "value": 4.060662907698008,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451237277488,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 93.94892554170325,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.06051074458296749,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 93.94892554170325,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.2857142857142857,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-09",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 56.01246869999886,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.025574321308246,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.041905949888697,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.1266158349625795,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.040599419602262,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11758027284792597,
+          "reason": ""
+        },
+        "z": -0.0689942820913253,
+        "n": 9,
+        "acute": {
+          "value": 4.043118614503127,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451234140124,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 93.35993469145006,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.06640065308549936,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 93.35993469145006,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.35714285714285715,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-10",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 58.13009818575029,
+          "unit": "ms",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.062683570783745,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.040599419602262,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.12776979519038414,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.04236615169678,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": 0.11863574969173381,
+          "reason": ""
+        },
+        "z": 0.09294216384960868,
+        "n": 10,
+        "acute": {
+          "value": 4.052901092643436,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233946241,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.36027438302688,
+        "unit": "index_0_100",
+        "coverage": 0.9983277591973244,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.046397256169731206,
+        "unit": "normalized",
+        "coverage": 0.9966555183946488,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.36027438302688,
+            "unit": "index_0_100",
+            "coverage": 0.9983277591973244,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.42857142857142855,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-11",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 59.49853159766665,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.085951633216239,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.04236615169678,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.12874176130890752,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.045852990218337,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.11951822853106571,
+          "reason": ""
+        },
+        "z": 0.1832448222773266,
+        "n": 11,
+        "acute": {
+          "value": 4.069426362929837,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.0927945123393426,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.36027438303287,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.0463972561696713,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.36027438303287,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-12",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 51.33451765187009,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.938363384619711,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.045852990218337,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.12955542038527007,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.037253821770447,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12026009863416506,
+          "reason": ""
+        },
+        "z": -0.45107749227490357,
+        "n": 12,
+        "acute": {
+          "value": 4.003894873774774,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933518,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 83.57798326282281,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.16422016737177172,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 83.57798326282281,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5714285714285714,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-13",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 55.627587822278514,
+          "unit": "ms",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.018679262051963,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.037253821770447,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13024012946668592,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.035767856992968,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": 0.12088801312211368,
+          "reason": ""
+        },
+        "z": -0.07773434615951341,
+        "n": 13,
+        "acute": {
+          "value": 4.0112870679133685,
+          "unit": "ln(ms)",
+          "coverage": 0.9966555183946488,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933474,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 92.2175419485951,
+        "unit": "index_0_100",
+        "coverage": 0.9983277591973244,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.06908461943041397,
+        "unit": "normalized",
+        "coverage": 0.9966555183946488,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 92.2175419485951,
+            "unit": "index_0_100",
+            "coverage": 0.9983277591973244,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.6428571428571429,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-14",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 54.171780394769804,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.992160115933653,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.035767856992968,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13082015026979724,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.032279237708223,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12141340484864378,
+          "reason": ""
+        },
+        "z": -0.18247048956618708,
+        "n": 14,
+        "acute": {
+          "value": 4.001723591923511,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 90.19592756092226,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.09804072439077746,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 90.19592756092226,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.69396142839004,
+        "unit": "index_0_100",
+        "coverage": 0.7142857142857143,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-15",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 53.00934298488678,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.9704681807498594,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.032279237708223,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13130580671448114,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.027334353151554,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12185632635133306,
+          "reason": ""
+        },
+        "z": -0.2583519528848138,
+        "n": 15,
+        "acute": {
+          "value": 3.9860958863366855,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 88.20126474615378,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.11798735253846224,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 88.20126474615378,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.28553445727765,
+        "unit": "index_0_100",
+        "coverage": 0.7857142857142857,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-16",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 58.71884530590319,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.072760719703908,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.027334353151554,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13171546709419737,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.030968462475743,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12222996097392638,
+          "reason": ""
+        },
+        "z": 0.1896903384964621,
+        "n": 16,
+        "acute": {
+          "value": 4.029428303020296,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.36027438303327,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.04639725616966736,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.36027438303327,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.54176278442395,
+        "unit": "index_0_100",
+        "coverage": 0.8571428571428571,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-17",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 54.5368067698347,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.9988758272955462,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.030968462475743,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13206121065508813,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.028401051661327,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12254531515990139,
+          "reason": ""
+        },
+        "z": -0.13390523192287432,
+        "n": 17,
+        "acute": {
+          "value": 4.014152065157921,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 91.50540380887027,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.0849459619112973,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 91.50540380887027,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.46204286322752,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-18",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 53.702221732313866,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.983454373700205,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.028401051661327,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13235314226583197,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.024805317424438,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12281159819874554,
+          "reason": ""
+        },
+        "z": -0.1874123247403367,
+        "n": 18,
+        "acute": {
+          "value": 3.998803219429063,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 90.04609818952332,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.09953901810476687,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 90.04609818952332,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.28947538653436,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-19",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 54.82833479856069,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.004207118693248,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.024805317424438,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13259973096552694,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.023157461525942,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12303652984038087,
+          "reason": ""
+        },
+        "z": -0.08583872818335912,
+        "n": 19,
+        "acute": {
+          "value": 4.001505169061156,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 92.53096010886284,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.07149329261913881,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 92.53096010886284,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.31324366494248,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-20",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 58.456141418547055,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 4.068276753716644,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.023157461525942,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13280808588020135,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.12322659115733871,
+          "reason": ""
+        },
+        "z": 0.18793508863839392,
+        "n": 20,
+        "acute": {
+          "value": 4.0348909613889,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.09279451233933472,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 95.36027438303327,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.04639725616966736,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 95.36027438303327,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 92.31324369621481,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-21",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 19.429177489221704,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 2.966775930492383,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.13298418239872706,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.13298418239872706,
+          "reason": ""
+        },
+        "z": -4.413382208708042,
+        "n": 21,
+        "acute": {
+          "value": 3.5008334459406414,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 1
+      },
+      "sleep": {
+        "value": 0.1813282102495689,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.46622896690305,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5553377103309695,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.46622896690305,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 88.67795473985235,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-22",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 23.95852460150827,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.1763241937848394,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.14207319510821845,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.14207319510821845,
+          "reason": ""
+        },
+        "z": -3.4665840113259883,
+        "n": 22,
+        "acute": {
+          "value": 3.3385788198627404,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": false,
+        "streak": 2
+      },
+      "sleep": {
+        "value": 0.18997662398448514,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 46.46621009116981,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5353378990883019,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 46.46621009116981,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": false
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 85.2863322076714,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-23",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 20.511716402997006,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.0209962547357487,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.15061471630706577,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.15061471630706577,
+          "reason": ""
+        },
+        "z": -4.017148663737802,
+        "n": 23,
+        "acute": {
+          "value": 3.1797875372992443,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 3
+      },
+      "sleep": {
+        "value": 0.19082144422689865,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.504391289302355,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5549560871069765,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.504391289302355,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 81.79665053608942,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-24",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 20.908626485256438,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.040161824303452,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.1586971731577406,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.1586971731577406,
+          "reason": ""
+        },
+        "z": -3.864294768431954,
+        "n": 24,
+        "acute": {
+          "value": 3.109974680801348,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 4
+      },
+      "sleep": {
+        "value": 0.19090397048707397,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.69881774370207,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5530118225629792,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.69881774370207,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 78.17797506185194,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-25",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 21.714971137242028,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.078001936823665,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.16638747779883528,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.16638747779883528,
+          "reason": ""
+        },
+        "z": -3.6468099792390998,
+        "n": 25,
+        "acute": {
+          "value": 3.0939883088125066,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 5
+      },
+      "sleep": {
+        "value": 0.19091203206429075,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 45.119503364828205,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.548804966351718,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 45.119503364828205,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 74.5893485605516,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-26",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": null,
+          "unit": "ms",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "insufficient_pairs"
+        },
+        "lnrmssd": {
+          "value": null,
+          "unit": "ln(ms)",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "insufficient_pairs"
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.17373771256770335,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 0.0,
+          "uncertainty": 0.17373771256770335,
+          "reason": ""
+        },
+        "z": null,
+        "n": 25,
+        "acute": null,
+        "alert": true,
+        "streak": 0
+      },
+      "sleep": {
+        "value": 0.19091281955941153,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": null,
+        "unit": "index_0_100",
+        "coverage": 0.5,
+        "uncertainty": null,
+        "reason": "insufficient_contributors"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "insufficient_inputs"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": null,
+            "unit": "index_0_100",
+            "coverage": 0.5,
+            "uncertainty": null,
+            "reason": "insufficient_contributors"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.0,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 73.89791512191536,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-27",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 20.95770839049183,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.0425065209609037,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.18078936021861988,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.18078936021861988,
+          "reason": ""
+        },
+        "z": -3.6508019273666985,
+        "n": 26,
+        "acute": {
+          "value": 3.068247414886705,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 1
+      },
+      "sleep": {
+        "value": 0.19091289648586754,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.72332182556186,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5527667817443814,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.72332182556186,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 70.24451357398972,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-28",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 20.862934098760032,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.0379740963813058,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.18757609860602684,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.18757609860602684,
+          "reason": ""
+        },
+        "z": -3.6061213701273713,
+        "n": 27,
+        "acute": {
+          "value": 3.0531107556340054,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 2
+      },
+      "sleep": {
+        "value": 0.19091290400042793,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.67522254684225,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5532477745315775,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.67522254684225,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 66.74292088059896,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-29",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 20.495902353443594,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.0202249809667805,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.1941257138254948,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.1941257138254948,
+          "reason": ""
+        },
+        "z": -3.6113028112578553,
+        "n": 28,
+        "acute": {
+          "value": 3.036667868300393,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 3
+      },
+      "sleep": {
+        "value": 0.19091290473448772,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.49202537969289,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.555079746203071,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.49202537969289,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 63.380671698563496,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  },
+  {
+    "day": "2026-01-30",
+    "version": "1.0.0",
+    "metrics": {
+      "autonomic": {
+        "rmssd": {
+          "value": 21.36155460125023,
+          "unit": "ms",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "lnrmssd": {
+          "value": 3.0615927924009965,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "baseline": {
+        "prior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1,
+          "uncertainty": 0.20046144958135442,
+          "reason": ""
+        },
+        "posterior": {
+          "value": 4.026767004901198,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": 0.20046144958135442,
+          "reason": ""
+        },
+        "z": -3.408471793256179,
+        "n": 29,
+        "acute": {
+          "value": 3.0491303303506947,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "alert": true,
+        "streak": 4
+      },
+      "sleep": {
+        "value": 0.19091290480619433,
+        "unit": "normalized",
+        "coverage": 1,
+        "uncertainty": null,
+        "reason": "daily_approximation"
+      },
+      "recovery": {
+        "value": 44.794602020611315,
+        "unit": "index_0_100",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "experimental_guarded_reference_not_validated"
+      },
+      "circadian": {
+        "value": null,
+        "unit": "normalized",
+        "coverage": 0.0,
+        "uncertainty": null,
+        "reason": "missing_local_wake_hour"
+      },
+      "load": {
+        "daily": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "acute": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "chronic": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        },
+        "balance": {
+          "value": null,
+          "unit": "arbitrary_units",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_load_breaks_history"
+        }
+      },
+      "cardiovascular": {
+        "vo2": {
+          "value": null,
+          "unit": "ml/kg/min",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "missing_test"
+        },
+        "resting_hr": {
+          "value": null,
+          "unit": "bpm",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "energy": {
+        "mechanical_work": {
+          "value": null,
+          "unit": "kJ",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "exercise_energy": {
+          "value": null,
+          "unit": "kcal",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "assumed_gross_efficiency_0.23"
+        },
+        "carbohydrate_oxidation": {
+          "value": null,
+          "unit": "g",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": "requires_substrate_measurement_or_validated_model"
+        }
+      },
+      "stress": {
+        "value": 0.5506804396158476,
+        "unit": "normalized",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "autonomic_sleep_deviation_proxy_not_stress_diagnosis"
+      },
+      "adaptation": {
+        "fitness": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "fatigue": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "balance": {
+          "value": null,
+          "unit": "AU",
+          "coverage": 0.0,
+          "uncertainty": null,
+          "reason": ""
+        }
+      },
+      "fusion": {
+        "components": {
+          "recovery": {
+            "value": 44.794602020611315,
+            "unit": "index_0_100",
+            "coverage": 1.0,
+            "uncertainty": null,
+            "reason": "experimental_guarded_reference_not_validated"
+          },
+          "load_balance": {
+            "value": null,
+            "unit": "arbitrary_units",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_load_breaks_history"
+          },
+          "adaptation_balance": {
+            "value": null,
+            "unit": "AU",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": ""
+          },
+          "circadian": {
+            "value": null,
+            "unit": "normalized",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_local_wake_hour"
+          },
+          "vo2": {
+            "value": null,
+            "unit": "ml/kg/min",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "missing_test"
+          },
+          "exercise_energy": {
+            "value": null,
+            "unit": "kcal",
+            "coverage": 0.0,
+            "uncertainty": null,
+            "reason": "assumed_gross_efficiency_0.23"
+          }
+        },
+        "component_availability": 0.16666666666666666,
+        "status": "experimental_no_calibrated_joint_posterior",
+        "alert": true
+      },
+      "forecast": {
+        "status": "unavailable",
+        "days": []
+      },
+      "resilience": {
+        "value": 59.49100459376181,
+        "unit": "index_0_100",
+        "coverage": 0.9285714285714286,
+        "uncertainty": null,
+        "reason": "rolling_recovery_summary_not_validated_resilience"
+      }
+    }
+  }
+]
