@@ -4,7 +4,10 @@ import android.app.Application
 import androidx.health.connect.client.HealthConnectClient
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import it.anello.app.ble.RingBle
+import it.anello.app.ble.RingDataBus
 import it.anello.app.data.DailyStore
+import it.anello.app.data.DataSource
 import it.anello.app.data.DailySummary
 import it.anello.app.data.HealthRepository
 import it.anello.app.data.SettingsStore
@@ -31,15 +34,28 @@ data class UiState(
 class AppViewModel(app: Application) : AndroidViewModel(app) {
     val repo = HealthRepository(app)
     private val store = DailyStore(app)
+    private val ringStore = DailyStore(app, RingBle.RING_DAYS_FILE)
     private val settingsStore = SettingsStore(app)
+
+    /** Archivio della fonte scelta: Health Connect (app Oura) o anello via Bluetooth. */
+    private fun activeStore() =
+        if (_state.value.settings.source == DataSource.RING) ringStore else store
+
+    private fun reloadDays() = viewModelScope.launch {
+        val days = withContext(Dispatchers.IO) { activeStore().load() }
+        _state.update { it.copy(days = days) }
+    }
 
     private val _state = MutableStateFlow(UiState(settings = settingsStore.load()))
     val state: StateFlow<UiState> = _state
 
     init {
+        reloadDays()
+        // Nuove notti dall'anello (sync manuale o automatica): aggiorna le schermate.
         viewModelScope.launch {
-            val days = withContext(Dispatchers.IO) { store.load() }
-            _state.update { it.copy(days = days) }
+            RingDataBus.updated.collect {
+                if (_state.value.settings.source == DataSource.RING) reloadDays()
+            }
         }
     }
 
@@ -57,6 +73,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun sync() {
+        // Con l'anello diretto i dati arrivano dalla scheda Anello / sync automatica.
+        if (_state.value.settings.source == DataSource.RING) { reloadDays(); return }
         if (_state.value.syncing) return
         viewModelScope.launch {
             _state.update { it.copy(syncing = true, lastError = null) }
@@ -80,6 +98,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Riscarica tutti i 30 giorni disponibili (utile dopo aver cambiato le impostazioni). */
     fun fullResync() {
+        if (_state.value.settings.source == DataSource.RING) { reloadDays(); return }
         viewModelScope.launch {
             _state.update { it.copy(syncing = true, lastError = null) }
             try {
@@ -100,9 +119,15 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun updateSettings(s: UserSettings) {
+        val sourceChanged = s.source != _state.value.settings.source
         settingsStore.save(s)
         _state.update { it.copy(settings = s) }
+        if (sourceChanged) {
+            _state.update { it.copy(days = emptyMap()) }
+            reloadDays()
+            if (s.source == DataSource.HEALTH_CONNECT) refreshStatus(syncIfReady = true)
+        }
     }
 
-    fun exportCsv(): String = store.toCsv()
+    fun exportCsv(): String = activeStore().toCsv()
 }

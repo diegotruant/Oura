@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import it.anello.app.ble.RingAggregate
 import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingStore
+import it.anello.app.ble.RingNights
+import it.anello.app.ble.RingDataBus
+import it.anello.app.data.DailyStore
 import it.anello.app.ble.RingSyncWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,11 +51,15 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     init {
-        // Mostra subito i dati già salvati, senza aspettare una sincronizzazione.
+        // Mostra subito i dati già salvati ed elabora le notti presenti nel log grezzo.
         viewModelScope.launch {
             val agg = withContext(Dispatchers.IO) {
-                store.loadRaw().takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
+                val raw = store.loadRaw()
+                val nights = RingNights.build(raw)
+                if (nights.isNotEmpty()) DailyStore(getApplication(), RingBle.RING_DAYS_FILE).upsert(nights)
+                raw.takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) }
             }
+            RingDataBus.updated.value = System.currentTimeMillis()
             _state.update { it.copy(aggregate = agg) }
         }
     }

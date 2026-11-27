@@ -9,8 +9,8 @@ import java.time.LocalDate
  * Archivio locale dei riepiloghi giornalieri (un file JSON nella memoria privata dell'app).
  * Health Connect di norma conserva/espone solo gli ultimi 30 giorni: qui teniamo tutto lo storico.
  */
-class DailyStore(context: Context) {
-    private val file = File(context.filesDir, "days.json")
+class DailyStore(context: Context, private val fileName: String = "days.json") {
+    private val file = File(context.filesDir, fileName)
 
     @Synchronized
     fun load(): Map<LocalDate, DailySummary> {
@@ -29,7 +29,7 @@ class DailyStore(context: Context) {
         days.forEach { all[it.date] = it }
         val arr = JSONArray()
         all.values.sortedBy { it.date }.forEach { arr.put(it.toJson()) }
-        val tmp = File(file.parentFile, "days.json.tmp")
+        val tmp = File(file.parentFile, "$fileName.tmp")
         tmp.writeText(arr.toString())
         tmp.renameTo(file)
     }

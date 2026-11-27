@@ -133,6 +133,25 @@ object OuraEvents {
         return out
     }
 
+    /** bedtime_period (0x76): inizio e fine del sonno in decisecondi dell'anello. */
+    fun decodeBedtime(body: ByteArray): Pair<Long, Long>? {
+        if (body.size < 8) return null
+        fun u32(o: Int) = (body[o].toLong() and 0xff) or ((body[o + 1].toLong() and 0xff) shl 8) or
+            ((body[o + 2].toLong() and 0xff) shl 16) or ((body[o + 3].toLong() and 0xff) shl 24)
+        return u32(0) to u32(4)
+    }
+
+    data class SleepPeriod(val avgHr: Double, val breath: Double, val motion: Int, val state: Int)
+
+    /** sleep_period_information_2 (0x6a): 10 byte, battito x0.5, respiro /8 (parser nativo). */
+    fun decodeSleepPeriodInfo(body: ByteArray): SleepPeriod? {
+        if (body.size < 10) return null
+        val motion = body[6].toInt() and 0xff
+        val state = body[7].toInt()
+        if (motion >= 120 || state !in 0..2) return null
+        return SleepPeriod((body[0].toInt() and 0xff) * 0.5, (body[4].toInt() and 0xff) / 8.0, motion, state)
+    }
+
     /** time_sync (0x42): u32 LE unix seconds nel corpo → ancora per datare gli eventi. */
     fun decodeTimeSyncUnix(body: ByteArray): Long? {
         if (body.size < 4) return null

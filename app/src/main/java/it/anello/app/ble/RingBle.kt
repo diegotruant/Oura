@@ -10,6 +10,7 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
+import it.anello.app.data.DailyStore
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -299,7 +300,15 @@ class RingBle(private val context: Context, private val store: RingStore) {
                 break
             }
 
-            val agg = RingAggregate.from(store.loadRaw())
+            val raw = store.loadRaw()
+            val nights = RingNights.build(raw)
+            if (nights.isNotEmpty()) {
+                DailyStore(context, RING_DAYS_FILE).upsert(nights)
+                log("Notti elaborate: ${nights.joinToString { it.date.toString() }}")
+            }
+            store.pruneRaw(7)
+            RingDataBus.updated.value = System.currentTimeMillis()
+            val agg = RingAggregate.from(raw)
             log("Fatto: ${collected.size} nuovi eventi.")
             return SyncResult(collected.size, agg)
         } catch (e: Exception) {
@@ -312,5 +321,8 @@ class RingBle(private val context: Context, private val store: RingStore) {
     companion object {
         /** Un solo collegamento all'anello alla volta, per tutto il processo. */
         val bleLock = Mutex()
+
+        /** Archivio delle notti ricavate dall'anello via Bluetooth. */
+        const val RING_DAYS_FILE = "days_ring.json"
     }
 }

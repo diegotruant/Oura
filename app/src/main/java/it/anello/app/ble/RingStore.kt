@@ -94,6 +94,21 @@ class RingStore(context: Context) {
         }
     }
 
+    /** Tiene nel log grezzo solo gli eventi catturati negli ultimi [days] giorni. */
+    @Synchronized
+    fun pruneRaw(days: Int = 7) {
+        if (!rawFile.exists()) return
+        val cutoff = System.currentTimeMillis() / 1000 - days * 86_400L
+        val lines = rawFile.readLines()
+        val kept = lines.filter { line ->
+            line.isNotBlank() && runCatching { JSONObject(line).getLong("cap") >= cutoff }.getOrDefault(true)
+        }
+        if (kept.size == lines.count { it.isNotBlank() }) return
+        val tmp = File(rawFile.parentFile, "ring_events.jsonl.tmp")
+        tmp.writeText(kept.joinToString("\n", postfix = if (kept.isEmpty()) "" else "\n"))
+        tmp.renameTo(rawFile)
+    }
+
     fun rawFilePath(): String = rawFile.absolutePath
 
     fun clearRaw() { if (rawFile.exists()) rawFile.delete() }

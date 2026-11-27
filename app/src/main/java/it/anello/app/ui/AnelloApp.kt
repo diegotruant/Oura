@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.anello.app.AppViewModel
 import it.anello.app.HcStatus
+import it.anello.app.data.DataSource
 import java.time.LocalDate
 
 val Bg = Color(0xFF0E1116)
@@ -104,8 +105,18 @@ fun AnelloApp(
             Box(Modifier.padding(pad).fillMaxSize()) {
                 val current = Tab.entries[tab]
                 // La scheda Anello (BLE) è indipendente da Health Connect.
+                val ringSource = state.settings.source == DataSource.RING
                 if (current == Tab.RING) {
                     RingScreen(ringVm, hasBlePermissions, onRequestBlePermissions, onExportRaw)
+                } else if (current == Tab.SETTINGS) {
+                    SettingsScreen(state, vm, onExportCsv)
+                } else if (ringSource) {
+                    when (current) {
+                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync)
+                        Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
+                        Tab.TRENDS -> TrendsScreen(state)
+                        else -> {}
+                    }
                 } else when (state.hcStatus) {
                     HcStatus.CHECKING -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
