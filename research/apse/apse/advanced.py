@@ -11,9 +11,12 @@ def circadian(o,s,d):
 
 def load(o,s,d):
     # Power-based workload proxy; not a proprietary score.
-    if o.training_minutes==0: impulse=0.
-    elif o.training_minutes is None or o.mean_power_w is None or o.cp_w is None: impulse=None
-    else: impulse=o.training_minutes/60*(o.mean_power_w/o.cp_w)**2*100
+    # 1.2: carico già calcolato (es. somma delle attività FIT del giorno) oppure potenza
+    # normalizzata se disponibile; la potenza media sottostima le uscite variabili.
+    if o.load_au is not None: impulse=float(o.load_au)
+    elif o.training_minutes==0: impulse=0.
+    elif o.training_minutes is None or o.cp_w is None or (o.mean_power_w is None and o.normalized_power_w is None): impulse=None
+    else: impulse=o.training_minutes/60*((o.normalized_power_w if o.normalized_power_w is not None else o.mean_power_w)/o.cp_w)**2*100
     old=s.get('load')
     if impulse is None:
         s.pop('load',None)

@@ -1,4 +1,5 @@
-"""Experimental guarded reference and acute state; not a fatigue diagnosis."""
+"""[1.1, NON usato dalla pipeline 1.2: sostituito da reference_model.py; conservato per confronto.]
+Experimental guarded reference and acute state; not a fatigue diagnosis."""
 import math
 from .core import Metric
 

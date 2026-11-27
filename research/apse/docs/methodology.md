@@ -29,3 +29,13 @@ Questi riferimenti motivano famiglie di metodi, non i parametri scelti o il punt
 ## Estensione v0.2 (prevale sulle descrizioni v0.1)
 Si mantiene un riferimento lento in lnRMSSD e uno stato acuto con aggiornamento a = 0.5. Dopo quattro osservazioni valide, un rapporto HRV osservata/riferimento inferiore a 0.8 blocca l'aggiornamento del riferimento; tre osservazioni consecutive sfavorevoli attivano l'allerta, tre non sfavorevoli la rimuovono. Le osservazioni mancanti azzerano le sequenze ma non l'allerta. Il guadagno lento è limitato a 0.08 dopo l'inizializzazione. La varianza è limitata superiormente a 0.25 e aggiornata in forma Joseph quando l'innovazione non è limitata. Queste scelte non costituiscono un filtro bayesiano esatto.
 Il punteggio autonomico è 100 exp(min(0, min(lnRMSSD, stato acuto)-riferimento precedente)/0.4); il recupero è la media aritmetica con 100(1-pressione del sonno). Le osservazioni mancanti impediscono il punteggio. Tutti i coefficienti sono sperimentali. Il blocco può impedire l'adattamento a variazioni fisiologiche benigne; occorre una strategia di ricalibrazione e validazione longitudinale indipendente. I test sintetici dimostrano proprietà informatiche, non superiorità fisiologica.
+
+## Aggiornamento 1.2
+Baseline: il modello random walk e la baseline protetta 1.1 sono sostituiti dal
+riferimento robusto di apse/reference_model.py (mediana 60 giorni esclusi gli
+ultimi 7, per dispositivo, episodi esclusi e riferimento congelato, ricalibrazione
+solo su conferma). Recupero: la componente autonomica resta 100·exp(min(0,Δ)/0,4)
+con Δ = min(oggi, acuto) − riferimento; la componente sonno aggiunge il debito
+medio pesato su 7 notti. Parametri scelti con simulazioni (docs/release_1_2.md),
+non calibrati su dati reali. Il debito di sonno non è il debito "in ore totali":
+è il deficit medio per notte, pesato verso le notti recenti.

@@ -24,3 +24,13 @@ Separare soggetti tra training e test; per personalizzazione usare split cronolo
 
 ## Limiti e decisioni
 Sonno: costanti 18.2 e 4.2 h e ampiezza circadiana 0.1 illustrative; tempo iniziale locale 0, fase configurabile. CP: fit lineare lavoro-tempo, prove massimali dichiarate; non identifica MLSS o VLamax. FATmax: massimo discreto, non interpolazione. Substrati: gas in L/min, steady state e azoto trascurabile; non applicare a esercizio non stazionario. Fusione: stato scalare e osservazioni sulla stessa scala, covarianza fornita esternamente; non integrata nella fusione giornaliera. Resilienza: media dei recuperi disponibili, almeno 10 su 14, non costrutto validato. Forecast: parametri non calibrati, unità arbitrarie, nessuna incertezza predittiva. API locale senza autenticazione, non per produzione. Modelli sperimentali esposti separatamente, non tutti collegati al grafo giornaliero.
+
+## Aggiornamento 1.2: concordanza tra dispositivi
+`tools/compare_devices.py` confronta due dispositivi indossati nelle stesse notti
+(Bland–Altman su lnRMSSD, sonno e recupero). Misura la concordanza, non
+l'accuratezza: senza ECG nessuno dei due è il riferimento. Primo uso previsto:
+anello Ring 4 (via app del produttore) e anello Gen3 (lettura diretta).
+Prima osservazione, una notte: sonno 5 h 50 m vs 5 h 57 m, FC a riposo 44 vs
+45 bpm, RMSSD 47 vs 35 ms; per questo la baseline 1.2 è separata per dispositivo.
+La taratura della soglia di avvio (release_1_2.md) va ripetuta su serie reali,
+con autocorrelazione e ciclo settimanale.

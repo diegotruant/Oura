@@ -1,7 +1,7 @@
 [
   {
     "day": "2026-01-01",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -25,8 +25,8 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.18569533817705186,
-          "reason": ""
+          "uncertainty": 0.20615528128088303,
+          "reason": "provisional"
         },
         "z": null,
         "n": 1,
@@ -38,7 +38,19 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": null,
+        "status": "warmup",
+        "episode_days": 0,
+        "reference_n": 0
       },
       "sleep": {
         "value": 0.10250951157628443,
@@ -46,6 +58,13 @@
         "coverage": 1,
         "uncertainty": null,
         "reason": "daily_approximation"
+      },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
       },
       "recovery": {
         "value": null,
@@ -267,7 +286,7 @@
   },
   {
     "day": "2026-01-02",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -290,15 +309,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.19230901856306598,
-          "reason": ""
+          "uncertainty": 0.20615528128088303,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.13862223999031617,
-          "reason": ""
+          "uncertainty": 0.15,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 2,
@@ -310,7 +329,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.812023005428146,
+          "high": 4.012023005428146
+        },
+        "status": "warmup",
+        "episode_days": 0,
+        "reference_n": 1
       },
       "sleep": {
         "value": 0.09339488075890069,
@@ -318,6 +352,13 @@
         "coverage": 1,
         "uncertainty": null,
         "reason": "daily_approximation"
+      },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
       },
       "recovery": {
         "value": null,
@@ -539,7 +580,7 @@
   },
   {
     "day": "2026-01-03",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -562,15 +603,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.14736392170383095,
-          "reason": ""
+          "uncertainty": 0.15,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11863745995283226,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 3,
@@ -582,7 +623,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.812023005428146,
+          "high": 4.012023005428146
+        },
+        "status": "warmup",
+        "episode_days": 0,
+        "reference_n": 2
       },
       "sleep": {
         "value": 0.0928316139623427,
@@ -590,6 +646,13 @@
         "coverage": 1,
         "uncertainty": null,
         "reason": "daily_approximation"
+      },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
       },
       "recovery": {
         "value": null,
@@ -811,7 +874,7 @@
   },
   {
     "day": "2026-01-04",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -834,15 +897,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1287433373191012,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.10825377871391242,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 4,
@@ -854,7 +917,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "warmup",
+        "episode_days": 0,
+        "reference_n": 3
       },
       "sleep": {
         "value": 0.09279680514885794,
@@ -862,6 +940,13 @@
         "coverage": 1,
         "uncertainty": null,
         "reason": "daily_approximation"
+      },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
       },
       "recovery": {
         "value": null,
@@ -1083,7 +1168,7 @@
   },
   {
     "day": "2026-01-05",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -1106,15 +1191,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.11924294782435027,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11086415356093955,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 5,
@@ -1126,7 +1211,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.9120230054281455,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 4
       },
       "sleep": {
         "value": 0.09279465403058926,
@@ -1135,12 +1235,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36026729847053,
+        "value": 97.68013364923527,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -1251,11 +1358,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36026729847053,
+            "value": 97.68013364923527,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -20.64392519527656,
@@ -1355,7 +1462,7 @@
   },
   {
     "day": "2026-01-06",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -1378,15 +1485,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.12161768187555454,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11302647638984782,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 6,
@@ -1398,7 +1505,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 5
       },
       "sleep": {
         "value": 0.09279452109558393,
@@ -1407,12 +1529,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.3602739452208,
+        "value": 97.6801369726104,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -1523,11 +1652,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.3602739452208,
+            "value": 97.6801369726104,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -17.258120090153465,
@@ -1627,7 +1756,7 @@
   },
   {
     "day": "2026-01-07",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -1650,15 +1779,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.12359200769105107,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11482485256522093,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 7,
@@ -1670,7 +1799,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 6
       },
       "sleep": {
         "value": 0.09279451288045422,
@@ -1679,12 +1823,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027435597728,
+        "value": 97.68013717798864,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -1795,11 +1946,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027435597728,
+            "value": 97.68013717798864,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -14.338043122457263,
@@ -1899,7 +2050,7 @@
   },
   {
     "day": "2026-01-08",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -1922,15 +2073,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1252387590429765,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1163252752555143,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 8,
@@ -1942,7 +2093,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 7
       },
       "sleep": {
         "value": 0.09279451237277488,
@@ -1951,12 +2117,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438136125,
+        "value": 97.68013719068063,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -2067,11 +2240,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438136125,
+            "value": 97.68013719068063,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -17.502684510322137,
@@ -2171,7 +2344,7 @@
   },
   {
     "day": "2026-01-09",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -2194,15 +2367,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1266158349625795,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11758027284792597,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 9,
@@ -2214,7 +2387,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 8
       },
       "sleep": {
         "value": 0.09279451234140124,
@@ -2223,12 +2411,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438292993,
+        "value": 97.68013719146496,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -2339,11 +2534,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438292993,
+            "value": 97.68013719146496,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -20.126674779180814,
@@ -2443,7 +2638,7 @@
   },
   {
     "day": "2026-01-10",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -2466,15 +2661,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.12776979519038414,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1186321290566642,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 10,
@@ -2486,7 +2681,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 9
       },
       "sleep": {
         "value": 0.09279451233946241,
@@ -2495,12 +2705,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438302688,
+        "value": 97.68013719151344,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -2611,11 +2828,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438302688,
+            "value": 97.68013719151344,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -22.284795055345352,
@@ -2715,7 +2932,7 @@
   },
   {
     "day": "2026-01-11",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -2738,15 +2955,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1287384248952776,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.11951518666043749,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 11,
@@ -2758,7 +2975,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 10
       },
       "sleep": {
         "value": 0.0927945123393426,
@@ -2767,12 +2999,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303287,
+        "value": 97.68013719151644,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -2883,11 +3122,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303287,
+            "value": 97.68013719151644,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -24.041805364940267,
@@ -2987,7 +3226,7 @@
   },
   {
     "day": "2026-01-12",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -3010,15 +3249,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1295526141862032,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12025753988284646,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 12,
@@ -3030,7 +3269,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 11
       },
       "sleep": {
         "value": 0.09279451233933518,
@@ -3039,12 +3293,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303324,
+        "value": 97.68013719151662,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -3155,11 +3416,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303324,
+            "value": 97.68013719151662,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -25.453780218547674,
@@ -3259,7 +3520,7 @@
   },
   {
     "day": "2026-01-13",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -3282,15 +3543,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13023776679087526,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12088230540752447,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 13,
@@ -3302,7 +3563,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 12
       },
       "sleep": {
         "value": 0.09279451233933474,
@@ -3311,12 +3587,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -3427,11 +3710,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -20.887924450436145,
@@ -3531,7 +3814,7 @@
   },
   {
     "day": "2026-01-14",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -3554,15 +3837,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13081487591492802,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12140859476249619,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 14,
@@ -3574,7 +3857,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 13
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -3583,12 +3881,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -3699,11 +4004,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -16.95758711213374,
@@ -3793,7 +4098,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027362791194,
+        "value": 97.68013681395597,
         "unit": "index_0_100",
         "coverage": 0.7142857142857143,
         "uncertainty": null,
@@ -3803,7 +4108,7 @@
   },
   {
     "day": "2026-01-15",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -3826,15 +4131,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.131301359026493,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12185226990539602,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 15,
@@ -3846,7 +4151,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 14
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -3855,12 +4175,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -3971,11 +4298,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -19.258856784347675,
@@ -4065,7 +4392,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027369655932,
+        "value": 97.68013684827966,
         "unit": "index_0_100",
         "coverage": 0.7857142857142857,
         "uncertainty": null,
@@ -4075,7 +4402,7 @@
   },
   {
     "day": "2026-01-16",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -4098,15 +4425,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1317117142895706,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12222653810233236,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 16,
@@ -4118,7 +4445,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 15
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -4127,12 +4469,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -4243,11 +4592,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -21.146518099349002,
@@ -4337,7 +4686,7 @@
         ]
       },
       "resilience": {
-        "value": 95.3602737537655,
+        "value": 97.68013687688274,
         "unit": "index_0_100",
         "coverage": 0.8571428571428571,
         "uncertainty": null,
@@ -4347,7 +4696,7 @@
   },
   {
     "day": "2026-01-17",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -4370,15 +4719,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13205804260430679,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12254242550312704,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 17,
@@ -4390,7 +4739,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 16
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -4399,12 +4763,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -4515,11 +4886,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -22.678155082050456,
@@ -4609,7 +4980,7 @@
         ]
       },
       "resilience": {
-        "value": 95.3602738021707,
+        "value": 97.68013690108536,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -4619,7 +4990,7 @@
   },
   {
     "day": "2026-01-18",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -4642,15 +5013,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1323504667471537,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12280915770083085,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 18,
@@ -4662,7 +5033,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 17
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -4671,12 +5057,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -4787,11 +5180,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -23.90362667470022,
@@ -4881,7 +5274,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027384366089,
+        "value": 97.68013692183045,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -4891,7 +5284,7 @@
   },
   {
     "day": "2026-01-19",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -4914,15 +5307,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13259747062137928,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12303446798249153,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 19,
@@ -4934,7 +5327,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 18
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -4943,12 +5351,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -5059,11 +5474,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -24.86609651313571,
@@ -5153,7 +5568,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027434970109,
+        "value": 97.68013717485054,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -5163,7 +5578,7 @@
   },
   {
     "day": "2026-01-20",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -5186,15 +5601,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13280617572889722,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12322484869478346,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "z": 0.0,
         "n": 20,
@@ -5206,7 +5621,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 19
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -5215,12 +5645,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -5331,11 +5768,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -19.92158367118708,
@@ -5425,7 +5862,7 @@
         ]
       },
       "resilience": {
-        "value": 95.3602743809734,
+        "value": 97.6801371904867,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -5435,7 +5872,7 @@
   },
   {
     "day": "2026-01-21",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -5458,15 +5895,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13298256778936207,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "provisional"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12338575739308556,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 21,
@@ -5478,7 +5915,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 20
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -5487,12 +5939,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "provisional_reference_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -5603,11 +6062,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "provisional_reference_not_validated"
           },
           "load_balance": {
             "value": -15.673746753028395,
@@ -5697,7 +6156,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438290598,
+        "value": 97.68013719145299,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -5707,7 +6166,7 @@
   },
   {
     "day": "2026-01-22",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -5730,15 +6189,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1331316834095677,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1235217867256084,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 22,
@@ -5750,7 +6209,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 14
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -5759,12 +6233,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -5875,11 +6356,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -17.710279999034995,
@@ -5969,7 +6450,7 @@
         ]
       },
       "resilience": {
-        "value": 95.3602743830254,
+        "value": 97.6801371915127,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -5979,7 +6460,7 @@
   },
   {
     "day": "2026-01-23",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -6002,15 +6483,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13325776448630183,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12363680500578496,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 23,
@@ -6022,7 +6503,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 15
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -6031,12 +6527,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -6147,11 +6650,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -19.37869712429015,
@@ -6241,7 +6744,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303279,
+        "value": 97.68013719151638,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -6251,7 +6754,7 @@
   },
   {
     "day": "2026-01-24",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -6274,15 +6777,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1333643863707193,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12373407293403617,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 24,
@@ -6294,7 +6797,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 16
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -6303,12 +6821,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -6419,11 +6944,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -20.730284967199225,
@@ -6513,7 +7038,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303324,
+        "value": 97.68013719151661,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -6523,7 +7048,7 @@
   },
   {
     "day": "2026-01-25",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -6546,15 +7071,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1334545645710381,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12381634080048211,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 25,
@@ -6566,7 +7091,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 17
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -6575,12 +7115,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -6691,11 +7238,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -21.80944925238919,
@@ -6785,7 +7332,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -6795,7 +7342,7 @@
   },
   {
     "day": "2026-01-26",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -6818,15 +7365,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13353084381228605,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12388592963424364,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 26,
@@ -6838,7 +7385,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 18
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -6847,12 +7409,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -6963,11 +7532,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -22.65463188254752,
@@ -7057,7 +7626,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -7067,7 +7636,7 @@
   },
   {
     "day": "2026-01-27",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -7090,15 +7659,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13359537252966797,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12394479909346266,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 27,
@@ -7110,7 +7679,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 19
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -7119,12 +7703,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -7235,11 +7826,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -17.617764175713567,
@@ -7329,7 +7920,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -7339,7 +7930,7 @@
   },
   {
     "day": "2026-01-28",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -7362,15 +7953,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13364996529112466,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.12399460436394259,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 28,
@@ -7382,7 +7973,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 20
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -7391,12 +7997,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.0,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -7507,11 +8120,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.36027438303327,
+            "value": 97.68013719151664,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -13.298966433936336,
@@ -7601,7 +8214,7 @@
         ]
       },
       "resilience": {
-        "value": 95.36027438303327,
+        "value": 97.68013719151664,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -7611,7 +8224,7 @@
   },
   {
     "day": "2026-01-29",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -7634,17 +8247,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.13369615518544523,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.13369615518544523,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
-        "z": -3.8088078212248146,
+        "z": -4.444662907401944,
         "n": 29,
         "acute": {
           "value": 3.4538776394910684,
@@ -7654,7 +8267,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 1
+        "streak": 1,
+        "device": "default",
+        "week_mean": {
+          "value": 3.7811243294461234,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "low",
+        "episode_days": 0,
+        "reference_n": 21
       },
       "sleep": {
         "value": 0.1813282102495689,
@@ -7663,12 +8291,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.332805250624546,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.99323374379096,
+        "value": 46.69407051457414,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -7779,11 +8414,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.99323374379096,
+            "value": 46.69407051457414,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -18.87754699079269,
@@ -7873,7 +8508,7 @@
         ]
       },
       "resilience": {
-        "value": 91.83405719451596,
+        "value": 94.03827528602075,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -7883,7 +8518,7 @@
   },
   {
     "day": "2026-01-30",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -7906,17 +8541,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.14273983995847359,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.14273983995847359,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
-        "z": -3.7291163855131644,
+        "z": -4.444662907401944,
         "n": 30,
         "acute": {
           "value": 3.2248049565225294,
@@ -7926,7 +8561,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 2
+        "streak": 2,
+        "device": "default",
+        "week_mean": {
+          "value": 3.6502256534641018,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "low",
+        "episode_days": 0,
+        "reference_n": 22
       },
       "sleep": {
         "value": 0.18997662398448514,
@@ -7935,12 +8585,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.6213067673117854,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.56081305704515,
+        "value": 43.634425919020536,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -8051,11 +8708,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.56081305704515,
+            "value": 43.634425919020536,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -23.540586391509237,
@@ -8145,7 +8802,7 @@
         ]
       },
       "resilience": {
-        "value": 88.27695281408823,
+        "value": 90.1778673379853,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -8155,7 +8812,7 @@
   },
   {
     "day": "2026-01-31",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -8178,17 +8835,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.15124371693188002,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.15124371693188002,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.654226496991621,
+        "z": -4.444662907401944,
         "n": 31,
         "acute": {
           "value": 3.11026861503826,
@@ -8198,7 +8855,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 3
+        "streak": 3,
+        "device": "default",
+        "week_mean": {
+          "value": 3.5193269774820797,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 1,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19082144422689865,
@@ -8207,12 +8879,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.8714023561723613,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.518572044924476,
+        "value": 41.45938260945704,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -8323,11 +9002,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.518572044924476,
+            "value": 41.45938260945704,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -27.414031649989283,
@@ -8417,7 +9096,7 @@
         ]
       },
       "resilience": {
-        "value": 84.71683121850904,
+        "value": 86.16209915355249,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -8427,7 +9106,7 @@
   },
   {
     "day": "2026-02-01",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -8450,17 +9129,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1592942620164664,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1592942620164664,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.5836745774166237,
+        "z": -4.444662907401944,
         "n": 32,
         "acute": {
           "value": 3.053000444296125,
@@ -8470,7 +9149,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 4
+        "streak": 4,
+        "device": "default",
+        "week_mean": {
+          "value": 3.388428301500057,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 2,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19090397048707397,
@@ -8479,12 +9173,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.0882046949806023,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51444573191571,
+        "value": 39.796107830449316,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -8595,11 +9296,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51444573191571,
+            "value": 39.796107830449316,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -30.606967730009476,
@@ -8689,7 +9390,7 @@
         ]
       },
       "resilience": {
-        "value": 81.15641488628636,
+        "value": 82.02752562776196,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -8699,7 +9400,7 @@
   },
   {
     "day": "2026-02-02",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -8722,17 +9423,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.16695706607200142,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.16695706607200142,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.5170573824740905,
+        "z": -4.444662907401944,
         "n": 33,
         "acute": {
           "value": 3.0243663589250582,
@@ -8742,7 +9443,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 5
+        "streak": 5,
+        "device": "default",
+        "week_mean": {
+          "value": 3.257529625518035,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 3,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091203206429075,
@@ -8751,12 +9467,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.2761458511076176,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51404265305487,
+        "value": 38.494581842389294,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -8867,11 +9590,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51404265305487,
+            "value": 38.494581842389294,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -33.21386450885652,
@@ -8961,7 +9684,7 @@
         ]
       },
       "resilience": {
-        "value": 77.59596976271646,
+        "value": 77.79998595996715,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -8971,7 +9694,7 @@
   },
   {
     "day": "2026-02-03",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -8994,17 +9717,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.17428328064209328,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.17428328064209328,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.454022267326996,
+        "z": -4.444662907401944,
         "n": 34,
         "acute": {
           "value": 3.0100493162395248,
@@ -9014,7 +9737,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 6
+        "streak": 6,
+        "device": "default",
+        "week_mean": {
+          "value": 3.1266309495360134,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 4,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091281955941153,
@@ -9023,12 +9761,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.4390678858076256,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51400327829883,
+        "value": 37.461302846651584,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -9139,11 +9884,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51400327829883,
+            "value": 37.461302846651584,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -26.04050644406656,
@@ -9233,7 +9978,7 @@
         ]
       },
       "resilience": {
-        "value": 74.03552182666401,
+        "value": 73.49864064961965,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -9243,7 +9988,7 @@
   },
   {
     "day": "2026-02-04",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -9266,17 +10011,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1813137113165208,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1813137113165208,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.394259305415845,
+        "z": -4.444662907401944,
         "n": 35,
         "acute": {
           "value": 3.002890794896758,
@@ -9286,7 +10031,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 7
+        "streak": 7,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 5,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091289648586754,
@@ -9295,12 +10055,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.5803013970713946,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51399943197603,
+        "value": 36.631232011358534,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -9411,11 +10178,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51399943197603,
+            "value": 36.631232011358534,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -19.88682746363975,
@@ -9505,7 +10272,7 @@
         ]
       },
       "resilience": {
-        "value": 70.47507361587421,
+        "value": 69.13800456532263,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -9515,7 +10282,7 @@
   },
   {
     "day": "2026-02-05",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -9538,21 +10305,30 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.18808152995807603,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 0.0,
-          "uncertainty": 0.18808152995807603,
-          "reason": ""
+          "uncertainty": 0.07071067811865475,
+          "reason": "frozen"
         },
         "z": null,
         "n": 35,
         "acute": null,
         "alert": true,
-        "streak": 0
+        "streak": 7,
+        "device": "default",
+        "week_mean": null,
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 5,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091290400042793,
@@ -9560,6 +10336,13 @@
         "coverage": 1,
         "uncertainty": null,
         "reason": "daily_approximation"
+      },
+      "sleep_debt": {
+        "value": 1.7027336066900745,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
       },
       "recovery": {
         "value": null,
@@ -9771,7 +10554,7 @@
         ]
       },
       "resilience": {
-        "value": 68.56082740301582,
+        "value": 66.94245590176925,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -9781,7 +10564,7 @@
   },
   {
     "day": "2026-02-06",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -9804,17 +10587,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.19461413594950047,
-          "reason": ""
+          "uncertainty": 0.07071067811865475,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.19461413594950047,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.283486285557844,
+        "z": -4.319435933643998,
         "n": 36,
         "acute": {
           "value": 2.9993115342253747,
@@ -9824,7 +10607,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 1
+        "streak": 8,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 6,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091290473448772,
@@ -9833,12 +10631,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.8088673834260895,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51399901954502,
+        "value": 35.40609777307067,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -9949,11 +10754,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51399901954502,
+            "value": 35.40609777307067,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -27.20669900357256,
@@ -10043,7 +10848,7 @@
         ]
       },
       "resilience": {
-        "value": 64.72649852890135,
+        "value": 62.15214517727341,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -10053,7 +10858,7 @@
   },
   {
     "day": "2026-02-07",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -10076,17 +10881,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.20093447168510098,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.20093447168510098,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.2320175787736423,
+        "z": -4.444662907401944,
         "n": 37,
         "acute": {
           "value": 2.997521903889683,
@@ -10096,7 +10901,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 2
+        "streak": 9,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 7,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091290480619433,
@@ -10105,12 +10925,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.9008724088955609,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51399901595969,
+        "value": 34.95113068831517,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -10221,11 +11048,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51399901595969,
+            "value": 34.95113068831517,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -29.927671090761734,
@@ -10315,7 +11142,7 @@
         ]
       },
       "resilience": {
-        "value": 60.89216965451106,
+        "value": 57.32683698471945,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -10325,7 +11152,7 @@
   },
   {
     "day": "2026-02-08",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -10348,17 +11175,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.2070619760153241,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.2070619760153241,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.1828957104013127,
+        "z": -4.444662907401944,
         "n": 38,
         "acute": {
           "value": 2.996627088721837,
@@ -10368,7 +11195,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 3
+        "streak": 10,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 8,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.190912904813199,
@@ -10377,12 +11219,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.9806295321409981,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51399901560946,
+        "value": 34.5733153782562,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -10493,11 +11342,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51399901560946,
+            "value": 34.5733153782562,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -32.1371866260196,
@@ -10587,7 +11436,7 @@
         ]
       },
       "resilience": {
-        "value": 57.05784078009385,
+        "value": 52.4724660760071,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -10597,7 +11446,7 @@
   },
   {
     "day": "2026-02-09",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -10620,17 +11469,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.21301329045712303,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.21301329045712303,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.135947586249259,
+        "z": -4.444662907401944,
         "n": 39,
         "acute": {
           "value": 2.9961796811379138,
@@ -10640,7 +11489,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 4
+        "streak": 11,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 9,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091290481388323,
@@ -10649,12 +11513,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 2.0497692196301194,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.513999015575244,
+        "value": 34.257768370552604,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -10765,11 +11636,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.513999015575244,
+            "value": 34.257768370552604,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -33.9068430283438,
@@ -10859,7 +11730,7 @@
         ]
       },
       "resilience": {
-        "value": 53.223511905673995,
+        "value": 47.593822320548334,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -10869,7 +11740,7 @@
   },
   {
     "day": "2026-02-10",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -10892,17 +11763,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.21880279228421803,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.21880279228421803,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.0910174740264744,
+        "z": -4.444662907401944,
         "n": 40,
         "acute": {
           "value": 2.995955977345952,
@@ -10912,7 +11783,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 5
+        "streak": 12,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 10,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.1909129048139501,
@@ -10921,12 +11807,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 2.1097048867100727,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.513999015571905,
+        "value": 33.99291686600439,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -11037,11 +11930,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.513999015571905,
+            "value": 33.99291686600439,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -26.022605780794354,
@@ -11131,7 +12024,7 @@
         ]
       },
       "resilience": {
-        "value": 49.38918303125389,
+        "value": 42.694805372432015,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -11141,7 +12034,7 @@
   },
   {
     "day": "2026-02-11",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -11164,17 +12057,17 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.2244430037033248,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.2244430037033248,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
-        "z": -3.0479648266379153,
+        "z": -4.444662907401944,
         "n": 41,
         "acute": {
           "value": 2.9958441254499713,
@@ -11184,7 +12077,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 6
+        "streak": 13,
+        "device": "default",
+        "week_mean": {
+          "value": 2.995732273553991,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 11,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.19091290481395662,
@@ -11193,12 +12101,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 2.1616617919084686,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 45.51399901557158,
+        "value": 33.7696584931829,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -11309,11 +12224,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 45.51399901557158,
+            "value": 33.7696584931829,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -19.267236630912866,
@@ -11403,7 +12318,7 @@
         ]
       },
       "resilience": {
-        "value": 45.55485415683376,
+        "value": 37.77861470332942,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -11413,7 +12328,7 @@
   },
   {
     "day": "2026-02-12",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -11436,15 +12351,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.22994491060114955,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.22994491060114955,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "z": 0.0,
         "n": 42,
@@ -11456,7 +12371,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.1266309495360134,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 12,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.09885804181407704,
@@ -11465,12 +12395,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.8738968341398274,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 60.96473645357626,
+        "value": 48.231729729891484,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -11581,11 +12518,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 60.96473645357626,
+            "value": 48.231729729891484,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -19.169934360238486,
@@ -11675,7 +12612,7 @@
         ]
       },
       "resilience": {
-        "value": 46.706508211432634,
+        "value": 37.89689618143075,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -11685,7 +12622,7 @@
   },
   {
     "day": "2026-02-13",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -11708,15 +12645,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.23531821415132884,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.23531821415132884,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "z": 0.0,
         "n": 43,
@@ -11728,7 +12665,22 @@
           "reason": ""
         },
         "alert": true,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.257529625518035,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "alert",
+        "episode_days": 13,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.09316922689349516,
@@ -11737,12 +12689,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.624439751927648,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 73.54405498302206,
+        "value": 61.970076449873375,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -11853,11 +12812,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 73.54405498302206,
+            "value": 61.970076449873375,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -19.027526877096495,
@@ -11947,7 +12906,7 @@
         ]
       },
       "resilience": {
-        "value": 48.859065282661625,
+        "value": 39.3073308376502,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -11957,7 +12916,7 @@
   },
   {
     "day": "2026-02-14",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -11980,15 +12939,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.24057153179744828,
-          "reason": ""
+          "uncertainty": 0.05,
+          "reason": "frozen"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.22190338853155023,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 44,
@@ -12000,7 +12959,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.388428301500057,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.862023005428146,
+          "high": 3.962023005428146
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 23
       },
       "sleep": {
         "value": 0.09281766898393988,
@@ -12009,12 +12983,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.4081909204217453,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 82.91075854399477,
+        "value": 72.59509320160737,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -12125,11 +13106,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 82.91075854399477,
+            "value": 72.59509320160737,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -18.847384695862324,
@@ -12219,7 +13200,7 @@
         ]
       },
       "resilience": {
-        "value": 51.73538732105165,
+        "value": 41.70238549858483,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -12229,7 +13210,7 @@
   },
   {
     "day": "2026-02-15",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -12252,15 +13233,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.22746673128566325,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.20988015331537685,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 45,
@@ -12272,7 +13253,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.5193269774820797,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.09279594337579543,
@@ -12281,12 +13277,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.2207295875424777,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 88.69127828127944,
+        "value": 79.58999422093783,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -12397,11 +13400,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 88.69127828127944,
+            "value": 79.58999422093783,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -18.63586501255805,
@@ -12491,7 +13494,7 @@
         ]
       },
       "resilience": {
-        "value": 55.05668213254117,
+        "value": 44.763453682468565,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -12501,7 +13504,7 @@
   },
   {
     "day": "2026-02-16",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -12524,15 +13527,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.21575374563535646,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.19913725944386376,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 46,
@@ -12544,7 +13547,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.6502256534641018,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.092794600774658,
@@ -12553,12 +13571,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 1.0582235010117285,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 91.90652408019119,
+        "value": 83.9545898499218,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -12669,11 +13694,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 91.90652408019119,
+            "value": 83.9545898499218,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -18.3984473561198,
@@ -12763,7 +13788,7 @@
         ]
       },
       "resilience": {
-        "value": 58.62533455001319,
+        "value": 48.26037737535569,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -12773,7 +13798,7 @@
   },
   {
     "day": "2026-02-17",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -12796,15 +13821,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.20531840662447368,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.1895693555162202,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 47,
@@ -12816,7 +13841,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.7811243294461234,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.09279451780446898,
@@ -12825,12 +13865,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.9173505660233313,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 93.60250359750034,
+        "value": 86.72537833844294,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -12941,11 +13988,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 93.60250359750034,
+            "value": 86.72537833844294,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -12.458509250688557,
@@ -13035,7 +14082,7 @@
         ]
       },
       "resilience": {
-        "value": 62.324449959182544,
+        "value": 52.049921643955024,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -13045,7 +14092,7 @@
   },
   {
     "day": "2026-02-18",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -13068,15 +14115,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.19605239236192729,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.18107646981931919,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 48,
@@ -13088,7 +14135,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.09279451267706959,
@@ -13097,12 +14159,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.7952309320089458,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 94.47352588125379,
+        "value": 88.59139755342147,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -13213,11 +14282,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 94.47352588125379,
+            "value": 88.59139755342147,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -7.39143842113009,
@@ -13307,7 +14376,7 @@
         ]
       },
       "resilience": {
-        "value": 66.09056737835775,
+        "value": 56.04685745488294,
         "unit": "index_0_100",
         "coverage": 0.9285714285714286,
         "uncertainty": null,
@@ -13317,7 +14386,7 @@
   },
   {
     "day": "2026-02-19",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -13340,15 +14409,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.18785283581097947,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.17356366398924855,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 49,
@@ -13360,7 +14429,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.0927945123602061,
@@ -13369,12 +14453,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.6893681201562943,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 94.91491670493822,
+        "value": 89.94588311147422,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -13485,11 +14576,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 94.91491670493822,
+            "value": 89.94588311147422,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -8.760446469423503,
@@ -13579,7 +14670,7 @@
         ]
       },
       "resilience": {
-        "value": 68.14944947311349,
+        "value": 58.46821643035374,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -13589,7 +14680,7 @@
   },
   {
     "day": "2026-02-20",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -13612,15 +14703,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.18062210677924442,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.16694084579610924,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 50,
@@ -13632,7 +14723,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.09279451234062452,
@@ -13641,12 +14747,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.5975979881558192,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.13709746507627,
+        "value": 90.99967232983303,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -13757,11 +14870,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.13709746507627,
+            "value": 90.99967232983303,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -9.89184783197144,
@@ -13851,7 +14964,7 @@
         ]
       },
       "resilience": {
-        "value": 71.69395650493716,
+        "value": 62.43918604155106,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -13861,7 +14974,7 @@
   },
   {
     "day": "2026-02-21",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -13884,15 +14997,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.17426774226781133,
-          "reason": ""
+          "uncertainty": 0.06558518414419051,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.16112271661770675,
-          "reason": ""
+          "uncertainty": 0.0647230940830395,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 51,
@@ -13904,7 +15017,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.795787800588109,
+          "high": 4.0282582102681825
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 30
       },
       "sleep": {
         "value": 0.09279451233941441,
@@ -13913,12 +15041,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.5180444888674505,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.24856112556412,
+        "value": 91.8635702957638,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -14029,11 +15164,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.24856112556412,
+            "value": 91.8635702957638,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -10.818575771570782,
@@ -14123,7 +15258,7 @@
         ]
       },
       "resilience": {
-        "value": 75.24642522705176,
+        "value": 66.50436029922597,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -14133,7 +15268,7 @@
   },
   {
     "day": "2026-02-22",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -14156,15 +15291,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1687024890458639,
-          "reason": ""
+          "uncertainty": 0.0647230940830395,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.156028819233539,
-          "reason": ""
+          "uncertainty": 0.06392905611849556,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 52,
@@ -14176,7 +15311,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.797609887585237,
+          "high": 4.026436123271055
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 31
       },
       "sleep": {
         "value": 0.09279451233933964,
@@ -14185,12 +15335,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.4490813184865718,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.3043865197678,
+        "value": 92.5963266796885,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -14301,11 +15458,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.3043865197678,
+            "value": 92.5963266796885,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -11.569148758825627,
@@ -14395,7 +15552,7 @@
         ]
       },
       "resilience": {
-        "value": 78.80288147734879,
+        "value": 70.64886110647112,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -14405,7 +15562,7 @@
   },
   {
     "day": "2026-02-23",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -14428,15 +15585,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.16384441531957195,
-          "reason": ""
+          "uncertainty": 0.06392905611849556,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.15158364553588044,
-          "reason": ""
+          "uncertainty": 0.06319619134932254,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 53,
@@ -14448,7 +15605,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.79934916760581,
+          "high": 4.0246968432504815
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 32
       },
       "sleep": {
         "value": 0.09279451233933501,
@@ -14457,12 +15629,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.38929867018668174,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.3323226384004,
+        "value": 93.23026664415346,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -14573,11 +15752,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.3323226384004,
+            "value": 93.23026664415346,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -12.168258899630302,
@@ -14667,7 +15846,7 @@
         ]
       },
       "resilience": {
-        "value": 82.36133316469343,
+        "value": 74.86118241172832,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -14677,7 +15856,7 @@
   },
   {
     "day": "2026-02-24",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -14700,15 +15879,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.15961704668971746,
-          "reason": ""
+          "uncertainty": 0.06319619134932254,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.14771676272216744,
-          "reason": ""
+          "uncertainty": 0.06251846264798105,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 54,
@@ -14720,7 +15899,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.8010117066394797,
+          "high": 4.023034304216813
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 33
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -14729,12 +15923,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.3374744135869693,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.34629655692058,
+        "value": 93.78443095921011,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -14845,11 +16046,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.34629655692058,
+            "value": 93.78443095921011,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -6.955940099981447,
@@ -14939,7 +16140,7 @@
         ]
       },
       "resilience": {
-        "value": 85.92078298907549,
+        "value": 79.13200484695732,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
@@ -14949,7 +16150,7 @@
   },
   {
     "day": "2026-02-25",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "metrics": {
       "autonomic": {
         "rmssd": {
@@ -14972,15 +16173,15 @@
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1,
-          "uncertainty": 0.1559494853762497,
-          "reason": ""
+          "uncertainty": 0.06251846264798105,
+          "reason": "full"
         },
         "posterior": {
           "value": 3.912023005428146,
           "unit": "ln(ms)",
           "coverage": 1.0,
-          "uncertainty": 0.14436292051489097,
-          "reason": ""
+          "uncertainty": 0.06189055408944618,
+          "reason": "full"
         },
         "z": 0.0,
         "n": 55,
@@ -14992,7 +16193,22 @@
           "reason": ""
         },
         "alert": false,
-        "streak": 0
+        "streak": 0,
+        "device": "default",
+        "week_mean": {
+          "value": 3.912023005428146,
+          "unit": "ln(ms)",
+          "coverage": 1.0,
+          "uncertainty": null,
+          "reason": ""
+        },
+        "normal_range": {
+          "low": 3.8026029685936176,
+          "high": 4.021443042262674
+        },
+        "status": "normal",
+        "episode_days": 0,
+        "reference_n": 34
       },
       "sleep": {
         "value": 0.09279451233933472,
@@ -15001,12 +16217,19 @@
         "uncertainty": null,
         "reason": "daily_approximation"
       },
+      "sleep_debt": {
+        "value": 0.2925491108696961,
+        "unit": "h_per_night",
+        "coverage": 1.0,
+        "uncertainty": null,
+        "reason": "ewma_7_nights_illustrative"
+      },
       "recovery": {
-        "value": 95.35328498145961,
+        "value": 94.27115970389517,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,
-        "reason": "experimental_guarded_reference_not_validated"
+        "reason": "experimental_reference_model_not_validated"
       },
       "circadian": {
         "value": -0.7071067811865475,
@@ -15117,11 +16340,11 @@
       "fusion": {
         "components": {
           "recovery": {
-            "value": 95.35328498145961,
+            "value": 94.27115970389517,
             "unit": "index_0_100",
             "coverage": 1.0,
             "uncertainty": null,
-            "reason": "experimental_guarded_reference_not_validated"
+            "reason": "experimental_reference_model_not_validated"
           },
           "load_balance": {
             "value": -2.522020524066221,
@@ -15211,7 +16434,7 @@
         ]
       },
       "resilience": {
-        "value": 89.48073198663892,
+        "value": 83.45354064772246,
         "unit": "index_0_100",
         "coverage": 1.0,
         "uncertainty": null,

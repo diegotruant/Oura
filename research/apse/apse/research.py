@@ -69,3 +69,43 @@ def joint_update(prior,prior_var,observations,covariance):
         return z
     a=whiten([1.]*n); b=whiten(observations); var=1/(1/prior_var+sum(v*v for v in a))
     return {'mean':var*(prior/prior_var+sum(x*y for x,y in zip(a,b))),'variance':var,'status':'conditional_on_user_supplied_covariance_and_common_scale'}
+
+def fatmax_curve(stages):
+    """FATmax continuo: parabola ai minimi quadrati di ossidazione dei grassi vs potenza.
+
+    stages: almeno 4 stadi stazionari [potenza W, VO2 L/min, VCO2 L/min].
+    Il picco è riportato solo se la curva è concava; se cade fuori dagli stadi
+    misurati viene limitato al bordo e segnalato (estrapolazione non affidabile).
+    Interpolazione dei dati forniti, non validata contro un protocollo FATmax.
+    """
+    if len(stages) < 4: raise ValueError('four steady state stages required')
+    if any(not finite(p) or p<=0 for p,o,c in stages) or len({p for p,o,c in stages})!=len(stages): raise ValueError('invalid stage power')
+    pts=sorted((p,substrates(o,c)['fat_g_min']) for p,o,c in stages)
+    xs=[p for p,f in pts]; ys=[f for p,f in pts]
+    mx=sum(xs)/len(xs); sx=max(xs)-min(xs)
+    u=[(x-mx)/sx for x in xs]  # scala per stabilità numerica
+    S=[[sum(v**(i+j) for v in u) for j in range(3)] for i in range(3)]
+    T=[sum(y*v**i for v,y in zip(u,ys)) for i in range(3)]
+    # Eliminazione di Gauss con pivot parziale su 3x3
+    A=[row[:]+[t] for row,t in zip(S,T)]
+    for c in range(3):
+        piv=max(range(c,3),key=lambda r:abs(A[r][c]))
+        if abs(A[piv][c])<1e-12: raise ValueError('stages do not determine a curve')
+        A[c],A[piv]=A[piv],A[c]
+        for r in range(3):
+            if r!=c:
+                f=A[r][c]/A[c][c]; A[r]=[a-f*b for a,b in zip(A[r],A[c])]
+    c0,c1,c2=(A[i][3]/A[i][i] for i in range(3))
+    pred=[c0+c1*v+c2*v*v for v in u]; my=sum(ys)/len(ys)
+    ss_tot=sum((y-my)**2 for y in ys); r2=1-sum((y-p)**2 for y,p in zip(ys,pred))/ss_tot if ss_tot>0 else None
+    if c2>=0:
+        return {'fatmax_w':None,'fat_g_min':None,'r2':r2,'status':'no_concave_peak_in_data'}
+    upeak=-c1/(2*c2); peak=mx+upeak*sx
+    clipped=not min(xs)<=peak<=max(xs); peak=min(max(peak,min(xs)),max(xs)); up=(peak-mx)/sx
+    return {'fatmax_w':peak,'fat_g_min':c0+c1*up+c2*up*up,'r2':r2,'extrapolation_clipped':clipped,
+            'status':'quadratic_fit_of_supplied_stages_not_validated'}
+
+def wbal(power, cp_w, wprime_j):
+    """W′bal e riepilogo di una serie di potenza a 1 Hz (vedi apse/wbal.py)."""
+    from .wbal import summary
+    return summary(power, cp_w, wprime_j)
