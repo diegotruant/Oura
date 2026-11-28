@@ -12,6 +12,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import it.anello.app.MorningNotifier
 import java.util.concurrent.TimeUnit
 
 /**
@@ -30,6 +31,7 @@ class RingSyncWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(c
         for (address in store.pairedRings()) {
             ble.sync(address, log = {}, skipIfBusy = true)
         }
+        runCatching { MorningNotifier.maybeNotify(applicationContext) }
         return Result.success()
     }
 

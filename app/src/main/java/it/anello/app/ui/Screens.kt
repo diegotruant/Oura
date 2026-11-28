@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.anello.app.AppViewModel
+import it.anello.app.MorningNotifier
 import it.anello.app.UiState
 import it.anello.app.data.DailySummary
 import it.anello.app.data.DataSource
@@ -116,6 +117,7 @@ fun TodayScreen(
         }
 
         if (day != null) IllnessCard(history, day)
+        if (day != null && day.hasSleep) CoachCard(state, history, day)
         if (day != null && day.hasSleep) HealthCard(history, day)
         AlertsCard(history, date)
         state.stress[date]?.takeIf { it.isNotEmpty() }?.let { StressCard(it) }
@@ -339,10 +341,25 @@ private fun TrendCard(title: String, values: List<Float?>, color: Color, labels:
 // ---------------------------------------------------------------- IMPOSTAZIONI
 
 @Composable
-fun SettingsScreen(state: UiState, vm: AppViewModel, onExportCsv: () -> Unit) {
+fun SettingsScreen(
+    state: UiState, vm: AppViewModel, onExportCsv: () -> Unit,
+    onBackup: () -> Unit = {}, onRestore: () -> Unit = {}, onRequestNotifications: () -> Unit = {},
+) {
     val s = state.settings
     var sleepGoal by remember(s.sleepGoalMin) { mutableStateOf(s.sleepGoalMin / 60f) }
     var stepsGoal by remember(s.stepsGoal) { mutableStateOf(s.stepsGoal.toFloat()) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    var notify by remember { mutableStateOf(MorningNotifier.isEnabled(context)) }
+    var confirmRestore by remember { mutableStateOf(false) }
+    if (confirmRestore) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { confirmRestore = false },
+            title = { Text("Ripristinare un backup?") },
+            text = { Text("I dati presenti nell'app vengono sostituiti con quelli del file. L'app si riavvia.") },
+            confirmButton = { androidx.compose.material3.TextButton(onClick = { confirmRestore = false; onRestore() }) { Text("Scegli il file") } },
+            dismissButton = { androidx.compose.material3.TextButton(onClick = { confirmRestore = false }) { Text("Annulla") } },
+        )
+    }
 
     ScreenColumn {
         SourcesCard(state, vm)
@@ -366,6 +383,33 @@ fun SettingsScreen(state: UiState, vm: AppViewModel, onExportCsv: () -> Unit) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = onExportCsv) { Text("Esporta CSV") }
                 OutlinedButton(onClick = vm::fullResync, enabled = !state.syncing) { Text("Riscarica 30 giorni") }
+            }
+        }
+
+        SectionCard("Backup") {
+            Text(
+                "Salva in un file tutto l'archivio e le impostazioni: senza backup, disinstallando l'app lo storico si perde. " +
+                    "Il file contiene anche le chiavi degli anelli associati: tienilo privato.",
+                color = TextDim, fontSize = 12.sp,
+            )
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedButton(onClick = onBackup) { Text("Salva backup") }
+                OutlinedButton(onClick = { confirmRestore = true }) { Text("Ripristina") }
+            }
+        }
+
+        SectionCard("Notifica del mattino") {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    "Appena arriva la notte dall'anello collegato direttamente: Recupero, Sonno, consiglio per l'allenamento e stato di salute.",
+                    color = TextDim, fontSize = 12.sp, modifier = Modifier.weight(1f),
+                )
+                Switch(checked = notify, onCheckedChange = {
+                    notify = it
+                    MorningNotifier.setEnabled(context, it)
+                    if (it) onRequestNotifications()
+                })
             }
         }
 

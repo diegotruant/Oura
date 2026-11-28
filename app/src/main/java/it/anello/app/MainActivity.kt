@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import android.content.pm.PackageManager
 import androidx.health.connect.client.PermissionController
+import it.anello.app.data.Backup
 import it.anello.app.ui.AnelloApp
 import java.io.File
 
@@ -78,6 +79,37 @@ class MainActivity : ComponentActivity() {
             }.start()
         }
 
+    private val saveBackup =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri: Uri? ->
+            if (uri != null) Thread {
+                val r = runCatching { contentResolver.openOutputStream(uri)?.use { Backup.write(this, it) } }
+                runOnUiThread {
+                    android.widget.Toast.makeText(this, if (r.getOrNull() != null) "Backup salvato." else "Backup non riuscito.", android.widget.Toast.LENGTH_LONG).show()
+                }
+            }.start()
+        }
+
+    private val pickBackup =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri != null) Thread {
+                val r = runCatching { contentResolver.openInputStream(uri)?.use { Backup.restore(this, it) } }
+                runOnUiThread {
+                    if (r.getOrNull() != null) {
+                        // I dati in memoria sono vecchi: si riparte da capo.
+                        packageManager.getLaunchIntentForPackage(packageName)?.let {
+                            startActivity(it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                        }
+                        Runtime.getRuntime().exit(0)
+                    } else {
+                        android.widget.Toast.makeText(this, r.exceptionOrNull()?.message ?: "Ripristino non riuscito.", android.widget.Toast.LENGTH_LONG).show()
+                    }
+                }
+            }.start()
+        }
+
+    private val requestNotifications =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
     private fun blePermissions(): Array<String> =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             arrayOf(android.Manifest.permission.BLUETOOTH_SCAN, android.Manifest.permission.BLUETOOTH_CONNECT)
@@ -121,6 +153,11 @@ class MainActivity : ComponentActivity() {
                 },
                 onExportCsv = { saveCsv.launch("anello-dati.csv") },
                 onImportFit = { pickFit.launch(arrayOf("*/*")) },
+                onBackup = { saveBackup.launch("anello-backup-${java.time.LocalDate.now()}.zip") },
+                onRestore = { pickBackup.launch(arrayOf("application/zip", "application/octet-stream", "*/*")) },
+                onRequestNotifications = {
+                    if (Build.VERSION.SDK_INT >= 33) requestNotifications.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                },
             )
         }
     }

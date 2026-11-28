@@ -15,7 +15,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.anello.app.data.DailySummary
+import it.anello.app.UiState
+import it.anello.app.score.Coach
 import it.anello.app.score.Deep
+import it.anello.app.training.Training
 import it.anello.app.score.Stress
 import java.time.LocalDate
 import kotlin.math.abs
@@ -247,5 +250,23 @@ fun HealthCard(history: List<DailySummary>, day: DailySummary) {
         }
         Spacer(Modifier.height(6.dp))
         Note("Valori della notte e scarto dalla tua mediana delle 30 notti precedenti. Rosso = oltre la tua variazione abituale nella direzione sfavorevole. Non è una diagnosi.")
+    }
+}
+
+/** Consiglio del giorno per l'allenamento (scheda Oggi), con i motivi. */
+@Composable
+fun CoachCard(state: UiState, history: List<DailySummary>, day: DailySummary) {
+    val loads = remember(state.activities) { Training.dailyLoads(state.activities) }
+    val a = remember(history, day, state.settings, loads) { Coach.forDay(history, day, state.settings, loads) } ?: return
+    SectionCard("Allenamento di oggi") {
+        Big(a.plan.title, when (a.plan) {
+            Coach.Plan.INTENSITY -> ReadyColor
+            Coach.Plan.ENDURANCE -> SleepColor
+            Coach.Plan.EASY -> ActivityColor
+            Coach.Plan.REST -> AwakeColor
+        })
+        a.reasons.forEach { Text("• $it", color = TextDim, fontSize = 13.sp) }
+        Spacer(Modifier.height(6.dp))
+        Note("Parte dal Recupero e scende quando un altro segnale dice di andarci piano. È un'indicazione: conta anche come ti senti.")
     }
 }
