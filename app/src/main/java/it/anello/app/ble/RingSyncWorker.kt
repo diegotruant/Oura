@@ -13,6 +13,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import it.anello.app.MorningNotifier
+import it.anello.app.data.PhoneSteps
 import java.util.concurrent.TimeUnit
 
 /**
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit
 class RingSyncWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
 
     override suspend fun doWork(): Result {
+        runCatching { PhoneSteps.update(applicationContext) }
         val store = RingStore(applicationContext)
         if (!store.autoSync) return Result.success()
         if (!canUseBluetooth(applicationContext)) return Result.success()

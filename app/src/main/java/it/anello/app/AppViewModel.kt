@@ -13,6 +13,7 @@ import it.anello.app.data.DataSource
 import it.anello.app.data.DiaryStore
 import it.anello.app.dev.DeviceStore
 import it.anello.app.data.HealthRepository
+import it.anello.app.data.PhoneSteps
 import it.anello.app.data.SettingsStore
 import it.anello.app.data.Sources
 import it.anello.app.data.UserSettings
@@ -105,10 +106,18 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         // Con un anello diretto i passi arrivano da Health Connect (telefono, app di fitness),
         // tranne per i dispositivi che contano i passi da soli (Colmi).
         val ownSteps = Sources.deviceAddress(s.sourceId)?.let { DeviceStore(getApplication()).kind(it) == DeviceStore.COLMI } == true
-        if (s.source == DataSource.RING && !ownSteps && _state.value.hcStatus == HcStatus.READY && !activityMerged) {
+        if (s.source == DataSource.RING && !ownSteps && !activityMerged) {
             activityMerged = true
             runCatching {
-                val activity = repo.fetchActivity(30, s.hcPackages)
+                val hc = if (_state.value.hcStatus == HcStatus.READY) repo.fetchActivity(30, s.hcPackages) else emptyMap()
+                // Contapassi del telefono: per ogni giorno vale il conteggio più alto.
+                PhoneSteps.update(getApplication())
+                val phone = PhoneSteps.load(getApplication())
+                val activity = (hc.keys + phone.keys).associateWith { d ->
+                    val h = hc[d]
+                    val p = phone[d]
+                    Pair(listOfNotNull(h?.first, p).maxOrNull(), h?.second)
+                }
                 withContext(Dispatchers.IO) { store(s.sourceId).upsertActivity(activity) }
             }.onSuccess { reloadDays() }
         } else {

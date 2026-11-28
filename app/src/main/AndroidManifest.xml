@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.health.READ_STEPS" />
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
 
+    <!-- Contapassi del telefono -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <!-- Notifica del mattino -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 

@@ -89,6 +89,7 @@ fun AnelloApp(
     onBackup: () -> Unit = {},
     onRestore: () -> Unit = {},
     onRequestNotifications: () -> Unit = {},
+    onRequestSteps: () -> Unit = {},
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -118,7 +119,7 @@ fun AnelloApp(
                 if (current == Tab.RING) {
                     RingScreen(ringVm, strapVm, motionVm, devicesVm, onExportMotion, onExportMotionWindows, hasBlePermissions, onRequestBlePermissions, onExportRaw)
                 } else if (current == Tab.SETTINGS) {
-                    SettingsScreen(state, vm, onExportCsv, onBackup, onRestore, onRequestNotifications)
+                    SettingsScreen(state, vm, onExportCsv, onBackup, onRestore, onRequestNotifications, onRequestSteps)
                 } else if (ringSource) {
                     when (current) {
                         Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary, { id -> vm.updateSettings(state.settings.copy(sourceId = id, fillFrom = state.settings.fillFrom.takeIf { it != id })) })
@@ -146,7 +147,7 @@ fun AnelloApp(
                         Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary, { id -> vm.updateSettings(state.settings.copy(sourceId = id, fillFrom = state.settings.fillFrom.takeIf { it != id })) })
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
                         Tab.TRENDS -> TrendsScreen(state, vm, onImportFit)
-                        Tab.SETTINGS -> SettingsScreen(state, vm, onExportCsv, onBackup, onRestore, onRequestNotifications)
+                        Tab.SETTINGS -> SettingsScreen(state, vm, onExportCsv, onBackup, onRestore, onRequestNotifications, onRequestSteps)
                         Tab.RING -> {}
                     }
                 }

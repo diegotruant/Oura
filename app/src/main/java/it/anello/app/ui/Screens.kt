@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.anello.app.AppViewModel
 import it.anello.app.MorningNotifier
+import it.anello.app.data.PhoneSteps
 import it.anello.app.UiState
 import it.anello.app.data.DailySummary
 import it.anello.app.data.DataSource
@@ -344,12 +345,14 @@ private fun TrendCard(title: String, values: List<Float?>, color: Color, labels:
 fun SettingsScreen(
     state: UiState, vm: AppViewModel, onExportCsv: () -> Unit,
     onBackup: () -> Unit = {}, onRestore: () -> Unit = {}, onRequestNotifications: () -> Unit = {},
+    onRequestSteps: () -> Unit = {},
 ) {
     val s = state.settings
     var sleepGoal by remember(s.sleepGoalMin) { mutableStateOf(s.sleepGoalMin / 60f) }
     var stepsGoal by remember(s.stepsGoal) { mutableStateOf(s.stepsGoal.toFloat()) }
     val context = androidx.compose.ui.platform.LocalContext.current
     var notify by remember { mutableStateOf(MorningNotifier.isEnabled(context)) }
+    var phoneSteps by remember { mutableStateOf(PhoneSteps.isEnabled(context)) }
     var confirmRestore by remember { mutableStateOf(false) }
     if (confirmRestore) {
         androidx.compose.material3.AlertDialog(
@@ -396,6 +399,24 @@ fun SettingsScreen(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = onBackup) { Text("Salva backup") }
                 OutlinedButton(onClick = { confirmRestore = true }) { Text("Ripristina") }
+            }
+        }
+
+        SectionCard("Contapassi del telefono") {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    if (PhoneSteps.hasSensor(context))
+                        "Con l'anello collegato direttamente i passi arrivano da altre app tramite Health Connect, e si aggiornano solo " +
+                            "quando quelle app sincronizzano. Attivandolo, Anello conta anche i passi fatti con il telefono addosso e " +
+                            "per ogni giorno usa il valore più alto. Parte da quando lo attivi."
+                    else "Questo telefono non ha il sensore contapassi.",
+                    color = TextDim, fontSize = 12.sp, modifier = Modifier.weight(1f),
+                )
+                Switch(checked = phoneSteps, enabled = PhoneSteps.hasSensor(context), onCheckedChange = {
+                    phoneSteps = it
+                    PhoneSteps.setEnabled(context, it)
+                    if (it) onRequestSteps()
+                })
             }
         }
 

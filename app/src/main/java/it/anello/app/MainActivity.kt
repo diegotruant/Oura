@@ -107,6 +107,9 @@ class MainActivity : ComponentActivity() {
             }.start()
         }
 
+    private val requestSteps =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { vm.sync() }
+
     private val requestNotifications =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
@@ -155,6 +158,9 @@ class MainActivity : ComponentActivity() {
                 onImportFit = { pickFit.launch(arrayOf("*/*")) },
                 onBackup = { saveBackup.launch("anello-backup-${java.time.LocalDate.now()}.zip") },
                 onRestore = { pickBackup.launch(arrayOf("application/zip", "application/octet-stream", "*/*")) },
+                onRequestSteps = {
+                    if (Build.VERSION.SDK_INT >= 29) requestSteps.launch(android.Manifest.permission.ACTIVITY_RECOGNITION) else vm.sync()
+                },
                 onRequestNotifications = {
                     if (Build.VERSION.SDK_INT >= 33) requestNotifications.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 },
