@@ -43,9 +43,30 @@ private fun Note(text: String) = Text(text, color = TextDim, fontSize = 12.sp)
 
 /** Approfondimenti (scheda Trend): misure che vanno oltre i punteggi giornalieri. */
 @Composable
-fun DeepSection(history: List<DailySummary>) {
+fun DeepSection(history: List<DailySummary>, stress: Map<LocalDate, List<Stress.Window>> = emptyMap()) {
     val date = remember(history) { history.lastOrNull { it.hasSleep }?.date ?: LocalDate.now() }
     val day = remember(history, date) { history.firstOrNull { it.date == date } }
+
+    SectionCard("Resilienza") {
+        val r = remember(history, date, stress) { Deep.resilience(history, date, stress) }
+        if (r == null) {
+            Note("Servono almeno 15 notti con HRV nell'ultimo mese, quasi tutte consecutive.")
+        } else {
+            Big("${Deep.RESILIENCE_LEVELS[r.level]} · ${r.score} su 100", if (r.level >= 3) ReadyColor else if (r.level == 2) SleepColor else AwakeColor)
+            r.reboundPart?.let {
+                Text("Rimbalzo: $it su 100" + (r.carryOver?.let { c -> " (trascinamento %.2f)".format(c) } ?: ""), color = TextMain, fontSize = 13.sp)
+            }
+            r.nightPart?.let { Text("Notti con HRV nella norma o sopra (ultime 14): $it%", color = TextMain, fontSize = 13.sp) }
+            r.dayPart?.let { Text("Calma rispetto alla tensione di giorno (ultime 14 giornate): $it%", color = TextMain, fontSize = 13.sp) }
+            Spacer(Modifier.height(6.dp))
+            Note(
+                "Quanto bene reggi e smaltisci il carico nell'arco di settimane. Il rimbalzo misura se, dopo una notte storta, " +
+                    "l'HRV torna subito al tuo livello (trascinamento vicino a 0) o se lo scostamento continua nei giorni dopo " +
+                    "(trascinamento alto): è il segnale che in ricerca anticipa la perdita di resilienza. Il punteggio è la media " +
+                    "delle parti disponibili; la parte di giorno c'è solo con l'anello collegato direttamente.",
+            )
+        }
+    }
 
     SectionCard("Stato dell'HRV sulla settimana") {
         val s = remember(history, date) { Deep.hrvState(history, date) }
@@ -199,5 +220,32 @@ fun StressCard(windows: List<Stress.Window>) {
                 "dal movimento. Calma = battito vicino al minimo notturno. Conta solo il tempo in cui l'anello ha misurato " +
                 "(${hm(sum.measuredMin)}); le soglie sono indicative.",
         )
+    }
+}
+
+/** Stato di salute del giorno (scheda Oggi): segni vitali della notte contro la norma personale. */
+@Composable
+fun HealthCard(history: List<DailySummary>, day: DailySummary) {
+    val h = remember(history, day) { Deep.health(history, day) } ?: return
+    SectionCard("Stato di salute") {
+        val (title, color) = when {
+            h.out >= 2 -> "${h.out} segni vitali fuori dalla tua norma" to AwakeColor
+            h.out == 1 -> "Un segno vitale fuori dalla tua norma" to ActivityColor
+            h.watch > 0 -> "Nella norma, con qualcosa da tenere d'occhio" to ReadyColor
+            else -> "Tutto nella tua norma" to ReadyColor
+        }
+        Big(title, color)
+        Spacer(Modifier.height(6.dp))
+        h.vitals.forEach { v ->
+            Row {
+                Text(v.label, color = TextMain, fontSize = 14.sp, modifier = Modifier.weight(1f))
+                Text(
+                    "${v.value} · ${v.delta}" + if (v.days >= 2) " · da ${v.days} giorni" else "",
+                    color = when (v.status) { 2 -> AwakeColor; 1 -> ActivityColor; else -> TextDim }, fontSize = 14.sp,
+                )
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        Note("Valori della notte e scarto dalla tua mediana delle 30 notti precedenti. Rosso = oltre la tua variazione abituale nella direzione sfavorevole. Non è una diagnosi.")
     }
 }

@@ -290,6 +290,117 @@ object Deep {
         return Levers(slope(hours, y), slope(bed.map { it - usual }, y), y.size)
     }
 
+    // ------------------------------------------------------------------ Resilienza
+
+    data class Resilience(
+        val score: Int,
+        /** Da 0 (bassa) a 4 (eccellente). */
+        val level: Int,
+        /** Autocorrelazione dell'HRV da un giorno al successivo: bassa = dopo una giornata storta torni subito al tuo livello. */
+        val carryOver: Double?,
+        val reboundPart: Int?,
+        val nightPart: Int?,
+        val dayPart: Int?,
+    )
+
+    val RESILIENCE_LEVELS = listOf("Bassa", "Limitata", "Adeguata", "Solida", "Eccellente")
+
+    /**
+     * Resilienza: quanto bene reggi e smaltisci il carico, su più settimane. Tre parti, ognuna 0–100,
+     * e il punteggio è la media di quelle disponibili:
+     * - Rimbalzo: quanto in fretta l'HRV torna al suo livello dopo uno scostamento. Si misura con
+     *   l'autocorrelazione da un giorno al successivo negli ultimi 30 giorni: se resta alta, gli
+     *   scostamenti "si trascinano" (indicatore dinamico di resilienza, Scheffer e colleghi 2018).
+     * - Notti: quota delle ultime 14 notti con HRV nella norma o sopra.
+     * - Giorno: quota di calma rispetto alla tensione nelle ultime 14 giornate (solo con l'anello diretto).
+     */
+    fun resilience(history: List<DailySummary>, date: LocalDate, stress: Map<LocalDate, List<Stress.Window>> = emptyMap()): Resilience? {
+        fun lnHrv(d: DailySummary) = d.avgHrv?.takeIf { it > 0 }?.let { ln(it) }
+
+        val month = nights(history, date.minusDays(29), date).mapNotNull { d -> lnHrv(d)?.let { d.date to it } }.toMap()
+        var carry: Double? = null
+        if (month.size >= 15) {
+            val m = mean(month.values.toList())
+            val varAll = month.values.sumOf { (it - m) * (it - m) } / month.size
+            val pairs = month.mapNotNull { (d, v) -> month[d.plusDays(1)]?.let { (v - m) * (it - m) } }
+            if (pairs.size >= 14 && varAll > 0) carry = (pairs.sum() / pairs.size / varAll).coerceIn(-1.0, 1.0)
+        }
+        val reboundPart = carry?.let { (100 * (1 - it.coerceIn(0.0, 0.8) / 0.8)).toInt() }
+
+        val base = nights(history, date.minusDays(60), date.minusDays(14)).mapNotNull { lnHrv(it) }
+        val recent = nights(history, date.minusDays(13), date).mapNotNull { lnHrv(it) }
+        val nightPart = if (base.size >= MIN_BASE && recent.size >= 7) {
+            val floor = mean(base) - 0.5 * sd(base)
+            100 * recent.count { it >= floor } / recent.size
+        } else null
+
+        val days = stress.filterKeys { it > date.minusDays(14) && it <= date }
+        val calm = days.values.sumOf { l -> l.count { it.zone == Stress.Zone.CALM } }
+        val tense = days.values.sumOf { l -> l.count { it.zone == Stress.Zone.TENSE } }
+        val dayPart = if (days.size >= 3 && calm + tense >= 8) 100 * calm / (calm + tense) else null
+
+        val parts = listOfNotNull(reboundPart, nightPart, dayPart)
+        if (reboundPart == null && nightPart == null) return null
+        val score = parts.sum() / parts.size
+        val level = when { score >= 80 -> 4; score >= 65 -> 3; score >= 50 -> 2; score >= 35 -> 1; else -> 0 }
+        return Resilience(score, level, carry, reboundPart, nightPart, dayPart)
+    }
+
+    // ------------------------------------------------------------------ Stato di salute
+
+    /** [status]: 0 nella norma, 1 da tenere d'occhio, 2 fuori norma. [days]: da quanti giorni di fila è fuori norma. */
+    data class Vital(val label: String, val value: String, val delta: String, val status: Int, val days: Int)
+
+    data class Health(val vitals: List<Vital>) {
+        val out: Int get() = vitals.count { it.status == 2 }
+        val watch: Int get() = vitals.count { it.status == 1 }
+    }
+
+    private class VitalSpec(
+        val label: String, val floor: Double, val sign: Int,
+        val f: (DailySummary) -> Double?, val value: (Double) -> String, val delta: (Double) -> String,
+    )
+
+    private val VITALS = listOf(
+        VitalSpec("Battito a riposo", 1.5, 1, { it.restingHr }, { "%.0f bpm".format(it) }, { "%+.0f bpm".format(it) }),
+        VitalSpec("HRV", 0.08, -1, { d -> d.avgHrv?.takeIf { it > 0 }?.let { ln(it) } }, { "%.0f ms".format(exp(it)) }, { "%+.0f%%".format((exp(it) - 1) * 100) }),
+        VitalSpec("Temperatura", 0.15, 0, { it.skinTemp }, { "%.1f °C".format(it) }, { "%+.1f °C".format(it) }),
+        VitalSpec("Respiro", 0.4, 1, { it.respiratoryRate }, { "%.1f /min".format(it) }, { "%+.1f /min".format(it) }),
+        VitalSpec("Ossigeno (SpO2)", 1.0, -1, { it.spo2 }, { "%.0f%%".format(it) }, { "%+.1f punti".format(it) }),
+    )
+
+    private fun statusOf(spec: VitalSpec, history: List<DailySummary>, day: DailySummary): Pair<Insights.Deviation, Int>? {
+        val dev = Insights.deviation(history, day, spec.floor, f = spec.f) ?: return null
+        // Direzione sfavorevole: su (1), giù (−1) o entrambe (0).
+        val z = when (spec.sign) { 1 -> dev.z; -1 -> -dev.z; else -> abs(dev.z) }
+        return Pair(dev, if (z >= Insights.SIGNAL_Z) 2 else if (z >= 1.5) 1 else 0)
+    }
+
+    /**
+     * Stato di salute del giorno: i segni vitali della notte confrontati con la norma personale
+     * (mediana delle 30 notti precedenti). Fuori norma oltre 2 dispersioni nella direzione
+     * sfavorevole; da tenere d'occhio oltre 1,5. Non è una diagnosi.
+     */
+    fun health(history: List<DailySummary>, day: DailySummary): Health? {
+        val byDate = history.associateBy { it.date }
+        val vitals = VITALS.mapNotNull { spec ->
+            val (dev, status) = statusOf(spec, history, day) ?: return@mapNotNull null
+            var run = 0
+            if (status == 2) {
+                run = 1
+                var d = day.date.minusDays(1)
+                while (run < 7) {
+                    val prev = byDate[d] ?: break
+                    if (statusOf(spec, history, prev)?.second != 2) break
+                    run++
+                    d = d.minusDays(1)
+                }
+            }
+            Vital(spec.label, spec.value(dev.value), spec.delta(dev.delta), status, run)
+        }
+        return if (vitals.size < 2) null else Health(vitals)
+    }
+
     // ------------------------------------------------------------------ Segnalazioni
 
     /** [warning] = da tenere d'occhio; altrimenti è un'informazione. */

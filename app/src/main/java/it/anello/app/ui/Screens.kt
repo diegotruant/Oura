@@ -116,6 +116,7 @@ fun TodayScreen(
         }
 
         if (day != null) IllnessCard(history, day)
+        if (day != null && day.hasSleep) HealthCard(history, day)
         AlertsCard(history, date)
         state.stress[date]?.takeIf { it.isNotEmpty() }?.let { StressCard(it) }
         day?.filledFrom?.let {
@@ -299,7 +300,7 @@ fun TrendsScreen(state: UiState, vm: AppViewModel, onImportFit: () -> Unit) {
             }
         }
         if (section == 1) { AnalysisSection(state, vm, history); return@ScreenColumn }
-        if (section == 2) { DeepSection(history); return@ScreenColumn }
+        if (section == 2) { DeepSection(history, state.stress); return@ScreenColumn }
         if (section == 3) { TrainingSection(state, vm, history, onImportFit); return@ScreenColumn }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(7, 14, 30, 90).forEach { r ->
