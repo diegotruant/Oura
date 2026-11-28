@@ -306,6 +306,7 @@ class RingBle(private val context: Context, private val store: RingStore) {
                 Sources.store(context, Sources.ring(address)).upsertNights(nights)
                 log("Notti elaborate: ${nights.joinToString { it.date.toString() }}")
             }
+            runCatching { RingStress.update(context, address, raw, Sources.store(context, Sources.ring(address)).load().values) }
             store.pruneRaw(7)
             RingDataBus.updated.value = System.currentTimeMillis()
             val agg = RingAggregate.from(raw)

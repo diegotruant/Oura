@@ -1,16 +1,22 @@
 package it.anello.app.ui
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.anello.app.data.DailySummary
 import it.anello.app.score.Deep
+import it.anello.app.score.Stress
 import java.time.LocalDate
 import kotlin.math.abs
 
@@ -146,5 +152,52 @@ fun DeepSection(history: List<DailySummary>) {
                     "tardi spesso succedono anche altre cose.",
             )
         }
+    }
+}
+
+private fun zoneColor(z: Stress.Zone) = when (z) {
+    Stress.Zone.CALM -> ReadyColor
+    Stress.Zone.ENGAGED -> SleepColor
+    Stress.Zone.TENSE -> AwakeColor
+    Stress.Zone.ACTIVE -> ActivityColor
+}
+
+private fun hm(min: Int) = if (min >= 60) "${min / 60}h ${"%02d".format(min % 60)}m" else "${min}m"
+
+/** Stress durante il giorno: striscia oraria a colori e minuti per stato. */
+@Composable
+fun StressCard(windows: List<Stress.Window>) {
+    val sum = remember(windows) { Stress.summary(windows) }
+    SectionCard("Stress durante il giorno") {
+        val first = windows.first().tMs
+        val last = windows.last().tMs + Stress.WINDOW_MS
+        Canvas(Modifier.fillMaxWidth().height(26.dp)) {
+            val span = (last - first).toFloat().coerceAtLeast(1f)
+            windows.forEach { w ->
+                val x = (w.tMs - first) / span * size.width
+                val wd = Stress.WINDOW_MS / span * size.width
+                drawRect(zoneColor(w.zone), topLeft = Offset(x, 0f), size = Size(wd + 0.5f, size.height))
+            }
+        }
+        val fmt = java.text.SimpleDateFormat("HH:mm", java.util.Locale.ITALIAN)
+        Note("dalle ${fmt.format(java.util.Date(first))} alle ${fmt.format(java.util.Date(last))}")
+        Spacer(Modifier.height(8.dp))
+        listOf(
+            Triple("Tensione", sum.tenseMin, AwakeColor),
+            Triple("Impegno normale", sum.engagedMin, SleepColor),
+            Triple("Calma", sum.calmMin, ReadyColor),
+            Triple("In movimento", sum.activeMin, ActivityColor),
+        ).forEach { (label, min, color) ->
+            Row {
+                Text(label, color = color, fontSize = 14.sp, modifier = Modifier.weight(1f))
+                Text(hm(min), color = TextMain, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        Note(
+            "Tensione = battito alto mentre sei fermo (almeno il 40% sopra il tuo minimo notturno): la parte in più non è spiegata " +
+                "dal movimento. Calma = battito vicino al minimo notturno. Conta solo il tempo in cui l'anello ha misurato " +
+                "(${hm(sum.measuredMin)}); le soglie sono indicative.",
+        )
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import it.anello.app.ble.RingAggregate
 import it.anello.app.ble.RingBle
 import it.anello.app.ble.RingStore
+import it.anello.app.ble.RingStress
 import it.anello.app.ble.RingNights
 import it.anello.app.ble.RingDataBus
 import it.anello.app.data.Sources
@@ -60,8 +61,10 @@ class RingViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val agg = withContext(Dispatchers.IO) {
                 for (addr in store.pairedRings()) {
-                    val nights = RingNights.buildRecent(store.loadRaw(addr))
+                    val raw = store.loadRaw(addr)
+                    val nights = RingNights.buildRecent(raw)
                     if (nights.isNotEmpty()) Sources.store(getApplication(), Sources.ring(addr)).upsertNights(nights)
+                    runCatching { RingStress.update(getApplication(), addr, raw, Sources.store(getApplication(), Sources.ring(addr)).load().values) }
                 }
                 store.lastAddress?.let { a -> store.loadRaw(a).takeIf { it.isNotEmpty() }?.let { RingAggregate.from(it) } }
             }

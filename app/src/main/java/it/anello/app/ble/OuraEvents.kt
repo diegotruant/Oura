@@ -153,6 +153,25 @@ object OuraEvents {
     }
 
     /** time_sync (0x42): u32 LE unix seconds nel corpo → ancora per datare gli eventi. */
+    /**
+     * green_ibi_quality (0x80): battiti rilevati da svegli. Ogni campione sono 2 byte:
+     * intervallo tra battiti in ms = (b1 & 7) | (b0 << 3), qualità = (b1 >> 3) & 3 (1 = buona).
+     */
+    fun decodeGreenIbi(body: ByteArray): List<Pair<Int, Int>> {
+        val out = ArrayList<Pair<Int, Int>>()
+        var i = 0
+        while (i + 1 < body.size) {
+            val b0 = body[i].toInt() and 0xff
+            val b1 = body[i + 1].toInt() and 0xff
+            out += Pair((b1 and 7) or (b0 shl 3), (b1 shr 3) and 3)
+            i += 2
+        }
+        return out
+    }
+
+    /** motion_event (0x47): secondi di movimento nella rilevazione (0..31), dai 5 bit bassi del primo byte. */
+    fun decodeMotionSeconds(body: ByteArray): Int? = if (body.size < 4) null else body[0].toInt() and 0x1f
+
     fun decodeTimeSyncUnix(body: ByteArray): Long? {
         if (body.size < 4) return null
         return (body[0].toInt() and 0xff).toLong() or

@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import it.anello.app.ble.RingDataBus
 import it.anello.app.ble.RingStore
+import it.anello.app.ble.RingStress
+import it.anello.app.score.Stress
 import it.anello.app.data.DailySummary
 import it.anello.app.data.DataSource
 import it.anello.app.data.DiaryStore
@@ -55,6 +57,8 @@ data class UiState(
     /** Allenamenti importati da file FIT. */
     val activities: List<Activity> = emptyList(),
     val importMessage: String? = null,
+    /** Stress diurno per giorno; solo con un anello Oura letto direttamente come fonte attiva. */
+    val stress: Map<LocalDate, List<Stress.Window>> = emptyMap(),
     /** Esperimenti personali a fasi alterne. */
     val experiments: List<Experiment> = emptyList(),
 ) {
@@ -93,7 +97,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             Calibration.fill(active, others.getValue(fill), calibrations.getValue(fill),
                 available.first { it.id == fill }.label)
         } else active
-        _state.update { it.copy(days = days, available = available, others = others, calibrations = calibrations) }
+        val stress = Sources.ringAddress(s.sourceId)?.let { addr ->
+            withContext(Dispatchers.IO) { RingStress.load(getApplication(), addr) }
+        } ?: emptyMap()
+        _state.update { it.copy(days = days, available = available, others = others, calibrations = calibrations, stress = stress) }
 
         // Con un anello diretto i passi arrivano da Health Connect (telefono, app di fitness),
         // tranne per i dispositivi che contano i passi da soli (Colmi).

@@ -117,6 +117,7 @@ fun TodayScreen(
 
         if (day != null) IllnessCard(history, day)
         AlertsCard(history, date)
+        state.stress[date]?.takeIf { it.isNotEmpty() }?.let { StressCard(it) }
         day?.filledFrom?.let {
             Text("Notte presa da $it e convertita con la calibrazione: la fonte attiva non aveva questa notte.", color = TextDim, fontSize = 12.sp)
         }
