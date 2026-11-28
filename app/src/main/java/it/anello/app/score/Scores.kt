@@ -136,7 +136,9 @@ object Scores {
         if (kcal != null) {
             c += Contributor("Calorie attive", "${kcal.roundToInt()} kcal", lin(kcal, 100.0, 450.0, 20), 20)
         } else {
-            c += Contributor("Calorie attive", "non disponibili", lin(ratio, 0.2, 1.0, 20), 20)
+            val est = Energy.fromSteps(steps, s)
+            if (est != null) c += Contributor("Calorie attive (stima dai passi)", "${est.roundToInt()} kcal", lin(est, 100.0, 450.0, 20), 20)
+            else c += Contributor("Calorie attive", "imposta il peso in Opzioni", lin(ratio, 0.2, 1.0, 20), 20)
         }
         return Score(c.sumOf { it.points }.coerceIn(0, 100), c)
     }

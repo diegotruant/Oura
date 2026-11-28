@@ -22,6 +22,11 @@ data class UserSettings(
     /** Potenza critica (W) e W′ (J) per gli allenamenti; 0 = non impostati. */
     val cpW: Int = 0,
     val wPrimeJ: Int = 0,
+    /** Dati fisici per le calorie; 0 o vuoto = non impostati. [sex]: "M", "F" o "". */
+    val weightKg: Double = 0.0,
+    val heightCm: Int = 0,
+    val birthYear: Int = 0,
+    val sex: String = "",
 ) {
     val source: DataSource get() = if (Sources.isRing(sourceId)) DataSource.RING else DataSource.HEALTH_CONNECT
 
@@ -51,6 +56,10 @@ class SettingsStore(private val context: Context) {
             rebaseline = rebaseline,
             cpW = prefs.getInt("cpW", 0),
             wPrimeJ = prefs.getInt("wPrimeJ", 0),
+            weightKg = prefs.getFloat("weightKg", 0f).toDouble(),
+            heightCm = prefs.getInt("heightCm", 0),
+            birthYear = prefs.getInt("birthYear", 0),
+            sex = prefs.getString("sex", "") ?: "",
         )
     }
 
@@ -64,6 +73,10 @@ class SettingsStore(private val context: Context) {
             .putStringSet("rebaseline", s.rebaseline)
             .putInt("cpW", s.cpW)
             .putInt("wPrimeJ", s.wPrimeJ)
+            .putFloat("weightKg", s.weightKg.toFloat())
+            .putInt("heightCm", s.heightCm)
+            .putInt("birthYear", s.birthYear)
+            .putString("sex", s.sex)
             .apply()
     }
 }

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.anello.app.AppViewModel
 import it.anello.app.MorningNotifier
+import it.anello.app.score.Energy
 import it.anello.app.data.PhoneSteps
 import it.anello.app.UiState
 import it.anello.app.data.DailySummary
@@ -177,7 +178,7 @@ fun TodayScreen(
             }
         }
 
-        if (day != null) KeyMetrics(day, history)
+        if (day != null) KeyMetrics(day, history, state)
 
         DeviceComparisonCard(state, date)
 
@@ -196,12 +197,18 @@ fun TodayScreen(
 }
 
 @Composable
-private fun KeyMetrics(d: DailySummary, history: List<DailySummary>) {
+private fun KeyMetrics(d: DailySummary, history: List<DailySummary>, state: UiState) {
+    val rideKj = state.activities.filter { it.day == d.date }.sumOf { it.workKj }
+    val fraction = if (d.date == LocalDate.now()) java.time.LocalTime.now().toSecondOfDay() / 86_400.0 else 1.0
+    val energy = Energy.day(d, state.settings, rideKj, fraction)
     val items = listOf(
         "FC a riposo" to (d.restingHr?.let { "${it.roundToInt()} bpm" } ?: "–"),
         "HRV media" to (d.avgHrv?.let { "${it.roundToInt()} ms" } ?: "–"),
         "Sonno" to (if (d.hasSleep) Scores.fmtMin(d.asleepMin) else "–"),
         "Passi" to (d.steps?.let { "%,d".format(it) } ?: "–"),
+        (if (energy.estimated) "Calorie attive (stima)" else "Calorie attive") to
+            (energy.active?.let { "${it.roundToInt()} kcal" } ?: if (state.settings.weightKg <= 0) "imposta il peso" else "–"),
+        "Calorie totali" to (energy.total?.let { "${it.roundToInt()} kcal" } ?: if (energy.resting == null) "imposta i tuoi dati" else "–"),
         "SpO2" to (d.spo2?.let { "${it.roundToInt()}%" } ?: "–"),
         "Respiro" to (d.respiratoryRate?.let { "%.1f /min".format(it) } ?: "–"),
         temperatureText(history, d),
@@ -378,6 +385,40 @@ fun SettingsScreen(
                 value = stepsGoal, onValueChange = { stepsGoal = it }, valueRange = 4000f..15000f, steps = 21,
                 onValueChangeFinished = { vm.updateSettings(s.copy(stepsGoal = stepsGoal.roundToInt())) },
             )
+        }
+
+        SectionCard("I tuoi dati fisici") {
+            var weight by rememberSaveable(s.weightKg) { mutableStateOf(if (s.weightKg > 0) "%.1f".format(java.util.Locale.US, s.weightKg) else "") }
+            var height by rememberSaveable(s.heightCm) { mutableStateOf(if (s.heightCm > 0) s.heightCm.toString() else "") }
+            var born by rememberSaveable(s.birthYear) { mutableStateOf(if (s.birthYear > 0) s.birthYear.toString() else "") }
+            var sex by rememberSaveable(s.sex) { mutableStateOf(s.sex) }
+            val w = weight.trim().replace(',', '.').toDoubleOrNull()
+            val h = height.trim().toIntOrNull()
+            val b = born.trim().toIntOrNull()
+            val valid = w != null && w in 30.0..250.0 && h != null && h in 120..230 && b != null && b in 1920..LocalDate.now().year - 10
+            Text("Servono per le calorie: metabolismo a riposo e calorie del cammino. Restano sul telefono.", color = TextDim, fontSize = 12.sp)
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                androidx.compose.material3.OutlinedTextField(weight, { weight = it }, label = { Text("Peso (kg)") }, singleLine = true, modifier = Modifier.weight(1f))
+                androidx.compose.material3.OutlinedTextField(height, { height = it }, label = { Text("Altezza (cm)") }, singleLine = true, modifier = Modifier.weight(1f))
+            }
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                androidx.compose.material3.OutlinedTextField(born, { born = it }, label = { Text("Anno di nascita") }, singleLine = true, modifier = Modifier.weight(1f))
+                FilterChip(selected = sex == "M", onClick = { sex = "M" }, label = { Text("Uomo") })
+                FilterChip(selected = sex == "F", onClick = { sex = "F" }, label = { Text("Donna") })
+            }
+            Spacer(Modifier.height(8.dp))
+            androidx.compose.material3.Button(
+                onClick = { if (w != null && h != null && b != null) vm.updateSettings(s.copy(weightKg = w, heightCm = h, birthYear = b, sex = sex)) },
+                enabled = valid,
+            ) { Text("Salva") }
+            if (s.weightKg > 0) {
+                Energy.restingPerDay(s, LocalDate.now().year)?.let {
+                    Spacer(Modifier.height(6.dp))
+                    Text("Metabolismo a riposo stimato: ${it.roundToInt()} kcal al giorno.", color = TextDim, fontSize = 12.sp)
+                }
+            }
         }
 
         SectionCard("I tuoi dati") {
