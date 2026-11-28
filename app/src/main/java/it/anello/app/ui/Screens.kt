@@ -75,6 +75,7 @@ fun TodayScreen(
     onSync: () -> Unit,
     onRebaseline: (LocalDate) -> Unit = {},
     onDiary: (LocalDate, Set<String>?) -> Unit = { _, _ -> },
+    onUseSource: (String) -> Unit = {},
 ) {
     val day = state.days[date]
     val scores = scoresFor(state, date)
@@ -96,6 +97,21 @@ fun TodayScreen(
             ScoreRing("Recupero", scores?.readiness?.value, ReadyColor)
             ScoreRing("Sonno", scores?.sleep?.value, SleepColor)
             ScoreRing("Attività", scores?.activity?.value, ActivityColor)
+        }
+
+        // La fonte attiva non ha ancora la notte di questo giorno, ma un'altra sì: lo si dice.
+        if (day?.hasSleep != true) {
+            val withNight = state.others.filter { it.value[date]?.hasSleep == true }.keys
+            if (withNight.isNotEmpty()) SectionCard("Notte disponibile da un'altra fonte") {
+                Text(
+                    "La fonte attiva (${state.label(state.settings.sourceId)}) non ha ancora la notte di questo giorno.",
+                    color = TextDim, fontSize = 13.sp,
+                )
+                withNight.forEach { id ->
+                    Spacer(Modifier.height(6.dp))
+                    OutlinedButton(onClick = { onUseSource(id) }) { Text("Passa a ${state.label(id)}") }
+                }
+            }
         }
 
         if (day != null) IllnessCard(history, day)

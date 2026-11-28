@@ -118,7 +118,7 @@ fun AnelloApp(
                     SettingsScreen(state, vm, onExportCsv)
                 } else if (ringSource) {
                     when (current) {
-                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary)
+                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary, { id -> vm.updateSettings(state.settings.copy(sourceId = id, fillFrom = state.settings.fillFrom.takeIf { it != id })) })
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
                         Tab.TRENDS -> TrendsScreen(state, vm, onImportFit)
                         else -> {}
@@ -140,7 +140,7 @@ fun AnelloApp(
                         onClick = onRequestPermissions,
                     )
                     HcStatus.READY -> when (current) {
-                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary)
+                        Tab.TODAY -> TodayScreen(state, date, { selectedDate = it.toString() }, vm::sync, vm::confirmRebaseline, vm::setDiary, { id -> vm.updateSettings(state.settings.copy(sourceId = id, fillFrom = state.settings.fillFrom.takeIf { it != id })) })
                         Tab.SLEEP -> SleepScreen(state, date) { selectedDate = it.toString() }
                         Tab.TRENDS -> TrendsScreen(state, vm, onImportFit)
                         Tab.SETTINGS -> SettingsScreen(state, vm, onExportCsv)
