@@ -1,5 +1,6 @@
 package it.anello.app.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -115,6 +116,7 @@ fun TodayScreen(
         }
 
         if (day != null) IllnessCard(history, day)
+        AlertsCard(history, date)
         day?.filledFrom?.let {
             Text("Notte presa da $it e convertita con la calibrazione: la fonte attiva non aveva questa notte.", color = TextDim, fontSize = 12.sp)
         }
@@ -290,13 +292,14 @@ fun TrendsScreen(state: UiState, vm: AppViewModel, onImportFit: () -> Unit) {
         .map { "${it.dayOfMonth}/${it.monthValue}" }
 
     ScreenColumn {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("Grafici", "Analisi", "Allenamento").forEachIndexed { i, l ->
+        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("Grafici", "Analisi", "Oltre", "Allenamento").forEachIndexed { i, l ->
                 FilterChip(selected = section == i, onClick = { section = i }, label = { Text(l) })
             }
         }
         if (section == 1) { AnalysisSection(state, vm, history); return@ScreenColumn }
-        if (section == 2) { TrainingSection(state, vm, history, onImportFit); return@ScreenColumn }
+        if (section == 2) { DeepSection(history); return@ScreenColumn }
+        if (section == 3) { TrainingSection(state, vm, history, onImportFit); return@ScreenColumn }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(7, 14, 30, 90).forEach { r ->
                 FilterChip(selected = range == r, onClick = { range = r }, label = { Text("$r g") })
