@@ -179,6 +179,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /** Rilegge l'archivio e aggiorna i passi (telefono e Health Connect), senza riscaricare le notti. */
+    fun refresh() { reloadDays() }
+
     /** Riscarica tutti i 30 giorni disponibili. */
     fun fullResync() = sync(fullDays = true)
 

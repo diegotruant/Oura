@@ -168,10 +168,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Con l'app aperta i dati si aggiornano da soli: i passi ogni minuto, Health Connect ogni
+     * 5 minuti, e l'anello quando sono passati 10 minuti dall'ultima sincronizzazione.
+     */
+    private val ticker = android.os.Handler(android.os.Looper.getMainLooper())
+    private var ticks = 0
+    private val tick = object : Runnable {
+        override fun run() {
+            ticks++
+            if (ticks % 5 == 0) vm.sync() else vm.refresh()
+            if (blePermsState) ringVm.syncOnOpen()
+            ticker.postDelayed(this, 60_000)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         blePermsState = hasBlePermissions()
         vm.refreshStatus(syncIfReady = true)
         if (blePermsState) ringVm.syncOnOpen()
+        ticker.removeCallbacks(tick)
+        ticker.postDelayed(tick, 60_000)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ticker.removeCallbacks(tick)
     }
 }
